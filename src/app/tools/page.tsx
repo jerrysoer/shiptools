@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   ShieldCheck,
   Eye,
-  FileArchive,
   Hash,
   QrCode,
   Braces,
@@ -16,7 +15,6 @@ import {
   Scan,
   Type,
   ClipboardPaste,
-  Layers,
   Unplug,
 } from "lucide-react";
 
@@ -123,21 +121,6 @@ const PRIVACY_TOOLS: ToolEntry[] = [
   },
 ];
 
-const PDF_ARCHIVE_TOOLS: ToolEntry[] = [
-  {
-    href: "/tools/pdf-tools",
-    icon: Layers,
-    title: "PDF Merge & Split",
-    description: "Merge multiple PDFs or split by page ranges.",
-  },
-  {
-    href: "/tools/zip",
-    icon: FileArchive,
-    title: "ZIP / Unzip",
-    description: "Create and extract ZIP archives. Browse file trees.",
-  },
-];
-
 function ToolCard({ href, icon: Icon, title, description }: ToolEntry) {
   return (
     <Link
@@ -212,7 +195,6 @@ export default function ToolsPage() {
       <div className="space-y-8">
         <ToolSection title="Developer" tools={DEVELOPER_TOOLS} columns={2} />
         <ToolSection title="Privacy" tools={PRIVACY_TOOLS} />
-        <ToolSection title="PDF & Archive" tools={PDF_ARCHIVE_TOOLS} />
       </div>
     </div>
   );

@@ -84,7 +84,7 @@ export default function HomePage() {
               Developer & Privacy Tools
             </h1>
             <p className="text-text-secondary text-lg mb-10 max-w-2xl mx-auto">
-              Hash, encrypt, generate, decode, and inspect — 16 tools that run
+              Hash, encrypt, generate, decode, and inspect — 14 tools that run
               entirely in your browser. No data ever leaves your device.
             </p>
 
@@ -139,7 +139,7 @@ export default function HomePage() {
               href="/tools"
               className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
             >
-              See all 16 tools
+              See all 14 tools
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>

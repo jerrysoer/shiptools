@@ -76,26 +76,32 @@ export async function scanUrl(url: string): Promise<ScanData> {
     pageDomain = new URL(url).hostname;
     const page = await browser.newPage();
 
-    // Block heavy resources for speed
+    // Block heavy resources for speed (but NOT stylesheets — blocking CSS
+    // can prevent page rendering and stop lazy-loaded tracker scripts)
     await page.setRequestInterception(true);
     page.on("request", (req) => {
-      const resourceType = req.resourceType();
-      if (["image", "font", "media", "stylesheet"].includes(resourceType)) {
-        req.abort();
-        return;
-      }
-
-      // Log third-party domains
       try {
-        const reqHost = new URL(req.url()).hostname;
-        if (isThirdPartyDomain(reqHost, pageDomain)) {
-          thirdPartyRequests.add(reqHost);
+        const resourceType = req.resourceType();
+        if (["image", "font", "media"].includes(resourceType)) {
+          void req.abort().catch(() => {});
+          return;
         }
-      } catch {
-        // Invalid URL — skip
-      }
 
-      req.continue();
+        // Log third-party domains
+        try {
+          const reqHost = new URL(req.url()).hostname;
+          if (isThirdPartyDomain(reqHost, pageDomain)) {
+            thirdPartyRequests.add(reqHost);
+          }
+        } catch {
+          // Invalid URL — skip
+        }
+
+        void req.continue().catch(() => {});
+      } catch {
+        // Handler error — try to unblock the request
+        void req.abort().catch(() => {});
+      }
     });
 
     // Navigate

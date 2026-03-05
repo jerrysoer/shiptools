@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Shield, ArrowLeftRight, Wrench } from "lucide-react";
+import { SquareSlash, ArrowLeftRight, Wrench, Shield } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
@@ -14,7 +14,7 @@ export default function Header() {
     <header className="border-b border-border px-6 py-4">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <Shield className="w-6 h-6 text-accent" />
+          <SquareSlash className="w-6 h-6 text-accent" />
           <span className="font-heading font-bold text-lg">ShipTools</span>
         </Link>
 

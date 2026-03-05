@@ -17,34 +17,28 @@ export default function Icon() {
           borderRadius: 6,
         }}
       >
+        {/* Slash in a rounded box — matches SquareSlash icon */}
         <div
           style={{
+            width: 22,
+            height: 22,
             display: "flex",
-            alignItems: "baseline",
-            gap: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            border: "2px solid #3B82F6",
+            borderRadius: 4,
           }}
         >
           <span
             style={{
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: 700,
               color: "#3B82F6",
-              letterSpacing: "-0.5px",
               lineHeight: 1,
+              marginTop: -1,
             }}
           >
-            S
-          </span>
-          <span
-            style={{
-              fontSize: 18,
-              fontWeight: 700,
-              color: "#F1F5F9",
-              letterSpacing: "-0.5px",
-              lineHeight: 1,
-            }}
-          >
-            T
+            /
           </span>
         </div>
       </div>

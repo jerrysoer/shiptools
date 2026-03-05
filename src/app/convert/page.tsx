@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Image, FileText, Music, Video, ShieldCheck } from "lucide-react";
+import { Image, FileText, Music, Video, Layers, FileArchive, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Convert Files Locally — ShipTools",
@@ -36,6 +36,20 @@ const CONVERTERS = [
     title: "Video Converter",
     description: "Convert between MP4, WebM, GIF. Resize, trim, and adjust quality.",
     formats: "MP4, WebM, MOV, AVI, MKV, GIF",
+  },
+  {
+    href: "/convert/pdf-tools",
+    icon: Layers,
+    title: "PDF Merge & Split",
+    description: "Merge multiple PDFs into one or split by page ranges.",
+    formats: "PDF",
+  },
+  {
+    href: "/convert/zip",
+    icon: FileArchive,
+    title: "ZIP / Unzip",
+    description: "Create and extract ZIP archives. Browse file trees.",
+    formats: "ZIP",
   },
 ] as const;
 
