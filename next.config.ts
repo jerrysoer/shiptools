@@ -10,9 +10,17 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        // COOP/COEP only on /convert/* — required for SharedArrayBuffer (ffmpeg.wasm)
+        // COOP/COEP on /convert/* — required for SharedArrayBuffer (ffmpeg.wasm)
         // These headers break third-party resources, so keep them scoped
         source: "/convert/:path*",
+        headers: [
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+        ],
+      },
+      {
+        // COOP/COEP on /sign — needed for pdfjs-dist worker blob URL bypass
+        source: "/sign",
         headers: [
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },

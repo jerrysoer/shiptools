@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Download, Trash2, Loader2 } from "lucide-react";
+import { Download, Trash2, Loader2, CircleCheck, DownloadCloud } from "lucide-react";
 import DropZone from "./DropZone";
 import PrivacyBadge from "./PrivacyBadge";
 import { useConverter } from "@/hooks/useConverter";
@@ -9,7 +9,47 @@ import { MAX_DOCUMENT_SIZE } from "@/lib/constants";
 import type { DocumentFormat } from "@/lib/types";
 
 const OUTPUT_FORMATS: DocumentFormat[] = ["pdf", "txt", "csv", "json"];
-const ACCEPT = ".pdf,.docx,.doc,.txt,.csv,.json,.xlsx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/csv,application/json";
+const ACCEPT =
+  ".pdf,.docx,.txt,.csv,.json,.xlsx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain,text/csv,application/json";
+
+function extractPageText(
+  items: Array<Record<string, unknown>>
+): string {
+  const textItems = items.filter(
+    (item): item is { str: string; hasEOL: boolean; transform: number[]; height: number } =>
+      "str" in item && "transform" in item
+  );
+  if (textItems.length === 0) return "";
+
+  const heights = textItems.map((t) => t.height).filter((h) => h > 0);
+  const lineHeight =
+    heights.length > 0
+      ? heights.sort((a, b) => a - b)[Math.floor(heights.length / 2)]
+      : 12;
+
+  const lines: string[] = [];
+  let currentLine = "";
+
+  for (let i = 0; i < textItems.length; i++) {
+    const item = textItems[i];
+    currentLine += item.str;
+
+    if (item.hasEOL) {
+      lines.push(currentLine);
+      currentLine = "";
+
+      if (i + 1 < textItems.length) {
+        const gap = Math.abs(item.transform[5] - textItems[i + 1].transform[5]);
+        if (gap > lineHeight * 1.5) {
+          lines.push("");
+        }
+      }
+    }
+  }
+
+  if (currentLine) lines.push(currentLine);
+  return lines.join("\n");
+}
 
 async function convertDocument(
   file: File,
@@ -22,7 +62,7 @@ async function convertDocument(
   const inputFormat = file.name.split(".").pop()?.toLowerCase() ?? "";
 
   // DOCX → TXT
-  if ((inputFormat === "docx" || inputFormat === "doc") && outputFormat === "txt") {
+  if ((inputFormat === "docx") && outputFormat === "txt") {
     const mammoth = await import("mammoth");
     const buffer = await file.arrayBuffer();
     onProgress?.(50);
@@ -31,8 +71,8 @@ async function convertDocument(
     return new Blob([result.value], { type: "text/plain" });
   }
 
-  // DOCX → PDF (extract text, create simple PDF)
-  if ((inputFormat === "docx" || inputFormat === "doc") && outputFormat === "pdf") {
+  // DOCX → PDF
+  if ((inputFormat === "docx") && outputFormat === "pdf") {
     const mammoth = await import("mammoth");
     const { PDFDocument, rgb, StandardFonts } = await import("pdf-lib");
     const buffer = await file.arrayBuffer();
@@ -52,7 +92,6 @@ async function convertDocument(
     let y = page.getHeight() - margin;
 
     for (const line of lines) {
-      // Word wrap
       const words = line.split(" ");
       let currentLine = "";
       for (const word of words) {
@@ -75,7 +114,7 @@ async function convertDocument(
         page.drawText(currentLine, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
         y -= lineHeight;
       } else {
-        y -= lineHeight; // empty line
+        y -= lineHeight;
       }
 
       if (y < margin) {
@@ -104,7 +143,12 @@ async function convertDocument(
     const Papa = await import("papaparse");
     const text = await file.text();
     onProgress?.(50);
-    const data = JSON.parse(text);
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error("Invalid JSON file. Please check the file contents.");
+    }
     const arr = Array.isArray(data) ? data : [data];
     const csv = Papa.default.unparse(arr);
     onProgress?.(90);
@@ -126,14 +170,43 @@ async function convertDocument(
     const lines = text.split("\n");
     let page = pdfDoc.addPage();
     let y = page.getHeight() - margin;
+    const maxWidth = page.getWidth() - margin * 2;
 
     for (const line of lines) {
-      if (y < margin) {
-        page = pdfDoc.addPage();
-        y = page.getHeight() - margin;
+      if (!line.trim()) {
+        y -= lineHeight;
+        if (y < margin) {
+          page = pdfDoc.addPage();
+          y = page.getHeight() - margin;
+        }
+        continue;
       }
-      page.drawText(line.slice(0, 100), { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
-      y -= lineHeight;
+      // Word wrap
+      const words = line.split(" ");
+      let currentLine = "";
+      for (const word of words) {
+        const testLine = currentLine ? `${currentLine} ${word}` : word;
+        const textWidth = font.widthOfTextAtSize(testLine, fontSize);
+        if (textWidth > maxWidth && currentLine) {
+          if (y < margin) {
+            page = pdfDoc.addPage();
+            y = page.getHeight() - margin;
+          }
+          page.drawText(currentLine, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
+          y -= lineHeight;
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      }
+      if (currentLine) {
+        if (y < margin) {
+          page = pdfDoc.addPage();
+          y = page.getHeight() - margin;
+        }
+        page.drawText(currentLine, { x: margin, y, size: fontSize, font, color: rgb(0, 0, 0) });
+        y -= lineHeight;
+      }
     }
 
     onProgress?.(90);
@@ -141,22 +214,160 @@ async function convertDocument(
     return new Blob([new Uint8Array(pdfBytes) as BlobPart], { type: "application/pdf" });
   }
 
-  // PDF → TXT (basic extraction using pdf-lib metadata; limited without full OCR)
+  // PDF → TXT
   if (inputFormat === "pdf" && outputFormat === "txt") {
-    // pdf-lib can't extract text content; return metadata as placeholder
-    const { PDFDocument } = await import("pdf-lib");
+    const pdfjs = await import("pdfjs-dist");
+    const { toBlobURL } = await import("@ffmpeg/util");
+    const workerUrl = await toBlobURL(
+      `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`,
+      "text/javascript"
+    );
+    pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+
     const buffer = await file.arrayBuffer();
-    onProgress?.(50);
-    const pdfDoc = await PDFDocument.load(buffer);
-    const info = [
-      `Title: ${pdfDoc.getTitle() ?? "Unknown"}`,
-      `Author: ${pdfDoc.getAuthor() ?? "Unknown"}`,
-      `Pages: ${pdfDoc.getPageCount()}`,
-      "",
-      "Note: Full PDF text extraction requires OCR. This is a metadata-only export.",
-    ].join("\n");
-    onProgress?.(90);
-    return new Blob([info], { type: "text/plain" });
+    onProgress?.(20);
+
+    const pdf = await pdfjs.getDocument({ data: new Uint8Array(buffer) }).promise;
+    const totalPages = pdf.numPages;
+    const textParts: string[] = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = extractPageText(content.items);
+      textParts.push(pageText);
+      onProgress?.(20 + Math.round((i / totalPages) * 70));
+    }
+
+    const fullText = textParts.join("\n\n");
+
+    if (!fullText.trim()) {
+      return new Blob(
+        ["[No extractable text found. This PDF may be a scanned document that requires OCR.]"],
+        { type: "text/plain" }
+      );
+    }
+
+    onProgress?.(95);
+    return new Blob([fullText], { type: "text/plain" });
+  }
+
+  // PDF → JSON (structured extraction)
+  if (inputFormat === "pdf" && outputFormat === "json") {
+    const pdfjs = await import("pdfjs-dist");
+    const { toBlobURL } = await import("@ffmpeg/util");
+    const workerUrl = await toBlobURL(
+      `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`,
+      "text/javascript"
+    );
+    pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+
+    const buffer = await file.arrayBuffer();
+    onProgress?.(20);
+
+    const pdf = await pdfjs.getDocument({ data: new Uint8Array(buffer) }).promise;
+    const totalPages = pdf.numPages;
+    const metadata = await pdf.getMetadata().catch(() => null);
+
+    const pages: Array<{
+      pageNumber: number;
+      width: number;
+      height: number;
+      text: string;
+    }> = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale: 1 });
+      const content = await page.getTextContent();
+      const pageText = extractPageText(content.items);
+
+      pages.push({
+        pageNumber: i,
+        width: Math.round(viewport.width),
+        height: Math.round(viewport.height),
+        text: pageText,
+      });
+
+      onProgress?.(20 + Math.round((i / totalPages) * 70));
+    }
+
+    const result = {
+      fileName: file.name,
+      totalPages,
+      metadata: metadata?.info
+        ? {
+            title: (metadata.info as Record<string, unknown>).Title || null,
+            author: (metadata.info as Record<string, unknown>).Author || null,
+            subject: (metadata.info as Record<string, unknown>).Subject || null,
+            creator: (metadata.info as Record<string, unknown>).Creator || null,
+            producer: (metadata.info as Record<string, unknown>).Producer || null,
+            creationDate: (metadata.info as Record<string, unknown>).CreationDate || null,
+          }
+        : null,
+      pages,
+    };
+
+    onProgress?.(95);
+    return new Blob([JSON.stringify(result, null, 2)], { type: "application/json" });
+  }
+
+  // XLSX → CSV
+  if (inputFormat === "xlsx" && outputFormat === "csv") {
+    const XLSX = await import("xlsx");
+    const buffer = await file.arrayBuffer();
+    onProgress?.(40);
+
+    const workbook = XLSX.read(buffer, { type: "array" });
+    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+    if (!firstSheet) throw new Error("No sheets found in workbook");
+
+    onProgress?.(70);
+    const csv = XLSX.utils.sheet_to_csv(firstSheet);
+    onProgress?.(95);
+    return new Blob([csv], { type: "text/csv" });
+  }
+
+  // XLSX → JSON
+  if (inputFormat === "xlsx" && outputFormat === "json") {
+    const XLSX = await import("xlsx");
+    const buffer = await file.arrayBuffer();
+    onProgress?.(40);
+
+    const workbook = XLSX.read(buffer, { type: "array" });
+    const result: Record<string, unknown[]> = {};
+
+    for (const sheetName of workbook.SheetNames) {
+      const sheet = workbook.Sheets[sheetName];
+      result[sheetName] = XLSX.utils.sheet_to_json(sheet);
+    }
+
+    onProgress?.(95);
+    const output = workbook.SheetNames.length === 1
+      ? JSON.stringify(Object.values(result)[0], null, 2)
+      : JSON.stringify(result, null, 2);
+
+    return new Blob([output], { type: "application/json" });
+  }
+
+  // XLSX → TXT
+  if (inputFormat === "xlsx" && outputFormat === "txt") {
+    const XLSX = await import("xlsx");
+    const buffer = await file.arrayBuffer();
+    onProgress?.(40);
+
+    const workbook = XLSX.read(buffer, { type: "array" });
+    const parts: string[] = [];
+
+    for (const sheetName of workbook.SheetNames) {
+      const sheet = workbook.Sheets[sheetName];
+      parts.push(`--- ${sheetName} ---`);
+      parts.push(XLSX.utils.sheet_to_csv(sheet, { FS: "\t" }));
+      parts.push("");
+    }
+
+    onProgress?.(95);
+    return new Blob([parts.join("\n")], { type: "text/plain" });
   }
 
   throw new Error(`Conversion from ${inputFormat.toUpperCase()} to ${outputFormat.toUpperCase()} is not supported yet.`);
@@ -165,8 +376,10 @@ async function convertDocument(
 export default function DocumentConverter() {
   const [outputFormat, setOutputFormat] = useState<DocumentFormat>("pdf");
 
-  const { jobs, addFiles, processAll, downloadResult, removeJob, clearJobs } =
-    useConverter(convertDocument);
+  const {
+    jobs, addFiles, processAll, downloadResult, removeJob, clearJobs,
+    pendingCount, doneCount, processingCount, isBatchComplete, downloadAll,
+  } = useConverter(convertDocument);
 
   const handleFiles = useCallback(
     (files: File[]) => {
@@ -175,7 +388,7 @@ export default function DocumentConverter() {
     [addFiles, outputFormat]
   );
 
-  const pendingCount = jobs.filter((j) => j.status === "pending").length;
+  const totalActive = pendingCount + processingCount + doneCount;
 
   return (
     <div className="space-y-6">
@@ -209,27 +422,73 @@ export default function DocumentConverter() {
       />
 
       <p className="text-text-tertiary text-xs">
-        Supported: DOCX → PDF/TXT, CSV ↔ JSON, TXT → PDF. Complex formatting may be simplified.
+        Supported: DOCX → PDF/TXT, PDF → TXT/JSON, CSV ↔ JSON, TXT → PDF, XLSX → CSV/JSON/TXT.
       </p>
+
+      {/* Batch progress bar */}
+      {processingCount > 0 && totalActive > 1 && (
+        <div className="space-y-1.5 fade-in">
+          <div className="flex justify-between text-xs text-text-secondary">
+            <span>Converting {doneCount + 1} of {totalActive}...</span>
+            <span>{Math.round(((doneCount) / totalActive) * 100)}%</span>
+          </div>
+          <div className="h-1.5 bg-bg-surface rounded-full overflow-hidden">
+            <div
+              className="h-full bg-accent rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${Math.max(2, (doneCount / totalActive) * 100)}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Batch completion banner */}
+      {isBatchComplete && doneCount > 1 && (
+        <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 rounded-xl px-4 py-3 fade-in">
+          <div className="flex items-center gap-2">
+            <CircleCheck className="w-4 h-4 text-grade-a done-check" />
+            <span className="text-sm text-grade-a font-medium">
+              All {doneCount} files converted
+            </span>
+          </div>
+          <button
+            onClick={downloadAll}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a rounded-lg text-xs font-medium transition-colors"
+          >
+            <DownloadCloud className="w-3.5 h-3.5" />
+            Download All
+          </button>
+        </div>
+      )}
 
       {jobs.length > 0 && (
         <div className="space-y-2">
           {jobs.map((job) => (
-            <div key={job.id} className="flex items-center gap-3 bg-bg-surface border border-border rounded-lg px-4 py-3">
+            <div key={job.id} className={`flex items-center gap-3 rounded-lg px-4 py-3 ${
+              job.status === "done"
+                ? "bg-grade-a/5 border border-grade-a/25 border-l-2 border-l-grade-a"
+                : job.status === "error"
+                  ? "bg-grade-f/5 border border-grade-f/25 border-l-2 border-l-grade-f"
+                  : "bg-bg-surface border border-border"
+            }`}>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-text-primary truncate">{job.file.name}</p>
                 <p className="text-xs text-text-tertiary">
                   {job.inputFormat.toUpperCase()} → {job.outputFormat.toUpperCase()}
                   {job.status === "processing" && ` · ${job.progress}%`}
-                  {job.status === "done" && job.result && <> · {(job.result.size / 1024).toFixed(0)} KB</>}
+                  {job.status === "done" && job.result && (
+                    <span className="text-grade-a"> · Done · {(job.result.size / 1024).toFixed(0)} KB</span>
+                  )}
                   {job.status === "error" && <span className="text-grade-f"> · {job.error}</span>}
                 </p>
               </div>
               {job.status === "processing" && <Loader2 className="w-4 h-4 text-accent animate-spin" />}
               {job.status === "done" && (
-                <button onClick={() => downloadResult(job)} className="p-1.5 rounded hover:bg-bg-elevated transition-colors text-grade-a">
-                  <Download className="w-4 h-4" />
-                </button>
+                <>
+                  <CircleCheck className="w-4 h-4 text-grade-a shrink-0 done-check" />
+                  <button onClick={() => downloadResult(job)} className="p-1.5 rounded hover:bg-bg-elevated transition-colors text-grade-a">
+                    <Download className="w-4 h-4" />
+                  </button>
+                </>
               )}
               <button onClick={() => removeJob(job.id)} className="p-1.5 rounded hover:bg-bg-elevated transition-colors text-text-tertiary">
                 <Trash2 className="w-4 h-4" />

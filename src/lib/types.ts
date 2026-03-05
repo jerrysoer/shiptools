@@ -88,9 +88,10 @@ export interface AnalyticsEvent {
 }
 
 /** Converter types */
-export type ImageFormat = "png" | "jpg" | "webp" | "avif" | "gif" | "bmp" | "tiff";
-export type DocumentFormat = "pdf" | "docx" | "txt" | "csv" | "json";
+export type ImageFormat = "png" | "jpg" | "webp" | "avif" | "gif" | "bmp" | "tiff" | "svg";
+export type DocumentFormat = "pdf" | "docx" | "txt" | "csv" | "json" | "xlsx";
 export type AudioFormat = "mp3" | "wav" | "ogg" | "aac" | "flac" | "m4a";
+export type VideoFormat = "mp4" | "webm" | "gif";
 
 export interface ConversionJob {
   id: string;
@@ -111,4 +112,8 @@ export interface ConversionOptions {
   bitrate?: number;
   trimStart?: number;
   trimEnd?: number;
+  /** Video resolution preset (e.g. "1920x1080") */
+  resolution?: string;
+  /** Video CRF quality (0=lossless, 51=worst) */
+  videoCrf?: number;
 }

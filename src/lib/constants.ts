@@ -54,3 +54,4 @@ export const PAGE_TIMEOUT_MS = 15_000;
 export const MAX_IMAGE_SIZE = 50 * 1024 * 1024; // 50 MB
 export const MAX_DOCUMENT_SIZE = 25 * 1024 * 1024; // 25 MB
 export const MAX_AUDIO_SIZE = 100 * 1024 * 1024; // 100 MB
+export const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500 MB

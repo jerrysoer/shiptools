@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Image, FileText, Music, ShieldCheck } from "lucide-react";
+import { Image, FileText, Music, Video, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Convert Files Locally — ShipTools",
   description:
-    "Convert images, documents, and audio files entirely in your browser. No uploads, no servers, no tracking.",
+    "Convert images, documents, audio, and video files entirely in your browser. No uploads, no servers, no tracking.",
 };
 
 const CONVERTERS = [
@@ -13,15 +13,15 @@ const CONVERTERS = [
     href: "/convert/images",
     icon: Image,
     title: "Image Converter",
-    description: "Convert between PNG, JPG, WebP, AVIF. Resize and compress.",
-    formats: "PNG, JPG, WebP, AVIF, GIF, BMP, TIFF",
+    description: "Convert between PNG, JPG, WebP, AVIF, SVG. Resize and compress.",
+    formats: "PNG, JPG, WebP, AVIF, GIF, BMP, TIFF, SVG",
   },
   {
     href: "/convert/documents",
     icon: FileText,
     title: "Document Converter",
-    description: "Convert DOCX to PDF/TXT, CSV to JSON, and more.",
-    formats: "DOCX, PDF, TXT, CSV, JSON",
+    description: "Convert DOCX, PDF, XLSX, CSV, JSON, and TXT between formats.",
+    formats: "DOCX, PDF, XLSX, TXT, CSV, JSON",
   },
   {
     href: "/convert/audio",
@@ -29,6 +29,13 @@ const CONVERTERS = [
     title: "Audio Converter",
     description: "Transcode between MP3, WAV, OGG, AAC, FLAC. Adjust bitrate.",
     formats: "MP3, WAV, OGG, AAC, FLAC, M4A",
+  },
+  {
+    href: "/convert/video",
+    icon: Video,
+    title: "Video Converter",
+    description: "Convert between MP4, WebM, GIF. Resize, trim, and adjust quality.",
+    formats: "MP4, WebM, MOV, AVI, MKV, GIF",
   },
 ] as const;
 

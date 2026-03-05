@@ -2,12 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Image, FileText, Music } from "lucide-react";
+import { Image, FileText, Music, Video } from "lucide-react";
 
 const TABS = [
   { href: "/convert/images", label: "Images", icon: Image },
   { href: "/convert/documents", label: "Documents", icon: FileText },
   { href: "/convert/audio", label: "Audio", icon: Music },
+  { href: "/convert/video", label: "Video", icon: Video },
 ] as const;
 
 export default function ConverterTabs() {

@@ -1,40 +1,16 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import { Download, Trash2, Loader2 } from "lucide-react";
+import { useState, useCallback } from "react";
+import { Download, Trash2, Loader2, CircleCheck, DownloadCloud } from "lucide-react";
 import DropZone from "./DropZone";
 import PrivacyBadge from "./PrivacyBadge";
 import { useConverter } from "@/hooks/useConverter";
 import { MAX_AUDIO_SIZE } from "@/lib/constants";
+import { getFFmpeg, isFFmpegLoaded } from "@/lib/ffmpeg";
 import type { AudioFormat, ConversionOptions } from "@/lib/types";
 
 const OUTPUT_FORMATS: AudioFormat[] = ["mp3", "wav", "ogg", "aac", "flac"];
 const ACCEPT = ".mp3,.wav,.ogg,.aac,.flac,.m4a,.wma,audio/*";
-
-// Lazy-load ffmpeg.wasm
-let ffmpegInstance: unknown = null;
-
-async function getFFmpeg(onProgress?: (p: number) => void) {
-  if (ffmpegInstance) return ffmpegInstance;
-
-  const { FFmpeg } = await import("@ffmpeg/ffmpeg");
-  const { toBlobURL } = await import("@ffmpeg/util");
-
-  const ffmpeg = new FFmpeg();
-
-  onProgress?.(10);
-
-  // Load from CDN via blob URLs (bypasses COEP restrictions)
-  const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd";
-  await ffmpeg.load({
-    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
-  });
-
-  onProgress?.(30);
-  ffmpegInstance = ffmpeg;
-  return ffmpeg;
-}
 
 async function convertAudio(
   file: File,
@@ -50,21 +26,17 @@ async function convertAudio(
 
   onProgress?.(40);
 
-  // Write input file
   const { fetchFile } = await import("@ffmpeg/util");
   await ffmpeg.writeFile(inputName, await fetchFile(file));
 
   onProgress?.(50);
 
-  // Build ffmpeg command
   const args = ["-i", inputName];
 
-  // Bitrate
-  if (options?.bitrate) {
+  if (options?.bitrate && ["mp3", "ogg", "aac"].includes(outputFormat)) {
     args.push("-b:a", `${options.bitrate}k`);
   }
 
-  // Trim
   if (options?.trimStart !== undefined) {
     args.push("-ss", String(options.trimStart));
   }
@@ -72,13 +44,12 @@ async function convertAudio(
     args.push("-to", String(options.trimEnd));
   }
 
-  // Codec mapping
   const codecMap: Record<string, string[]> = {
     mp3: ["-codec:a", "libmp3lame"],
     ogg: ["-codec:a", "libvorbis"],
     aac: ["-codec:a", "aac"],
     flac: ["-codec:a", "flac"],
-    wav: [], // PCM default
+    wav: [],
   };
 
   if (codecMap[outputFormat]) {
@@ -95,9 +66,12 @@ async function convertAudio(
 
   const data = await ffmpeg.readFile(outputName);
 
-  // Clean up
-  await ffmpeg.deleteFile(inputName);
-  await ffmpeg.deleteFile(outputName);
+  try {
+    await ffmpeg.deleteFile(inputName);
+    await ffmpeg.deleteFile(outputName);
+  } catch {
+    // Cleanup errors are non-fatal
+  }
 
   onProgress?.(90);
 
@@ -118,15 +92,17 @@ export default function AudioConverter() {
   const [bitrate, setBitrate] = useState(192);
   const [isLoadingFFmpeg, setIsLoadingFFmpeg] = useState(false);
 
-  const { jobs, addFiles, processAll, downloadResult, removeJob, clearJobs } =
-    useConverter(async (file, format, options, onProgress) => {
-      setIsLoadingFFmpeg(true);
-      try {
-        return await convertAudio(file, format, options, onProgress);
-      } finally {
-        setIsLoadingFFmpeg(false);
-      }
-    });
+  const {
+    jobs, addFiles, processAll, downloadResult, removeJob, clearJobs,
+    pendingCount, doneCount, processingCount, isBatchComplete, downloadAll,
+  } = useConverter(async (file, format, options, onProgress) => {
+    if (!isFFmpegLoaded()) setIsLoadingFFmpeg(true);
+    try {
+      return await convertAudio(file, format, options, onProgress);
+    } finally {
+      setIsLoadingFFmpeg(false);
+    }
+  });
 
   const handleFiles = useCallback(
     (files: File[]) => {
@@ -135,7 +111,7 @@ export default function AudioConverter() {
     [addFiles, outputFormat, bitrate]
   );
 
-  const pendingCount = jobs.filter((j) => j.status === "pending").length;
+  const totalActive = pendingCount + processingCount + doneCount;
 
   return (
     <div className="space-y-6">
@@ -188,28 +164,74 @@ export default function AudioConverter() {
       {isLoadingFFmpeg && (
         <div className="flex items-center gap-2 text-text-secondary text-sm">
           <Loader2 className="w-4 h-4 animate-spin" />
-          Loading audio engine (~25MB, one-time download)...
+          Loading audio engine (~32MB, one-time download)...
+        </div>
+      )}
+
+      {/* Batch progress bar */}
+      {processingCount > 0 && totalActive > 1 && (
+        <div className="space-y-1.5 fade-in">
+          <div className="flex justify-between text-xs text-text-secondary">
+            <span>Converting {doneCount + 1} of {totalActive}...</span>
+            <span>{Math.round(((doneCount) / totalActive) * 100)}%</span>
+          </div>
+          <div className="h-1.5 bg-bg-surface rounded-full overflow-hidden">
+            <div
+              className="h-full bg-accent rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${Math.max(2, (doneCount / totalActive) * 100)}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Batch completion banner */}
+      {isBatchComplete && doneCount > 1 && (
+        <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 rounded-xl px-4 py-3 fade-in">
+          <div className="flex items-center gap-2">
+            <CircleCheck className="w-4 h-4 text-grade-a done-check" />
+            <span className="text-sm text-grade-a font-medium">
+              All {doneCount} files converted
+            </span>
+          </div>
+          <button
+            onClick={downloadAll}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a rounded-lg text-xs font-medium transition-colors"
+          >
+            <DownloadCloud className="w-3.5 h-3.5" />
+            Download All
+          </button>
         </div>
       )}
 
       {jobs.length > 0 && (
         <div className="space-y-2">
           {jobs.map((job) => (
-            <div key={job.id} className="flex items-center gap-3 bg-bg-surface border border-border rounded-lg px-4 py-3">
+            <div key={job.id} className={`flex items-center gap-3 rounded-lg px-4 py-3 ${
+              job.status === "done"
+                ? "bg-grade-a/5 border border-grade-a/25 border-l-2 border-l-grade-a"
+                : job.status === "error"
+                  ? "bg-grade-f/5 border border-grade-f/25 border-l-2 border-l-grade-f"
+                  : "bg-bg-surface border border-border"
+            }`}>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-text-primary truncate">{job.file.name}</p>
                 <p className="text-xs text-text-tertiary">
                   {job.inputFormat.toUpperCase()} → {job.outputFormat.toUpperCase()}
                   {job.status === "processing" && ` · ${job.progress}%`}
-                  {job.status === "done" && job.result && <> · {(job.result.size / 1024).toFixed(0)} KB</>}
+                  {job.status === "done" && job.result && (
+                    <span className="text-grade-a"> · Done · {(job.result.size / 1024).toFixed(0)} KB</span>
+                  )}
                   {job.status === "error" && <span className="text-grade-f"> · {job.error}</span>}
                 </p>
               </div>
               {job.status === "processing" && <Loader2 className="w-4 h-4 text-accent animate-spin" />}
               {job.status === "done" && (
-                <button onClick={() => downloadResult(job)} className="p-1.5 rounded hover:bg-bg-elevated transition-colors text-grade-a">
-                  <Download className="w-4 h-4" />
-                </button>
+                <>
+                  <CircleCheck className="w-4 h-4 text-grade-a shrink-0 done-check" />
+                  <button onClick={() => downloadResult(job)} className="p-1.5 rounded hover:bg-bg-elevated transition-colors text-grade-a">
+                    <Download className="w-4 h-4" />
+                  </button>
+                </>
               )}
               <button onClick={() => removeJob(job.id)} className="p-1.5 rounded hover:bg-bg-elevated transition-colors text-text-tertiary">
                 <Trash2 className="w-4 h-4" />

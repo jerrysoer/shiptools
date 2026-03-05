@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { nanoid } from "nanoid";
 import type { ConversionJob, ConversionOptions } from "@/lib/types";
 
@@ -13,7 +13,7 @@ type ConvertFn = (
 
 /**
  * Shared conversion state management hook.
- * Handles job queue, progress tracking, and download.
+ * Handles job queue, progress tracking, batch state, and download.
  */
 export function useConverter(convertFn: ConvertFn) {
   const [jobs, setJobs] = useState<ConversionJob[]>([]);
@@ -67,12 +67,17 @@ export function useConverter(convertFn: ConvertFn) {
   );
 
   const processAll = useCallback(async () => {
-    const pending = jobs.filter((j) => j.status === "pending");
+    // Read latest jobs via functional setter to avoid stale closure
+    let pending: ConversionJob[] = [];
+    setJobs((current) => {
+      pending = current.filter((j) => j.status === "pending");
+      return current;
+    });
     // Process sequentially to avoid memory pressure
     for (const job of pending) {
       await processJob(job);
     }
-  }, [jobs, processJob]);
+  }, [processJob]);
 
   const downloadResult = useCallback((job: ConversionJob) => {
     if (!job.result) return;
@@ -93,6 +98,42 @@ export function useConverter(convertFn: ConvertFn) {
 
   const clearJobs = useCallback(() => setJobs([]), []);
 
+  // Batch state derived values
+  const pendingCount = useMemo(
+    () => jobs.filter((j) => j.status === "pending").length,
+    [jobs]
+  );
+
+  const doneCount = useMemo(
+    () => jobs.filter((j) => j.status === "done").length,
+    [jobs]
+  );
+
+  const processingCount = useMemo(
+    () => jobs.filter((j) => j.status === "processing").length,
+    [jobs]
+  );
+
+  const totalCount = jobs.length;
+
+  const isBatchComplete = useMemo(
+    () =>
+      totalCount > 0 &&
+      pendingCount === 0 &&
+      processingCount === 0 &&
+      doneCount > 0,
+    [totalCount, pendingCount, processingCount, doneCount]
+  );
+
+  const downloadAll = useCallback(async () => {
+    const doneJobs = jobs.filter((j) => j.status === "done" && j.result);
+    for (const job of doneJobs) {
+      downloadResult(job);
+      // Stagger downloads to avoid browser popup/download blockers
+      await new Promise((r) => setTimeout(r, 300));
+    }
+  }, [jobs, downloadResult]);
+
   return {
     jobs,
     addFiles,
@@ -101,5 +142,12 @@ export function useConverter(convertFn: ConvertFn) {
     downloadResult,
     removeJob,
     clearJobs,
+    // Batch state
+    pendingCount,
+    doneCount,
+    processingCount,
+    totalCount,
+    isBatchComplete,
+    downloadAll,
   };
 }
