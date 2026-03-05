@@ -42,22 +42,16 @@ function buildFFmpegArgs(
 ): string[] {
   const args: string[] = [];
 
-  // Trim: -ss before -i for fast seeking, -t for duration (not -to, which
-  // is relative to seek point when -ss precedes -i)
+  args.push("-i", inputName);
+
+  // Trim: -ss after -i for output-level accurate seeking (input-level seek
+  // is unreliable in ffmpeg.wasm's virtual filesystem). Use -to for absolute
+  // end time — no duration math needed.
   if (options?.trimStart !== undefined) {
     args.push("-ss", String(options.trimStart));
   }
-
-  args.push("-i", inputName);
-
   if (options?.trimEnd !== undefined) {
-    const duration =
-      options.trimStart !== undefined
-        ? options.trimEnd - options.trimStart
-        : options.trimEnd;
-    if (duration > 0) {
-      args.push("-t", String(duration));
-    }
+    args.push("-to", String(options.trimEnd));
   }
 
   const crf = options?.videoCrf ?? DEFAULT_CRF;

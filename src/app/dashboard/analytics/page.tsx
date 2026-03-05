@@ -3,7 +3,7 @@ import { getSupabase } from "@/lib/supabase";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 
 export const metadata: Metadata = {
-  title: "Analytics — ShipTools Admin",
+  title: "Analytics — ShipTools Dashboard",
 };
 
 interface DailyRow {
