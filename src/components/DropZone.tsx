@@ -27,13 +27,14 @@ export default function DropZone({
       const accepted = accept
         .split(",")
         .map((a) => a.trim().toLowerCase());
+      const acceptAll = accepted.includes("*/*") || accepted.includes("*");
       const valid: File[] = [];
 
       for (const file of Array.from(files)) {
         const ext = `.${file.name.split(".").pop()?.toLowerCase()}`;
         const mime = file.type.toLowerCase();
 
-        const matchesAccept = accepted.some(
+        const matchesAccept = acceptAll || accepted.some(
           (a) => a === ext || a === mime || (a.endsWith("/*") && mime.startsWith(a.replace("/*", "/")))
         );
 

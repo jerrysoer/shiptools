@@ -1,23 +1,61 @@
-import puppeteer from "puppeteer-core";
+import puppeteerCore from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
+import type { Browser } from "puppeteer-core";
 import type { ScanData } from "../types";
 import { classifyCookies, isThirdPartyDomain, detectServerSideProcessing } from "./classify";
 import { classifyDomains } from "./trackers";
 import { PAGE_TIMEOUT_MS } from "../constants";
 
 /**
- * Launch a headless Chromium browser via @sparticuz/chromium.
- * On Vercel serverless, this decompresses the Chromium binary (~5-8s cold start).
- * Locally, falls back to system Chrome if available.
+ * Launch a headless browser.
+ *
+ * - **Vercel (production):** Uses @sparticuz/chromium which ships a compressed
+ *   Chromium binary that decompresses on cold start (~5-8s).
+ * - **Local dev:** Uses `puppeteer` (dev dependency) which bundles its own
+ *   Chromium. Falls back to system Chrome via puppeteer-core if puppeteer
+ *   isn't available.
  */
-async function getBrowser() {
-  const executablePath = await chromium.executablePath();
-  return puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath,
-    headless: chromium.headless,
-  });
+async function getBrowser(): Promise<Browser> {
+  if (process.env.VERCEL) {
+    // Production: use @sparticuz/chromium
+    const executablePath = await chromium.executablePath();
+    return puppeteerCore.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless,
+    });
+  }
+
+  // Local dev: try full puppeteer first (bundles its own browser)
+  try {
+    const puppeteer = await import("puppeteer");
+    return await (puppeteer.default.launch({ headless: true }) as Promise<unknown> as Promise<Browser>);
+  } catch {
+    // Fallback: use puppeteer-core with system Chrome
+    const executablePaths = [
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", // macOS
+      "/usr/bin/google-chrome", // Linux
+      "/usr/bin/chromium-browser", // Linux alt
+      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", // Windows
+    ];
+
+    for (const p of executablePaths) {
+      try {
+        return await puppeteerCore.launch({
+          executablePath: p,
+          headless: true,
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        });
+      } catch {
+        continue;
+      }
+    }
+
+    throw new Error(
+      "No browser found for local development. Install puppeteer (npm install -D puppeteer) or ensure Chrome is installed."
+    );
+  }
 }
 
 /**

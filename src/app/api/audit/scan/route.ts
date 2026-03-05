@@ -90,8 +90,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 5. Run scan
-    const scanData = await scanUrl(url);
+    // 5. Run scan (with 45s timeout — 15s buffer before Vercel's 60s hard limit)
+    const SCAN_TIMEOUT_MS = 45_000;
+    const scanData = await Promise.race([
+      scanUrl(url),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout: scan exceeded 45s limit")), SCAN_TIMEOUT_MS)
+      ),
+    ]);
     const { grade, scores } = gradeFromScan(scanData);
 
     const now = new Date();
@@ -132,12 +138,24 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("[scan] Error:", err);
 
-    const message =
-      err instanceof Error && err.message.includes("timeout")
-        ? "Site took too long to load. Try again later."
-        : "Scan failed. The site may be blocking automated access.";
+    const errMsg = err instanceof Error ? err.message : String(err);
 
-    const code = err instanceof Error && err.message.includes("timeout") ? "TIMEOUT" : "SCAN_FAILED";
+    let message: string;
+    let code: "TIMEOUT" | "SCAN_FAILED";
+
+    if (errMsg.includes("timeout")) {
+      message = "Site took too long to load. Try again later.";
+      code = "TIMEOUT";
+    } else if (errMsg.includes("No browser found") || errMsg.includes("executablePath")) {
+      message = "Browser launch failed. This scan requires a server environment.";
+      code = "SCAN_FAILED";
+    } else if (errMsg.includes("net::") || errMsg.includes("Navigation")) {
+      message = "Could not reach the site. Check the URL and try again.";
+      code = "SCAN_FAILED";
+    } else {
+      message = "Scan failed. The site may be blocking automated access.";
+      code = "SCAN_FAILED";
+    }
 
     return NextResponse.json(
       { success: false, error: message, code } satisfies ScanError,

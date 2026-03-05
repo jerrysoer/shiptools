@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Shield, ArrowLeftRight } from "lucide-react";
+import { Shield, ArrowLeftRight, Wrench } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
   const isConvert = pathname.startsWith("/convert");
+  const isTools = pathname.startsWith("/tools");
+  const isAudit = !isConvert && !isTools;
 
   return (
     <header className="border-b border-border px-6 py-4">
@@ -20,7 +22,7 @@ export default function Header() {
           <Link
             href="/"
             className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-              !isConvert
+              isAudit
                 ? "bg-bg-elevated text-text-primary"
                 : "text-text-secondary hover:text-text-primary"
             }`}
@@ -41,6 +43,19 @@ export default function Header() {
             <span className="flex items-center gap-1.5">
               <ArrowLeftRight className="w-4 h-4" />
               Convert
+            </span>
+          </Link>
+          <Link
+            href="/tools"
+            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              isTools
+                ? "bg-bg-elevated text-text-primary"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            <span className="flex items-center gap-1.5">
+              <Wrench className="w-4 h-4" />
+              Tools
             </span>
           </Link>
         </nav>

@@ -1,8 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Shield, ArrowLeftRight, Lock, Zap, Eye } from "lucide-react";
+import {
+  Lock,
+  Zap,
+  Eye,
+  Wrench,
+  Hash,
+  QrCode,
+  KeyRound,
+  ArrowRight,
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScanInput from "@/components/ScanInput";
@@ -14,7 +22,6 @@ import type { AuditResult, ScanError } from "@/lib/types";
 import { trackEvent } from "@/lib/analytics";
 
 export default function HomePage() {
-  const router = useRouter();
   const [isScanning, setIsScanning] = useState(false);
   const [scanDomain, setScanDomain] = useState("");
   const [result, setResult] = useState<AuditResult | null>(null);
@@ -67,53 +74,76 @@ export default function HomePage() {
     <>
       <Header />
       <main className="flex-1">
-        {/* Hero */}
+        {/* Hero — Developer & Privacy Tools */}
         <section className="px-6 pt-16 pb-12">
           <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 mb-5">
+              <Wrench className="w-7 h-7 text-accent" />
+            </div>
             <h1 className="font-heading font-bold text-4xl sm:text-5xl mb-4 leading-tight">
-              How much does your favorite tool{" "}
-              <span className="text-accent">really</span> know about you?
+              Developer & Privacy Tools
             </h1>
             <p className="text-text-secondary text-lg mb-10 max-w-2xl mx-auto">
-              Scan any free online tool to see how many cookies, trackers, and
-              ad networks it loads. Get an instant privacy grade and shareable
-              report card.
+              Hash, encrypt, generate, decode, and inspect — 16 tools that run
+              entirely in your browser. No data ever leaves your device.
             </p>
 
-            <ScanInput onScan={handleScan} isScanning={isScanning} />
+            <div className="grid sm:grid-cols-3 gap-4 mb-8">
+              <a
+                href="/tools/hash"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <Hash className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-heading font-semibold">Hash Calculator</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  MD5, SHA-1, SHA-256, SHA-512 for text and files
+                </p>
+              </a>
 
-            {error && (
-              <p className="text-grade-f text-sm mt-4">{error}</p>
-            )}
+              <a
+                href="/tools/qr"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <QrCode className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-heading font-semibold">QR Code Generator</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  URLs, WiFi, vCards, and text — download as PNG or SVG
+                </p>
+              </a>
+
+              <a
+                href="/tools/password"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <KeyRound className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-heading font-semibold">Password Generator</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  Strong passwords and passphrases with strength meter
+                </p>
+              </a>
+            </div>
+
+            <a
+              href="/tools"
+              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
+            >
+              See all 16 tools
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </section>
-
-        {/* Scan progress */}
-        {isScanning && (
-          <section className="px-6 pb-12">
-            <ScanProgress domain={scanDomain} isActive={isScanning} />
-          </section>
-        )}
-
-        {/* Results */}
-        {result && (
-          <section className="px-6 pb-16">
-            <div className="max-w-4xl mx-auto">
-              <GradeReveal
-                grade={result.grade}
-                score={result.scores.total}
-                domain={result.domain}
-              />
-
-              <div className="grid lg:grid-cols-[1fr_380px] gap-8 mt-8">
-                <AuditReport result={result} />
-                <div className="lg:sticky lg:top-8 lg:self-start">
-                  <ReportCard result={result} />
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* Converter CTA — only show when no scan result */}
         {!result && !isScanning && (
@@ -175,6 +205,62 @@ export default function HomePage() {
                       MP3, WAV, OGG, AAC — transcode, trim, adjust bitrate
                     </p>
                   </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Privacy Audit */}
+        {!result && !isScanning && (
+          <section className="px-6 pb-16">
+            <div className="max-w-4xl mx-auto">
+              <div className="border-t border-border pt-12">
+                <div className="text-center mb-8">
+                  <h2 className="font-heading font-semibold text-2xl mb-2">
+                    Privacy Audit
+                  </h2>
+                  <p className="text-text-secondary max-w-xl mx-auto">
+                    Scan any free online tool to see how many cookies, trackers,
+                    and ad networks it loads. Get an instant privacy grade.
+                  </p>
+                </div>
+
+                <div className="max-w-lg mx-auto">
+                  <ScanInput onScan={handleScan} isScanning={isScanning} />
+
+                  {error && (
+                    <p className="text-grade-f text-sm mt-4 text-center">
+                      {error}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Scan progress */}
+        {isScanning && (
+          <section className="px-6 pb-12">
+            <ScanProgress domain={scanDomain} isActive={isScanning} />
+          </section>
+        )}
+
+        {/* Results */}
+        {result && (
+          <section className="px-6 pb-16">
+            <div className="max-w-4xl mx-auto">
+              <GradeReveal
+                grade={result.grade}
+                score={result.scores.total}
+                domain={result.domain}
+              />
+
+              <div className="grid lg:grid-cols-[1fr_380px] gap-8 mt-8">
+                <AuditReport result={result} />
+                <div className="lg:sticky lg:top-8 lg:self-start">
+                  <ReportCard result={result} />
                 </div>
               </div>
             </div>
