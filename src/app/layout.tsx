@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import ConsentBanner from "@/components/ConsentBanner";
+import PageViewTracker from "@/components/PageViewTracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ShipTools — Privacy-first tools for the web",
   description:
-    "Developer & privacy tools that run entirely in your browser. Hash, encrypt, convert, audit — no uploads, no tracking.",
+    "Developer & privacy tools that run entirely in your browser. Hash, encrypt, convert, sign — no uploads, no tracking.",
   openGraph: {
     title: "ShipTools — Privacy-first tools for the web",
     description:
-      "Developer & privacy tools that run entirely in your browser. Hash, encrypt, convert, audit — no uploads, no tracking.",
+      "Developer & privacy tools that run entirely in your browser. Hash, encrypt, convert, sign — no uploads, no tracking.",
     type: "website",
   },
 };
@@ -38,6 +40,8 @@ export default function RootLayout({
       </head>
       <body className="bg-bg-primary text-text-primary min-h-dvh flex flex-col">
         {children}
+        <PageViewTracker />
+        <ConsentBanner />
       </body>
     </html>
   );

@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { SquareSlash, ArrowLeftRight, Wrench, Shield } from "lucide-react";
+import { SquareSlash, ArrowLeftRight, Wrench } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
   const isConvert = pathname.startsWith("/convert");
   const isTools = pathname.startsWith("/tools");
-  const isAudit = !isConvert && !isTools;
 
   return (
     <header className="border-b border-border px-6 py-4">
@@ -19,19 +18,6 @@ export default function Header() {
         </Link>
 
         <nav className="flex items-center gap-1">
-          <Link
-            href="/"
-            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-              isAudit
-                ? "bg-bg-elevated text-text-primary"
-                : "text-text-secondary hover:text-text-primary"
-            }`}
-          >
-            <span className="flex items-center gap-1.5">
-              <Shield className="w-4 h-4" />
-              Audit
-            </span>
-          </Link>
           <Link
             href="/convert"
             className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${

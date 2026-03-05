@@ -4,5 +4,11 @@
       "memory": 1024,
       "maxDuration": 60
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/analytics/aggregate",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }

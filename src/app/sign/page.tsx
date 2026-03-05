@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import { FileSignature } from "lucide-react";
+import ToolPageHeader from "@/components/tools/ToolPageHeader";
 import PDFSigner from "@/components/PDFSigner";
 
 export const metadata: Metadata = {
@@ -10,13 +12,11 @@ export const metadata: Metadata = {
 export default function SignPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-heading font-bold text-2xl mb-1">PDF Sign & Fill</h1>
-        <p className="text-text-secondary text-sm">
-          Add signatures, text, and dates to any PDF. Draw, type, or upload your signature.
-          Everything stays in your browser.
-        </p>
-      </div>
+      <ToolPageHeader
+        icon={FileSignature}
+        title="PDF Sign & Fill"
+        description="Add signatures, text, and dates to any PDF. Draw, type, or upload your signature. Everything stays in your browser."
+      />
       <PDFSigner />
     </div>
   );

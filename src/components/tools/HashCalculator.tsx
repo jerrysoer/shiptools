@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { Hash, Copy, Check, CheckCircle, XCircle, FileText, Type } from "lucide-react";
 import DropZone from "@/components/DropZone";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 type Mode = "text" | "file";
 
@@ -111,6 +112,10 @@ export default function HashCalculator() {
   const [verifyHash, setVerifyHash] = useState("");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    trackEvent("tool_opened", { tool: "hash" });
+  }, []);
+
   // Debounced text hashing
   useEffect(() => {
     if (mode !== "text") return;
@@ -128,6 +133,7 @@ export default function HashCalculator() {
       const result = await computeHashes(data);
       setHashes(result);
       setComputing(false);
+      trackEvent("tool_used", { tool: "hash", mode: "text" });
     }, 200);
 
     return () => {
@@ -144,6 +150,7 @@ export default function HashCalculator() {
     const result = await computeHashes(data);
     setHashes(result);
     setComputing(false);
+    trackEvent("tool_used", { tool: "hash", mode: "file" });
   }, []);
 
   const handleModeSwitch = useCallback(

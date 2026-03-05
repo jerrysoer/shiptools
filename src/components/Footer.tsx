@@ -1,4 +1,5 @@
 import { Shield } from "lucide-react";
+import AnalyticsStatus from "@/components/AnalyticsStatus";
 
 export default function Footer() {
   return (
@@ -10,6 +11,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-4">
           <span>No tracking. No uploads. No cookies.</span>
+          <AnalyticsStatus />
         </div>
       </div>
     </footer>

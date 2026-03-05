@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { KeyRound, Copy, Check, RefreshCw } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 import wordlist from "@/lib/data/eff-wordlist.json";
 
 type Mode = "random" | "passphrase";
@@ -84,6 +85,10 @@ export default function PasswordGenerator() {
   const [copied, setCopied] = useState(false);
   const [strength, setStrength] = useState<StrengthResult | null>(null);
 
+  useEffect(() => {
+    trackEvent("tool_opened", { tool: "password" });
+  }, []);
+
   const generate = useCallback(() => {
     const pw =
       mode === "random"
@@ -124,6 +129,7 @@ export default function PasswordGenerator() {
     await navigator.clipboard.writeText(password);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    trackEvent("tool_used", { tool: "password", mode });
   };
 
   const toggleCharset = (key: CharsetKey) => {

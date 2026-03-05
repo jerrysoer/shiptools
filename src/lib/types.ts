@@ -81,10 +81,20 @@ export interface ScanError {
   retryAfter?: number;
 }
 
+export type AnalyticsEventName =
+  | "page_view"
+  | "tool_opened"
+  | "tool_used"
+  | "scan_initiated"
+  | "scan_completed"
+  | "report_shared"
+  | "telemetry_opted_out";
+
 export interface AnalyticsEvent {
-  event: string;
+  event: AnalyticsEventName;
   properties?: Record<string, string | number | boolean>;
   timestamp?: string;
+  session_id?: string;
 }
 
 /** Converter types */

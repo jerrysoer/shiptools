@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { QrCode, Download, Palette, Wifi, User, Link, Type } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 type Preset = "text" | "url" | "wifi" | "vcard";
 type WifiEncryption = "WPA" | "WEP" | "nopass";
@@ -60,6 +61,10 @@ export default function QRGenerator() {
   const [svgPreview, setSvgPreview] = useState<string>("");
   const [error, setError] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    trackEvent("tool_opened", { tool: "qr" });
+  }, []);
 
   const getPayload = useCallback((): string => {
     switch (preset) {
@@ -125,6 +130,7 @@ export default function QRGenerator() {
       link.download = "qrcode.png";
       link.href = canvasRef.current.toDataURL("image/png");
       link.click();
+      trackEvent("tool_used", { tool: "qr", format: "png" });
     } catch {
       setError("Failed to generate PNG");
     }
@@ -138,6 +144,7 @@ export default function QRGenerator() {
     link.href = URL.createObjectURL(blob);
     link.click();
     URL.revokeObjectURL(link.href);
+    trackEvent("tool_used", { tool: "qr", format: "svg" });
   };
 
   const payload = getPayload();
