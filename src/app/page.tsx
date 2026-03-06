@@ -29,162 +29,92 @@ export default function HomePage() {
     <>
       <Header />
       <main className="flex-1">
-        {/* Hero — Developer & Privacy Tools */}
-        <section className="px-6 pt-16 pb-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 mb-5">
-              <Hash className="w-7 h-7 text-accent" />
-            </div>
-            <h1 className="font-heading font-bold text-4xl sm:text-5xl mb-4 leading-tight">
-              Local & Private
-            </h1>
-            <p className="text-text-secondary text-lg mb-10 max-w-2xl mx-auto">
-              Hash, encrypt, generate, decode, and inspect — 20 tools that run
-              entirely in your browser. No data ever leaves your device.
-            </p>
-
-            <div className="grid sm:grid-cols-3 gap-4 mb-8">
-              <a
-                href="/tools/hash"
-                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-lg bg-accent/10">
-                    <Hash className="w-5 h-5 text-accent" />
-                  </div>
-                  <h3 className="font-heading font-semibold">Hash Calculator</h3>
-                </div>
-                <p className="text-text-tertiary text-sm">
-                  MD5, SHA-1, SHA-256, SHA-512 for text and files
-                </p>
-              </a>
-
-              <a
-                href="/tools/qr"
-                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-lg bg-accent/10">
-                    <QrCode className="w-5 h-5 text-accent" />
-                  </div>
-                  <h3 className="font-heading font-semibold">QR Code Generator</h3>
-                </div>
-                <p className="text-text-tertiary text-sm">
-                  URLs, WiFi, vCards, and text — download as PNG or SVG
-                </p>
-              </a>
-
-              <a
-                href="/tools/password"
-                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-lg bg-accent/10">
-                    <KeyRound className="w-5 h-5 text-accent" />
-                  </div>
-                  <h3 className="font-heading font-semibold">Password Generator</h3>
-                </div>
-                <p className="text-text-tertiary text-sm">
-                  Strong passwords and passphrases with strength meter
-                </p>
-              </a>
-            </div>
-
-            <a
-              href="/tools"
-              className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
-            >
-              See all 20 tools
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </section>
-
-        {/* Converters */}
-        <section className="px-6 pb-16">
+        {/* Converters — hero position */}
+        <section className="px-6 pt-16 pb-16">
           <div className="max-w-4xl mx-auto">
-            <div className="border-t border-border pt-12">
-              <div className="text-center mb-8">
-                <h2 className="font-heading font-semibold text-2xl mb-2">
-                  Convert files without uploading them
-                </h2>
-                <p className="text-text-secondary">
-                  Images, documents, audio, and video — all processed locally in
-                  your browser.
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 mb-5">
+                <Image className="w-7 h-7 text-accent" />
+              </div>
+              <h1 className="font-heading font-bold text-4xl sm:text-5xl mb-4 leading-tight">
+                Convert files without uploading them
+              </h1>
+              <p className="text-text-secondary text-lg mb-10 max-w-2xl mx-auto">
+                Images, documents, audio, and video — all processed locally in
+                your browser.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <a
+                href="/convert/images"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <Image className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-heading font-semibold">Images</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  PNG, JPG, WebP, AVIF — resize, compress, convert
                 </p>
-              </div>
+              </a>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <a
-                  href="/convert/images"
-                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-accent/10">
-                      <Image className="w-5 h-5 text-accent" />
-                    </div>
-                    <h3 className="font-heading font-semibold">Images</h3>
+              <a
+                href="/convert/documents"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <FileText className="w-5 h-5 text-accent" />
                   </div>
-                  <p className="text-text-tertiary text-sm">
-                    PNG, JPG, WebP, AVIF — resize, compress, convert
-                  </p>
-                </a>
+                  <h3 className="font-heading font-semibold">Documents</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  PDF, DOCX, CSV, TXT — convert between formats
+                </p>
+              </a>
 
-                <a
-                  href="/convert/documents"
-                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-accent/10">
-                      <FileText className="w-5 h-5 text-accent" />
-                    </div>
-                    <h3 className="font-heading font-semibold">Documents</h3>
+              <a
+                href="/convert/audio"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <Music className="w-5 h-5 text-accent" />
                   </div>
-                  <p className="text-text-tertiary text-sm">
-                    PDF, DOCX, CSV, TXT — convert between formats
-                  </p>
-                </a>
+                  <h3 className="font-heading font-semibold">Audio</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  MP3, WAV, OGG, AAC — transcode, trim, adjust bitrate
+                </p>
+              </a>
 
-                <a
-                  href="/convert/audio"
-                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-accent/10">
-                      <Music className="w-5 h-5 text-accent" />
-                    </div>
-                    <h3 className="font-heading font-semibold">Audio</h3>
+              <a
+                href="/convert/video"
+                className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <Video className="w-5 h-5 text-accent" />
                   </div>
-                  <p className="text-text-tertiary text-sm">
-                    MP3, WAV, OGG, AAC — transcode, trim, adjust bitrate
-                  </p>
-                </a>
+                  <h3 className="font-heading font-semibold">Video</h3>
+                </div>
+                <p className="text-text-tertiary text-sm">
+                  MP4, WebM, GIF — resize, trim, adjust quality
+                </p>
+              </a>
+            </div>
 
-                <a
-                  href="/convert/video"
-                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
-                >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 rounded-lg bg-accent/10">
-                      <Video className="w-5 h-5 text-accent" />
-                    </div>
-                    <h3 className="font-heading font-semibold">Video</h3>
-                  </div>
-                  <p className="text-text-tertiary text-sm">
-                    MP4, WebM, GIF — resize, trim, adjust quality
-                  </p>
-                </a>
-              </div>
-
-              <div className="text-center">
-                <a
-                  href="/convert"
-                  className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
-                >
-                  See all converters
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-              </div>
+            <div className="text-center">
+              <a
+                href="/convert"
+                className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
+              >
+                See all converters
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </section>
@@ -269,6 +199,80 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
                 >
                   See all AI tools
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Developer & Privacy Tools */}
+        <section className="px-6 pb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="border-t border-border pt-12">
+              <div className="text-center mb-8">
+                <h2 className="font-heading font-semibold text-2xl mb-2">
+                  Local & Private
+                </h2>
+                <p className="text-text-secondary">
+                  Hash, encrypt, generate, decode, and inspect — 20 tools that run
+                  entirely in your browser. No data ever leaves your device.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-3 gap-4 mb-8">
+                <a
+                  href="/tools/hash"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <Hash className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">Hash Calculator</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    MD5, SHA-1, SHA-256, SHA-512 for text and files
+                  </p>
+                </a>
+
+                <a
+                  href="/tools/qr"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <QrCode className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">QR Code Generator</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    URLs, WiFi, vCards, and text — download as PNG or SVG
+                  </p>
+                </a>
+
+                <a
+                  href="/tools/password"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors text-left"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <KeyRound className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">Password Generator</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    Strong passwords and passphrases with strength meter
+                  </p>
+                </a>
+              </div>
+
+              <div className="text-center">
+                <a
+                  href="/tools"
+                  className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
+                >
+                  See all 20 tools
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

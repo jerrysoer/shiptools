@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   /* Background — dark defaults (Tailwind generates utility classes from these) */
   --color-bg-primary: #0F0F0F;
   --color-bg-surface: #1A1918;

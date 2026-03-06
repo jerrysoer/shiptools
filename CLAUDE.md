@@ -4,7 +4,7 @@ Local-first productivity suite. 38+ developer tools, file converters, privacy au
 
 ## Stack
 
-- Next.js 16, React 19, Tailwind CSS 4 (`@theme inline`)
+- Next.js 16, React 19, Tailwind CSS 4 (`@theme` — non-inline for runtime light/dark switching)
 - TypeScript strict mode
 - Supabase backend (graceful null when env vars missing → 503)
 - Puppeteer (`puppeteer-core` + `@sparticuz/chromium`) for privacy scanning
