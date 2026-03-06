@@ -112,12 +112,7 @@ export default function PDFSigner() {
     async (pageIndex: number, pdfData: ArrayBuffer) => {
       try {
         const pdfjs = await import("pdfjs-dist");
-        const { toBlobURL } = await import("@ffmpeg/util");
-        const workerUrl = await toBlobURL(
-          `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`,
-          "text/javascript",
-        );
-        pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+        pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
 
         const pdf = await pdfjs.getDocument({ data: new Uint8Array(pdfData) })
           .promise;
