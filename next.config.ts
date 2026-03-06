@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
     root: ".",
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/dashboard",
+        destination: "/dashboard/analytics",
+        permanent: false,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {
