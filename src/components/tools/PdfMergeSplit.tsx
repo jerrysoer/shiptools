@@ -713,7 +713,7 @@ async function generateThumbnails(
     const ctx = canvas.getContext("2d");
     if (!ctx) continue;
 
-    await page.render({ canvasContext: ctx, viewport, canvas } as Parameters<typeof page.render>[0]).promise;
+    await page.render({ canvasContext: ctx, viewport }).promise;
 
     thumbs.push({
       pageNum: i,

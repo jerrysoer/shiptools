@@ -130,7 +130,7 @@ export default function PDFSigner() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        await page.render({ canvasContext: ctx, viewport, canvas } as Parameters<typeof page.render>[0]).promise;
+        await page.render({ canvasContext: ctx, viewport }).promise;
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         console.error("PDF render error:", err);
