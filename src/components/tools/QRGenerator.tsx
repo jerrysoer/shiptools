@@ -322,9 +322,11 @@ export default function QRGenerator() {
             style={{ backgroundColor: bgColor }}
           >
             {svgPreview ? (
-              <div
+              <iframe
+                sandbox=""
+                srcDoc={`<!DOCTYPE html><html><head><style>body{margin:0;display:flex;align-items:center;justify-content:center;height:100%;background:${bgColor}}svg{width:100%;height:100%}</style></head><body>${svgPreview}</body></html>`}
                 className="w-full h-full"
-                dangerouslySetInnerHTML={{ __html: svgPreview }}
+                title="QR Code Preview"
               />
             ) : (
               <span className={`text-sm ${error ? "text-grade-f" : "text-text-tertiary"}`}>
