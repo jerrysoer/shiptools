@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Contrast, ArrowUpDown, CheckCircle, XCircle } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 function hexToRgb(hex: string): [number, number, number] | null {
   const match = hex.replace("#", "").match(/^([0-9a-f]{6})$/i);
@@ -44,10 +45,16 @@ function normalizeHex(value: string): string {
 }
 
 export default function ContrastChecker() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "contrast" }); }, []);
+
   const [fg, setFg] = useState("#1a1a2e");
   const [bg, setBg] = useState("#ffffff");
 
-  const ratio = useMemo(() => contrastRatio(fg, bg), [fg, bg]);
+  const ratio = useMemo(() => {
+    const r = contrastRatio(fg, bg);
+    if (r !== null) trackEvent("tool_used", { tool: "contrast" });
+    return r;
+  }, [fg, bg]);
   const ratioDisplay = ratio ? ratio.toFixed(2) : "--";
 
   const handleSwap = () => {

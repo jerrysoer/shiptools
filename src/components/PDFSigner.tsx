@@ -14,6 +14,7 @@ import {
   MousePointer2,
   Loader2,
 } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -62,6 +63,8 @@ const DATE_HEIGHT_PCT = 2.5;
 // ---------------------------------------------------------------------------
 
 export default function PDFSigner() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "sign-pdf" }); }, []);
+
   // ---- File / PDF state --------------------------------------------------
   const [file, setFile] = useState<File | null>(null);
   const [pdfBytes, setPdfBytes] = useState<ArrayBuffer | null>(null);
@@ -563,6 +566,7 @@ export default function PDFSigner() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+      trackEvent("tool_used", { tool: "sign-pdf" });
     } catch (err) {
       console.error("Download error:", err);
       setError("Failed to generate the signed PDF.");

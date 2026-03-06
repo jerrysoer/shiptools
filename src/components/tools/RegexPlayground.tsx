@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { Regex } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
 import AIChip from "@/components/AIChip";
@@ -60,6 +60,9 @@ const FLAG_OPTIONS = [
 ] as const;
 
 export default function RegexPlayground() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "regex" }); }, []);
+  const firedRef = useRef(false);
+
   const [pattern, setPattern] = useState("");
   const [testStr, setTestStr] = useState("");
   const [flags, setFlags] = useState<Record<string, boolean>>({ g: true, i: false, m: false, s: false });
@@ -109,6 +112,13 @@ export default function RegexPlayground() {
   const { matches, error } = useMemo(() => getMatches(pattern, flagStr, testStr), [pattern, flagStr, testStr]);
 
   const highlighted = useMemo(() => buildHighlighted(testStr, matches), [testStr, matches]);
+
+  useEffect(() => {
+    if (matches.length > 0 && !firedRef.current) {
+      firedRef.current = true;
+      trackEvent("tool_used", { tool: "regex" });
+    }
+  }, [matches]);
 
   const toggleFlag = (f: string) => {
     setFlags((prev) => ({ ...prev, [f]: !prev[f] }));

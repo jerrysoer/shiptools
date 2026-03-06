@@ -5,6 +5,7 @@ import { toPng } from "html-to-image";
 import { Download, Share2 } from "lucide-react";
 import type { AuditResult } from "@/lib/types";
 import { GRADE_TEXT_CLASSES, GRADE_LABELS, GRADE_COLORS } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 
 interface ReportCardProps {
   result: AuditResult;
@@ -27,6 +28,7 @@ export default function ReportCard({ result }: ReportCardProps) {
       link.download = `shiplocal-audit-${result.domain}.png`;
       link.href = dataUrl;
       link.click();
+      trackEvent("report_shared", { method: "download", domain: result.domain });
     } catch (err) {
       console.error("Failed to generate report card image:", err);
     }
@@ -36,6 +38,7 @@ export default function ReportCard({ result }: ReportCardProps) {
     const slug = result.domain.replace(/\./g, "-");
     const url = `${window.location.origin}/audit/${slug}`;
     await navigator.clipboard.writeText(url);
+    trackEvent("report_shared", { method: "copy_link", domain: result.domain });
   }, [result.domain]);
 
   const { grade, scores, scan } = result;

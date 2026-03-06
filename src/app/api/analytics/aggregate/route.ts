@@ -21,26 +21,29 @@ export async function GET(req: NextRequest) {
     yesterday.setDate(yesterday.getDate() - 1);
     const dateStr = yesterday.toISOString().split("T")[0];
 
-    // Query yesterday's events grouped by event + country
+    // Query yesterday's events grouped by event + country + referrer + device
     const { data: events, error: queryError } = await supabase
       .from("sl_analytics_events")
-      .select("event, country, session_id")
+      .select("event, country, session_id, referrer_domain, device_type")
       .gte("created_at", `${dateStr}T00:00:00.000Z`)
       .lt("created_at", `${dateStr}T23:59:59.999Z`);
 
     if (queryError) {
-      return NextResponse.json({ error: queryError.message }, { status: 500 });
+      console.error("[aggregate] Query error:", queryError.message);
+      return NextResponse.json({ error: "Aggregation failed" }, { status: 500 });
     }
 
     if (!events || events.length === 0) {
       return NextResponse.json({ ok: true, aggregated: 0 });
     }
 
-    // Group by event + country
+    // Group by event + country + referrer_domain + device_type
     const groups = new Map<string, { count: number; sessions: Set<string> }>();
 
     for (const row of events) {
-      const key = `${row.event}|${row.country ?? "unknown"}`;
+      const referrer = row.referrer_domain ?? "direct";
+      const device = row.device_type ?? "unknown";
+      const key = `${row.event}|${row.country ?? "unknown"}|${referrer}|${device}`;
       if (!groups.has(key)) {
         groups.set(key, { count: 0, sessions: new Set() });
       }
@@ -53,11 +56,13 @@ export async function GET(req: NextRequest) {
 
     // Upsert into daily table
     const rows = Array.from(groups.entries()).map(([key, { count, sessions }]) => {
-      const [event, country] = key.split("|");
+      const [event, country, referrer_domain, device_type] = key.split("|");
       return {
         date: dateStr,
         event,
         country,
+        referrer_domain,
+        device_type,
         count,
         unique_sessions: sessions.size,
       };
@@ -65,10 +70,11 @@ export async function GET(req: NextRequest) {
 
     const { error: upsertError } = await supabase
       .from("sl_analytics_daily")
-      .upsert(rows, { onConflict: "date,event,country" });
+      .upsert(rows, { onConflict: "date,event,country,referrer_domain,device_type" });
 
     if (upsertError) {
-      return NextResponse.json({ error: upsertError.message }, { status: 500 });
+      console.error("[aggregate] Upsert error:", upsertError.message);
+      return NextResponse.json({ error: "Aggregation failed" }, { status: 500 });
     }
 
     // Clean up raw events older than 30 days
@@ -82,8 +88,9 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ ok: true, aggregated: rows.length });
   } catch (err) {
+    console.error("[aggregate] Error:", err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Unknown error" },
+      { error: "Aggregation failed" },
       { status: 500 }
     );
   }

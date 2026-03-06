@@ -1,16 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
 
-export async function GET() {
+const VALID_DAYS = new Set([7, 30, 90]);
+
+export async function GET(request: NextRequest) {
   const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json({ error: "No database" }, { status: 503 });
   }
 
   try {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const since = thirtyDaysAgo.toISOString().split("T")[0];
+    const daysParam = request.nextUrl.searchParams.get("days");
+    const days = daysParam ? parseInt(daysParam, 10) : 30;
+
+    if (!VALID_DAYS.has(days)) {
+      return NextResponse.json(
+        { error: "days must be 7, 30, or 90" },
+        { status: 400 }
+      );
+    }
+
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - days);
+    const since = startDate.toISOString().split("T")[0];
 
     const { data, error } = await supabase
       .from("sl_analytics_daily")

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Braces, Copy, Check, ChevronRight, ChevronDown, Minimize2, TreePine, FileSpreadsheet, FileText } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
 import { highlightJson } from "@/lib/tools/json-highlight";
@@ -152,6 +152,8 @@ function TreeNode({ label, value, depth }: { label: string | null; value: unknow
 }
 
 export default function JsonFormatter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "json" }); }, []);
+
   const [input, setInput] = useState("");
   const [indentSize, setIndentSize] = useState<IndentSize>(2);
   const [viewMode, setViewMode] = useState<ViewMode>("formatted");
@@ -188,11 +190,13 @@ export default function JsonFormatter() {
   const handleMinify = useCallback(() => {
     if (!result.valid) return;
     setInput(minifiedJson);
+    trackEvent("tool_used", { tool: "json", action: "minify" });
   }, [result, minifiedJson]);
 
   const handleFormat = useCallback(() => {
     if (!result.valid) return;
     setInput(formattedJson);
+    trackEvent("tool_used", { tool: "json", action: "format" });
   }, [result, formattedJson]);
 
   const convertToCSV = useCallback(async () => {

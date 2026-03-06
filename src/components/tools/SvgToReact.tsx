@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Code, Copy, Check } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 /** Attrs that need exact JSX mappings (not simple hyphen→camelCase). */
 const SPECIAL: Record<string, string> = {
@@ -42,6 +43,8 @@ function generateComponent(svg: string, name: string, ts: boolean, memo: boolean
 }
 
 export default function SvgToReact() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "svg-to-react" }); }, []);
+
   const [svgInput, setSvgInput] = useState("");
   const [componentName, setComponentName] = useState("SvgIcon");
   const [useTs, setUseTs] = useState(true);
@@ -67,6 +70,7 @@ export default function SvgToReact() {
       document.execCommand("copy");
       document.body.removeChild(ta);
     }
+    trackEvent("tool_used", { tool: "svg-to-react" });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [output]);
@@ -133,9 +137,11 @@ export default function SvgToReact() {
         {svgInput.trim() && (
           <div className="bg-bg-surface border border-border rounded-xl p-4">
             <h3 className="font-heading font-semibold text-sm mb-2">Preview</h3>
-            <div
-              className="flex items-center justify-center bg-bg-elevated border border-border rounded-lg p-4 max-h-40 overflow-hidden [&>svg]:max-w-full [&>svg]:max-h-32"
-              dangerouslySetInnerHTML={{ __html: svgInput }}
+            <iframe
+              sandbox=""
+              srcDoc={`<!DOCTYPE html><html><head><style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100%;background:transparent}svg{max-width:100%;max-height:128px}</style></head><body>${svgInput}</body></html>`}
+              className="w-full h-40 bg-bg-elevated border border-border rounded-lg"
+              title="SVG Preview"
             />
           </div>
         )}

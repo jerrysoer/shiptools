@@ -1,15 +1,18 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Lock, Unlock, Eye, EyeOff, Download, RotateCcw } from "lucide-react";
 import DropZone from "@/components/DropZone";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 import { encryptFile, decryptFile } from "@/lib/tools/crypto";
 import { MAX_ENCRYPT_SIZE } from "@/lib/constants";
 
 type Mode = "encrypt" | "decrypt";
 
 export default function FileEncryptor() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "encrypt" }); }, []);
+
   const [mode, setMode] = useState<Mode>("encrypt");
   const [file, setFile] = useState<File | null>(null);
   const [password, setPassword] = useState("");
@@ -65,6 +68,7 @@ export default function FileEncryptor() {
       URL.revokeObjectURL(url);
 
       setDone(true);
+      trackEvent("tool_used", { tool: "encrypt" });
     } catch {
       setError(
         mode === "decrypt"

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { FileKey, AlertTriangle, Copy, CheckCircle, Clock, User, Building, Tag } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 import { highlightJson } from "@/lib/tools/json-highlight";
 
 interface DecodedJwt {
@@ -80,12 +81,16 @@ function ClaimRow({
 }
 
 export default function JwtDecoder() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "jwt" }); }, []);
+
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState<"header" | "payload" | null>(null);
 
   const decoded = useMemo(() => {
     if (!input.trim()) return null;
-    return decodeJwt(input);
+    const result = decodeJwt(input);
+    if (result) trackEvent("tool_used", { tool: "jwt" });
+    return result;
   }, [input]);
 
   const expiry = useMemo(() => {

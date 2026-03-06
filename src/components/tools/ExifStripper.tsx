@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Download,
   DownloadCloud,
@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import DropZone from "@/components/DropZone";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 import { MAX_IMAGE_SIZE } from "@/lib/constants";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/tiff";
@@ -209,6 +210,8 @@ function stripMetadata(file: File): Promise<Blob> {
 let entryIdCounter = 0;
 
 export default function ExifStripper() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "exif" }); }, []);
+
   const [entries, setEntries] = useState<ImageEntry[]>([]);
   const [strippingAll, setStrippingAll] = useState(false);
 
@@ -257,6 +260,7 @@ export default function ExifStripper() {
       try {
         const blob = await stripMetadata(entry.file);
         updateEntry(id, { status: "done", strippedBlob: blob, strippedSize: blob.size });
+        trackEvent("tool_used", { tool: "exif" });
       } catch (err) {
         updateEntry(id, {
           status: "error",

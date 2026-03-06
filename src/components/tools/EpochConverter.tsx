@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Clock, Copy, Check, Play } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 /* ── Helpers ─────────────────────────────────────────── */
 
@@ -92,6 +93,8 @@ function normalizeEpoch(raw: string): number | null {
 /* ── Component ───────────────────────────────────────── */
 
 export default function EpochConverter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "epoch" }); }, []);
+
   const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const timezones = useRef(getTimezones());
 
@@ -146,6 +149,7 @@ export default function EpochConverter() {
       return;
     }
     syncFromDate(d, "epoch");
+    trackEvent("tool_used", { tool: "epoch" });
   };
 
   const handleHumanChange = (raw: string) => {

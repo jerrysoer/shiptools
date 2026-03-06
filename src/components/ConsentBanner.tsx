@@ -30,10 +30,16 @@ export default function ConsentBanner() {
   return (
     <div className="fixed bottom-0 inset-x-0 z-50 p-4">
       <div className="max-w-xl mx-auto bg-bg-elevated border border-border rounded-xl px-5 py-4 shadow-lg">
-        <p className="text-text-secondary text-sm mb-3">
+        <p className="text-text-secondary text-sm mb-2">
           ShipLocal uses privacy-respecting analytics to improve the product. No
           personal data is collected.
         </p>
+        <a
+          href="/transparency"
+          className="text-accent text-xs hover:text-accent/80 transition-colors mb-3 inline-block"
+        >
+          Learn what we track
+        </a>
         <div className="flex items-center gap-4">
           <button
             onClick={accept}

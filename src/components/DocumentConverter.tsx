@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Download, Trash2, Loader2, CircleCheck, DownloadCloud } from "lucide-react";
 import DropZone from "./DropZone";
 import PrivacyBadge from "./PrivacyBadge";
 import { useConverter } from "@/hooks/useConverter";
 import { MAX_DOCUMENT_SIZE } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 import type { DocumentFormat } from "@/lib/types";
 
 const OUTPUT_FORMATS: DocumentFormat[] = ["pdf", "txt", "csv", "json"];
@@ -364,6 +365,8 @@ async function convertDocument(
 }
 
 export default function DocumentConverter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "convert-documents" }); }, []);
+
   const [outputFormat, setOutputFormat] = useState<DocumentFormat>("pdf");
 
   const {
@@ -486,7 +489,7 @@ export default function DocumentConverter() {
             </div>
           ))}
           {pendingCount > 0 && (
-            <button onClick={processAll} className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors">
+            <button onClick={() => { trackEvent("tool_used", { tool: "convert-documents" }); processAll(); }} className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors">
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}
             </button>
           )}

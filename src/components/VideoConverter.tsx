@@ -12,6 +12,7 @@ import DropZone from "./DropZone";
 import PrivacyBadge from "./PrivacyBadge";
 import { useConverter } from "@/hooks/useConverter";
 import { MAX_VIDEO_SIZE } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 import { getFFmpeg, isFFmpegLoaded } from "@/lib/ffmpeg";
 import type { VideoFormat, ConversionOptions } from "@/lib/types";
 
@@ -180,6 +181,8 @@ function formatTime(seconds: number): string {
 }
 
 export default function VideoConverter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "convert-video" }); }, []);
+
   const [outputFormat, setOutputFormat] = useState<VideoFormat>("mp4");
   const [resolution, setResolution] = useState("original");
   const [crf, setCrf] = useState(DEFAULT_CRF);
@@ -492,7 +495,7 @@ export default function VideoConverter() {
 
           {pendingCount > 0 && (
             <button
-              onClick={processAll}
+              onClick={() => { trackEvent("tool_used", { tool: "convert-video" }); processAll(); }}
               className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
             >
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}

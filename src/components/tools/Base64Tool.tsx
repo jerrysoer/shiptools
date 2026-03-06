@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Binary, Copy, Check, FileUp, Type, ArrowRightLeft } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 type Direction = "encode" | "decode" | "auto";
 type InputMode = "text" | "file";
@@ -43,6 +44,8 @@ function base64ToUtf8(b64: string): string {
 }
 
 export default function Base64Tool() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "base64" }); }, []);
+
   const [direction, setDirection] = useState<Direction>("auto");
   const [inputMode, setInputMode] = useState<InputMode>("text");
   const [input, setInput] = useState("");
@@ -80,6 +83,7 @@ export default function Base64Tool() {
           setOutput(base64ToUtf8(text));
         }
         setActualDirection(resolvedDir);
+        trackEvent("tool_used", { tool: "base64" });
       } catch {
         setError(
           resolvedDir === "decode"

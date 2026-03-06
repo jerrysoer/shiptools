@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { FileText, Eraser } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 interface Stats {
   characters: number;
@@ -66,8 +67,18 @@ const STAT_LABELS: { key: keyof Stats; label: string }[] = [
 ];
 
 export default function WordCounter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "wordcount" }); }, []);
+
+  const firedRef = useRef(false);
   const [text, setText] = useState("");
   const stats = useMemo(() => computeStats(text), [text]);
+
+  useEffect(() => {
+    if (text.trim() && !firedRef.current) {
+      firedRef.current = true;
+      trackEvent("tool_used", { tool: "wordcount" });
+    }
+  }, [text]);
 
   return (
     <div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   FileArchive,
   FolderOpen,
@@ -15,6 +15,7 @@ import {
 import DropZone from "@/components/DropZone";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
 import { MAX_ZIP_SIZE } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 
 type Mode = "create" | "extract";
 
@@ -206,6 +207,7 @@ function CreateMode() {
       const blob = await zip.generateAsync({ type: "blob" });
       const filename = (zipName.trim() || "archive") + ".zip";
       downloadBlob(blob, filename);
+      trackEvent("tool_used", { tool: "zip" });
     } finally {
       setCreating(false);
     }
@@ -340,6 +342,7 @@ function ExtractMode() {
       setEntries(extracted);
       setTree(buildTree(extracted));
       setZipFileName(file.name);
+      trackEvent("tool_used", { tool: "zip" });
     } catch {
       setError("Failed to read ZIP file. It may be corrupted or password-protected.");
     } finally {
@@ -443,6 +446,8 @@ function ExtractMode() {
 // ─── Main Component ─────────────────────────────────────────
 
 export default function ZipTool() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "zip" }); }, []);
+
   const [mode, setMode] = useState<Mode>("create");
 
   return (

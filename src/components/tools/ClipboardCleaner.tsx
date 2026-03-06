@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Copy, CheckCircle, Trash2, ClipboardPaste } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 interface CleaningReport {
   inlineStyles: number;
@@ -133,6 +134,8 @@ function reportEntries(report: CleaningReport): { label: string; count: number }
 }
 
 export default function ClipboardCleaner() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "clipboard" }); }, []);
+
   const [result, setResult] = useState<{
     plainText: string;
     report: CleaningReport;
@@ -147,6 +150,7 @@ export default function ClipboardCleaner() {
 
     if (html) {
       setResult(cleanHtml(html));
+      trackEvent("tool_used", { tool: "clipboard" });
     } else if (plain) {
       setResult({ plainText: plain, report: {
         inlineStyles: 0,

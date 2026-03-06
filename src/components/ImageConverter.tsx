@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Download, Trash2, Loader2, CircleCheck, Lock, Unlock, DownloadCloud } from "lucide-react";
 import DropZone from "./DropZone";
 import PrivacyBadge from "./PrivacyBadge";
 import { useConverter } from "@/hooks/useConverter";
 import { MAX_IMAGE_SIZE } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 import type { ImageFormat } from "@/lib/types";
 
 const OUTPUT_FORMATS: ImageFormat[] = ["webp", "png", "jpg", "avif"];
@@ -270,6 +271,8 @@ async function convertImage(
 }
 
 export default function ImageConverter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "convert-images" }); }, []);
+
   const [outputFormat, setOutputFormat] = useState<ImageFormat>("webp");
   const [quality, setQuality] = useState(80);
   const [resizePreset, setResizePreset] = useState("Original");
@@ -530,7 +533,7 @@ export default function ImageConverter() {
 
           {pendingCount > 0 && (
             <button
-              onClick={processAll}
+              onClick={() => { trackEvent("tool_used", { tool: "convert-images" }); processAll(); }}
               className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
             >
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}

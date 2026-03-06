@@ -14,6 +14,7 @@ import {
   Check,
 } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 /* ── Types ───────────────────────────────────────────── */
 
@@ -356,6 +357,8 @@ export default function FingerprintViewer() {
   }, []);
 
   useEffect(() => {
+    trackEvent("tool_opened", { tool: "fingerprint" });
+    trackEvent("tool_used", { tool: "fingerprint" });
     run();
   }, [run]);
 

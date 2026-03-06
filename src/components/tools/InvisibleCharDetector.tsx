@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Type, Eraser, AlertTriangle, CheckCircle } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 import {
   detectInvisible,
   cleanText,
@@ -20,10 +21,17 @@ const CATEGORY_COLORS: Record<
 };
 
 export default function InvisibleCharDetector() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "invisible-chars" }); }, []);
+
   const [input, setInput] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const result = useMemo(() => (input ? detectInvisible(input) : null), [input]);
+  const result = useMemo(() => {
+    if (!input) return null;
+    const r = detectInvisible(input);
+    trackEvent("tool_used", { tool: "invisible-chars" });
+    return r;
+  }, [input]);
 
   /** Build a per-character lookup for invisible chars at each string position. */
   const charInfoByIndex = useMemo(() => {

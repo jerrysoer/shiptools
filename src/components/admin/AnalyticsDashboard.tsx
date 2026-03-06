@@ -1,5 +1,7 @@
 "use client";
 
+import { Download } from "lucide-react";
+
 interface DailyRow {
   date: string;
   event: string;
@@ -7,10 +9,13 @@ interface DailyRow {
   unique_sessions: number;
   country: string;
   properties_summary: Record<string, unknown> | null;
+  referrer_domain: string;
+  device_type: string;
 }
 
 interface Props {
   data: DailyRow[];
+  days: number;
 }
 
 // ─── SVG Chart Helpers ───────────────────────────────
@@ -210,9 +215,219 @@ function EmptyChart({ label }: { label: string }) {
   );
 }
 
+// ─── DonutChart ─────────────────────────────────────
+
+const DONUT_COLORS = [
+  "var(--color-accent)",
+  "var(--color-grade-a)",
+  "var(--color-grade-c)",
+];
+const DONUT_LABELS = ["Desktop", "Mobile", "Tablet"];
+
+function DonutChart({
+  segments,
+}: {
+  segments: { label: string; value: number; color: string }[];
+}) {
+  const total = segments.reduce((sum, s) => sum + s.value, 0);
+  if (total === 0) return <EmptyChart label="Device Split" />;
+
+  const radius = 70;
+  const circumference = 2 * Math.PI * radius;
+  let offset = 0;
+
+  return (
+    <div>
+      <h3 className="font-heading font-semibold text-lg mb-3">Device Split</h3>
+      <div className="flex items-center gap-8">
+        <svg viewBox="0 0 200 200" className="w-48 h-48 shrink-0">
+          {segments.map((seg) => {
+            const pct = seg.value / total;
+            const dash = pct * circumference;
+            const currentOffset = offset;
+            offset += dash;
+            return (
+              <circle
+                key={seg.label}
+                cx="100"
+                cy="100"
+                r={radius}
+                fill="none"
+                stroke={seg.color}
+                strokeWidth="24"
+                strokeDasharray={`${dash} ${circumference - dash}`}
+                strokeDashoffset={-currentOffset}
+                transform="rotate(-90 100 100)"
+              />
+            );
+          })}
+          <text
+            x="100"
+            y="96"
+            textAnchor="middle"
+            fill="var(--color-text-primary)"
+            fontSize="22"
+            fontWeight="600"
+            fontFamily="var(--font-heading)"
+          >
+            {total.toLocaleString()}
+          </text>
+          <text
+            x="100"
+            y="114"
+            textAnchor="middle"
+            fill="var(--color-text-tertiary)"
+            fontSize="11"
+            fontFamily="var(--font-body)"
+          >
+            total
+          </text>
+        </svg>
+        <div className="space-y-2">
+          {segments.map((seg) => (
+            <div key={seg.label} className="flex items-center gap-2 text-sm">
+              <span
+                className="inline-block w-3 h-3 rounded-sm shrink-0"
+                style={{ backgroundColor: seg.color }}
+              />
+              <span className="text-text-secondary">{seg.label}</span>
+              <span className="font-mono text-text-tertiary ml-auto">
+                {total > 0 ? Math.round((seg.value / total) * 100) : 0}%
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── FunnelChart ────────────────────────────────────
+
+const FUNNEL_STEPS = [
+  "page_view",
+  "tool_opened",
+  "tool_used",
+  "report_shared",
+] as const;
+
+const FUNNEL_LABELS: Record<string, string> = {
+  page_view: "Page Views",
+  tool_opened: "Tool Opened",
+  tool_used: "Tool Used",
+  report_shared: "Report Shared",
+};
+
+function FunnelChart({ data }: { data: DailyRow[] }) {
+  const stepCounts = new Map<string, number>();
+  for (const row of data) {
+    if (FUNNEL_STEPS.includes(row.event as (typeof FUNNEL_STEPS)[number])) {
+      stepCounts.set(
+        row.event,
+        (stepCounts.get(row.event) ?? 0) + row.count
+      );
+    }
+  }
+
+  const topCount = stepCounts.get("page_view") ?? 0;
+  if (topCount === 0) return <EmptyChart label="Engagement Funnel" />;
+
+  const barH = 36;
+  const gap = 12;
+  const maxBarW = CHART_W - 200;
+  const chartH = FUNNEL_STEPS.length * (barH + gap) + 10;
+
+  return (
+    <div>
+      <h3 className="font-heading font-semibold text-lg mb-3">
+        Engagement Funnel
+      </h3>
+      <svg
+        viewBox={`0 0 ${CHART_W} ${chartH}`}
+        className="w-full h-auto"
+        role="img"
+        aria-label="Engagement Funnel"
+      >
+        {FUNNEL_STEPS.map((step, i) => {
+          const count = stepCounts.get(step) ?? 0;
+          const pct = topCount > 0 ? (count / topCount) * 100 : 0;
+          const width = Math.max((count / topCount) * maxBarW, 2);
+          const y = i * (barH + gap) + 5;
+          const opacity = 1 - i * 0.2;
+
+          return (
+            <g key={step}>
+              <rect
+                x={0}
+                y={y}
+                width={width}
+                height={barH}
+                rx="4"
+                fill="var(--color-accent)"
+                opacity={opacity}
+              />
+              <text
+                x={width + 10}
+                y={y + barH / 2 + 1}
+                dominantBaseline="middle"
+                fill="var(--color-text-secondary)"
+                fontSize="12"
+                fontFamily="var(--font-body)"
+              >
+                {FUNNEL_LABELS[step]} — {count.toLocaleString()} (
+                {pct.toFixed(1)}%)
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+// ─── CSV Export ──────────────────────────────────────
+
+function downloadCSV(data: DailyRow[], days: number) {
+  const headers = [
+    "date",
+    "event",
+    "count",
+    "unique_sessions",
+    "country",
+    "referrer_domain",
+    "device_type",
+  ];
+
+  const rows = data.map((row) =>
+    [
+      row.date,
+      row.event,
+      row.count,
+      row.unique_sessions,
+      row.country ?? "",
+      row.referrer_domain ?? "",
+      row.device_type ?? "",
+    ].join(",")
+  );
+
+  const csv = [headers.join(","), ...rows].join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const dates = data.map((r) => r.date).sort();
+  const startDate = dates[0] ?? "unknown";
+  const endDate = dates[dates.length - 1] ?? "unknown";
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `shiplocal-analytics-${startDate}-${endDate}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 // ─── Main Dashboard ──────────────────────────────────
 
-export default function AnalyticsDashboard({ data }: Props) {
+export default function AnalyticsDashboard({ data, days }: Props) {
   // 1. Traffic Overview: daily page_view counts
   const pageViewsByDate = new Map<string, number>();
   const sessionsByDate = new Map<string, number>();
@@ -272,13 +487,49 @@ export default function AnalyticsDashboard({ data }: Props) {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 10);
 
+  // 4. Traffic Sources: top 10 referrer domains
+  const referrerCounts = new Map<string, number>();
+  for (const row of data) {
+    const domain = row.referrer_domain ?? "direct";
+    referrerCounts.set(domain, (referrerCounts.get(domain) ?? 0) + row.count);
+  }
+
+  const referrerBars = Array.from(referrerCounts.entries())
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 10)
+    .map(([name, value]) => ({ name, value }));
+
+  // 5. Device Split
+  const deviceCounts = new Map<string, number>();
+  for (const row of data) {
+    const device = row.device_type ?? "unknown";
+    deviceCounts.set(device, (deviceCounts.get(device) ?? 0) + row.count);
+  }
+
+  const deviceSegments = (["desktop", "mobile", "tablet"] as const).map(
+    (type, i) => ({
+      label: DONUT_LABELS[i],
+      value: deviceCounts.get(type) ?? 0,
+      color: DONUT_COLORS[i],
+    })
+  );
+
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-heading font-bold text-3xl mb-1">Analytics</h1>
-        <p className="text-text-secondary text-sm">
-          Last 30 days of aggregated usage data.
-        </p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="font-heading font-bold text-3xl mb-1">Analytics</h1>
+          <p className="text-text-secondary text-sm">
+            Last {days} days of aggregated usage data.
+          </p>
+        </div>
+        <button
+          onClick={() => downloadCSV(data, days)}
+          className="flex items-center gap-2 px-4 py-2 bg-bg-surface border border-border rounded-lg text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
+        >
+          <Download className="w-4 h-4" />
+          Download CSV
+        </button>
       </div>
 
       <div className="space-y-10">
@@ -333,6 +584,21 @@ export default function AnalyticsDashboard({ data }: Props) {
               </table>
             </div>
           )}
+        </div>
+
+        {/* Traffic Sources */}
+        <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <HorizontalBarChart bars={referrerBars} label="Traffic Sources" />
+        </div>
+
+        {/* Device Split + Engagement Funnel side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div className="bg-bg-surface border border-border rounded-xl p-6">
+            <DonutChart segments={deviceSegments} />
+          </div>
+          <div className="bg-bg-surface border border-border rounded-xl p-6">
+            <FunnelChart data={data} />
+          </div>
         </div>
       </div>
     </div>

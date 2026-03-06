@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Palette, Copy, Check, Plus, Trash2 } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 type GradientType = "linear" | "radial" | "conic";
 
@@ -15,6 +16,8 @@ interface ColorStop {
 let nextId = 3;
 
 export default function GradientGenerator() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "gradient" }); }, []);
+
   const [type, setType] = useState<GradientType>("linear");
   const [angle, setAngle] = useState(135);
   const [stops, setStops] = useState<ColorStop[]>([
@@ -44,6 +47,7 @@ export default function GradientGenerator() {
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(cssOutput);
+    trackEvent("tool_used", { tool: "gradient" });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };

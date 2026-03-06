@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Download, Trash2, Loader2, CircleCheck, DownloadCloud } from "lucide-react";
 import DropZone from "./DropZone";
 import PrivacyBadge from "./PrivacyBadge";
 import { useConverter } from "@/hooks/useConverter";
 import { MAX_AUDIO_SIZE } from "@/lib/constants";
+import { trackEvent } from "@/lib/analytics";
 import { getFFmpeg, isFFmpegLoaded } from "@/lib/ffmpeg";
 import type { AudioFormat, ConversionOptions } from "@/lib/types";
 
@@ -88,6 +89,8 @@ async function convertAudio(
 }
 
 export default function AudioConverter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "convert-audio" }); }, []);
+
   const [outputFormat, setOutputFormat] = useState<AudioFormat>("mp3");
   const [bitrate, setBitrate] = useState(192);
   const [isLoadingFFmpeg, setIsLoadingFFmpeg] = useState(false);
@@ -239,7 +242,7 @@ export default function AudioConverter() {
             </div>
           ))}
           {pendingCount > 0 && (
-            <button onClick={processAll} className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors">
+            <button onClick={() => { trackEvent("tool_used", { tool: "convert-audio" }); processAll(); }} className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors">
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}
             </button>
           )}

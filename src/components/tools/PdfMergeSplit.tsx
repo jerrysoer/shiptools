@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import DropZone from "@/components/DropZone";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 import { MAX_DOCUMENT_SIZE } from "@/lib/constants";
 
 // ---------------------------------------------------------------------------
@@ -111,6 +112,8 @@ function parsePageRanges(
 // ---------------------------------------------------------------------------
 
 export default function PdfMergeSplit() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "pdf-tools" }); }, []);
+
   const [mode, setMode] = useState<Mode>("merge");
 
   // ---- Merge state --------------------------------------------------------
@@ -232,6 +235,7 @@ export default function PdfMergeSplit() {
 
       const pdfBytes = await merged.save();
       downloadBlob(new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" }), "merged.pdf");
+      trackEvent("tool_used", { tool: "pdf-tools" });
     } catch (err) {
       setMergeError(
         err instanceof Error ? err.message : "Failed to merge PDFs"
@@ -352,6 +356,7 @@ export default function PdfMergeSplit() {
         const zipBlob = await zip.generateAsync({ type: "blob" });
         downloadBlob(zipBlob, `${baseName}_split.zip`);
       }
+      trackEvent("tool_used", { tool: "pdf-tools" });
     } catch (err) {
       setSplitError(
         err instanceof Error ? err.message : "Failed to split PDF"

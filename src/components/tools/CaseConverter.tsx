@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ALargeSmall, Copy, Check } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 type CaseType =
   | "upper"
@@ -80,6 +81,8 @@ function convert(text: string, type: CaseType): string {
 }
 
 export default function CaseConverter() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "case" }); }, []);
+
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [activeCase, setActiveCase] = useState<CaseType | null>(null);
@@ -90,6 +93,7 @@ export default function CaseConverter() {
       if (!input.trim()) return;
       setOutput(convert(input, type));
       setActiveCase(type);
+      trackEvent("tool_used", { tool: "case" });
     },
     [input]
   );

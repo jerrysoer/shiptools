@@ -10,6 +10,7 @@ import {
   ClipboardCopy,
 } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import { trackEvent } from "@/lib/analytics";
 
 type UuidFormat = "lowercase" | "uppercase" | "no-dashes";
 
@@ -25,6 +26,8 @@ function formatUuid(uuid: string, format: UuidFormat): string {
 }
 
 export default function UuidGenerator() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "uuid" }); }, []);
+
   const [count, setCount] = useState(1);
   const [format, setFormat] = useState<UuidFormat>("lowercase");
   const [uuids, setUuids] = useState<string[]>([]);
@@ -39,6 +42,7 @@ export default function UuidGenerator() {
     setUuids(generated);
     setCopiedIndex(null);
     setCopiedAll(false);
+    trackEvent("tool_used", { tool: "uuid" });
   }, [count]);
 
   // Generate on mount and when count changes

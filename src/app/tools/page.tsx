@@ -24,12 +24,21 @@ import {
   ALargeSmall,
   Sparkles,
   PenLine,
+  Shield,
+  Link as LinkIcon,
+  GitCompare,
+  Image,
+  Share2,
+  Camera,
+  EyeOff,
+  Mail,
+  FileSearch,
 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Developer & Privacy Tools — ShipLocal",
   description:
-    "20 developer and privacy tools that run entirely in your browser. Hash, encode, encrypt, generate, inspect — no uploads, no tracking.",
+    "38+ developer and privacy tools that run entirely in your browser. Hash, encode, encrypt, generate, diff, inspect — no uploads, no tracking.",
 };
 
 interface ToolEntry {
@@ -136,6 +145,78 @@ const DEVELOPER_TOOLS: ToolEntry[] = [
     title: "Case Converter",
     description: "Convert text between camelCase, snake_case, kebab-case, and more.",
   },
+  {
+    href: "/tools/cron",
+    icon: Clock,
+    title: "Cron Expression Builder",
+    description: "Build cron expressions visually with presets and human-readable output.",
+  },
+  {
+    href: "/tools/chmod",
+    icon: Shield,
+    title: "Chmod Calculator",
+    description: "Calculate Unix file permissions with a visual checkbox grid.",
+  },
+  {
+    href: "/tools/url",
+    icon: LinkIcon,
+    title: "URL Parser",
+    description: "Break URLs into protocol, host, path, params, and hash. Encode/decode.",
+  },
+  {
+    href: "/tools/lorem",
+    icon: Type,
+    title: "Lorem Ipsum Generator",
+    description: "Generate placeholder text by paragraphs, sentences, or words.",
+  },
+  {
+    href: "/tools/html-entities",
+    icon: Code,
+    title: "HTML Entity Encoder",
+    description: "Encode and decode HTML entities. Named, numeric, and hex support.",
+  },
+  {
+    href: "/tools/base-convert",
+    icon: Binary,
+    title: "Number Base Converter",
+    description: "Convert numbers between binary, octal, decimal, and hexadecimal.",
+  },
+  {
+    href: "/tools/diff",
+    icon: GitCompare,
+    title: "Text Diff / Compare",
+    description: "Compare two texts side by side with highlighted additions and deletions.",
+  },
+  {
+    href: "/tools/markdown",
+    icon: FileText,
+    title: "Markdown Editor",
+    description: "Write Markdown with a live preview. Toolbar for formatting shortcuts.",
+  },
+  {
+    href: "/tools/favicon",
+    icon: Image,
+    title: "Favicon Generator",
+    description: "Generate favicons from images or emoji in all required sizes.",
+  },
+  {
+    href: "/tools/og-preview",
+    icon: Share2,
+    title: "OG Image Preview",
+    description: "Preview how your page looks when shared on Twitter, Facebook, and LinkedIn.",
+  },
+  {
+    href: "/tools/palette",
+    icon: Palette,
+    title: "Color Palette from Image",
+    description: "Extract dominant colors from any image using k-means clustering.",
+  },
+  {
+    href: "/tools/code-screenshot",
+    icon: Camera,
+    title: "Code Screenshot",
+    description: "Create beautiful code screenshots with syntax highlighting and themes.",
+  },
 ];
 
 const AI_TOOLS: ToolEntry[] = [
@@ -177,6 +258,24 @@ const PRIVACY_TOOLS: ToolEntry[] = [
     icon: ClipboardPaste,
     title: "Clipboard Cleaner",
     description: "Paste rich text to strip tracking, styles, and hidden markup.",
+  },
+  {
+    href: "/tools/redact",
+    icon: EyeOff,
+    title: "Document Redactor",
+    description: "Detect and redact sensitive data in PDFs — emails, phones, SSNs, cards.",
+  },
+  {
+    href: "/tools/email-headers",
+    icon: Mail,
+    title: "Email Header Analyzer",
+    description: "Parse email headers to trace server hops and check SPF/DKIM/DMARC.",
+  },
+  {
+    href: "/tools/file-signature",
+    icon: FileSearch,
+    title: "File Signature Checker",
+    description: "Verify file types by magic bytes. Detect extension mismatches.",
   },
 ];
 

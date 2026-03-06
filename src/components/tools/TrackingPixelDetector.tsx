@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Unplug,
   Search,
@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
 import { classifyDomain } from "@/lib/scanner/trackers";
+import { trackEvent } from "@/lib/analytics";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -230,12 +231,15 @@ const SAMPLE_HTML = `<html>
 // ---------------------------------------------------------------------------
 
 export default function TrackingPixelDetector() {
+  useEffect(() => { trackEvent("tool_opened", { tool: "tracking-pixels" }); }, []);
+
   const [html, setHtml] = useState("");
   const [findings, setFindings] = useState<Finding[] | null>(null);
 
   const handleScan = useCallback(() => {
     if (!html.trim()) return;
     setFindings(analyzeHtml(html));
+    trackEvent("tool_used", { tool: "tracking-pixels" });
   }, [html]);
 
   const handleClear = useCallback(() => {

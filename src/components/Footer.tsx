@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SquareSlash } from "lucide-react";
 import AnalyticsStatus from "@/components/AnalyticsStatus";
 
@@ -10,6 +11,12 @@ export default function Footer() {
           <span>ShipLocal — Local-first productivity suite</span>
         </div>
         <div className="flex items-center gap-4">
+          <Link
+            href="/transparency"
+            className="hover:text-text-secondary transition-colors"
+          >
+            Transparency
+          </Link>
           <span>No tracking. No uploads. No cookies.</span>
           <AnalyticsStatus />
         </div>

@@ -90,6 +90,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // 4b. Log scan_initiated
+    if (supabase) {
+      supabase.from("sl_analytics_events").insert({
+        event: "scan_initiated",
+        properties: { domain },
+      }).then(() => {});
+    }
+
     // 5. Run scan (with 45s timeout — 15s buffer before Vercel's 60s hard limit)
     const SCAN_TIMEOUT_MS = 45_000;
     const scanData = await Promise.race([
@@ -132,6 +140,12 @@ export async function POST(req: NextRequest) {
         domain,
         requested_by_ip: hashIp(clientIp),
       });
+
+      // Log scan_completed
+      supabase.from("sl_analytics_events").insert({
+        event: "scan_completed",
+        properties: { domain, grade },
+      }).then(() => {});
     }
 
     return NextResponse.json({ success: true, result } satisfies ScanResponse);
