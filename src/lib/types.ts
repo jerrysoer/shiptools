@@ -91,7 +91,12 @@ export type AnalyticsEventName =
   | "telemetry_opted_out"
   | "ai_model_loaded"
   | "ai_tool_used"
-  | "ai_model_deleted";
+  | "ai_model_deleted"
+  | "recording_started"
+  | "recording_completed"
+  | "recording_exported"
+  | "recording_transcribed"
+  | "scan_captured";
 
 export interface AnalyticsEvent {
   event: AnalyticsEventName;

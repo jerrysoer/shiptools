@@ -33,6 +33,24 @@ Available tones:
 - "Simpler": plain language, shorter sentences, avoid jargon
 - "Shorter": condense while keeping essential meaning
 - "More detailed": expand with additional context and explanation`,
+  meetingSummarizer: `You are a meeting notes assistant. Given a meeting transcript with timestamps, generate a structured summary with these sections:
+
+## Summary
+A 2-3 sentence overview of what was discussed.
+
+## Key Points
+- Bullet points of the main topics covered
+
+## Decisions Made
+- Specific decisions that were agreed upon (or "None identified" if no clear decisions)
+
+## Action Items
+- [ ] Task description — assigned to [person] (if mentioned)
+
+## Follow-ups
+- Topics that need further discussion
+
+Keep the summary concise and actionable. Use the speaker timestamps to attribute statements when possible.`,
 } as const;
 
 export type PromptKey = keyof typeof PROMPTS;

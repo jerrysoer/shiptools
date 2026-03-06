@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { SquareSlash, ArrowLeftRight, Wrench, Sparkles } from "lucide-react";
+import { SquareSlash, ArrowLeftRight, Wrench, Sparkles, Mic } from "lucide-react";
 import { usePathname } from "next/navigation";
 import AIStatusBadge from "@/components/AIStatusBadge";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -9,6 +9,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 export default function Header() {
   const pathname = usePathname();
   const isConvert = pathname.startsWith("/convert");
+  const isRecord = pathname.startsWith("/record") || pathname.startsWith("/scan");
   const isTools = pathname.startsWith("/tools");
   const isAI = pathname.startsWith("/ai");
 
@@ -33,6 +34,19 @@ export default function Header() {
             <span className="flex items-center gap-1.5">
               <ArrowLeftRight className="w-4 h-4" />
               Convert
+            </span>
+          </Link>
+          <Link
+            href="/record"
+            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+              isRecord
+                ? "bg-bg-elevated text-text-primary"
+                : "text-text-secondary hover:text-text-primary"
+            }`}
+          >
+            <span className="flex items-center gap-1.5">
+              <Mic className="w-4 h-4" />
+              Record
             </span>
           </Link>
           <Link

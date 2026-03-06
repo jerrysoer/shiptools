@@ -13,6 +13,10 @@ import {
   Lock,
   Sparkles,
   Cpu,
+  Mic,
+  Monitor,
+  Camera,
+  FileImage,
 } from "lucide-react";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
@@ -171,6 +175,95 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
                 >
                   See all converters
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Record & Capture */}
+        <section className="px-6 pb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="border-t border-border pt-12">
+              <div className="text-center mb-8">
+                <h2 className="font-heading font-semibold text-2xl mb-2">
+                  Record, capture, and transcribe
+                </h2>
+                <p className="text-text-secondary">
+                  Voice memos, screen recordings, meeting notes, and document
+                  scanning — all processed locally with optional AI transcription.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <a
+                  href="/record/voice"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <Mic className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">Voice Memo</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    Record, bookmark, trim, and export audio
+                  </p>
+                </a>
+
+                <a
+                  href="/record/screen"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <Monitor className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">Screen Recorder</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    Capture screen with webcam overlay and audio
+                  </p>
+                </a>
+
+                <a
+                  href="/scan"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <Camera className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">Doc Scanner</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    Scan documents to PDF with edge detection and OCR
+                  </p>
+                </a>
+
+                <a
+                  href="/record/meeting"
+                  className="group bg-bg-surface border border-border rounded-xl p-6 hover:border-border-hover transition-colors"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-accent/10">
+                      <FileImage className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="font-heading font-semibold">Meeting Notes</h3>
+                  </div>
+                  <p className="text-text-tertiary text-sm">
+                    Record, transcribe, and summarize meetings with AI
+                  </p>
+                </a>
+              </div>
+
+              <div className="text-center">
+                <a
+                  href="/record"
+                  className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium text-sm transition-colors"
+                >
+                  See all recording tools
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
