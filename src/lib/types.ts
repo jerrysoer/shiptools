@@ -98,6 +98,8 @@ export interface AnalyticsEvent {
   properties?: Record<string, string | number | boolean>;
   timestamp?: string;
   session_id?: string;
+  referrer_domain?: string;
+  device_type?: string;
 }
 
 /** Converter types */
