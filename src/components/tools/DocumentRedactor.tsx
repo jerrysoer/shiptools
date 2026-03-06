@@ -77,23 +77,28 @@ export default function DocumentRedactor() {
       for (let i = 1; i <= doc.numPages; i++) {
         const page = await doc.getPage(i);
         const content = await page.getTextContent();
-        const pageText = content.items
-          .map((item) => ("str" in item ? item.str : ""))
-          .join(" ");
+        const items = content.items.map((item) => ("str" in item ? item.str : ""));
+        // Space-joined for normal PDFs
+        const pageText = items.join(" ");
+        // No-space join catches emails/phones split by LaTeX kerning
+        // (e.g. "jerry" + "@" + "gmail.com" → "jerry @ gmail.com" misses, but "jerry@gmail.com" matches)
+        const pageTextCollapsed = items.join("");
 
         for (const pattern of PATTERNS) {
-          const re = new RegExp(pattern.regex.source, pattern.regex.flags);
-          let m: RegExpExecArray | null;
-          while ((m = re.exec(pageText)) !== null) {
-            const key = `${pattern.type}:${m[0]}:${i}`;
-            if (!seen.has(key)) {
-              seen.add(key);
-              found.push({
-                type: pattern.type,
-                value: m[0],
-                page: i,
-                checked: true,
-              });
+          for (const text of [pageText, pageTextCollapsed]) {
+            const re = new RegExp(pattern.regex.source, pattern.regex.flags);
+            let m: RegExpExecArray | null;
+            while ((m = re.exec(text)) !== null) {
+              const key = `${pattern.type}:${m[0]}:${i}`;
+              if (!seen.has(key)) {
+                seen.add(key);
+                found.push({
+                  type: pattern.type,
+                  value: m[0],
+                  page: i,
+                  checked: true,
+                });
+              }
             }
           }
         }
@@ -148,20 +153,21 @@ export default function DocumentRedactor() {
         const content = await pdfPage.getTextContent();
         const viewport = pdfPage.getViewport({ scale: 1 });
 
-        for (const item of content.items) {
-          if (!("str" in item) || !item.str) continue;
+        // Build array of text items with position info
+        const textItems = content.items.filter(
+          (item): item is typeof item & { str: string; transform: number[]; width: number; height: number } =>
+            "str" in item && !!item.str
+        );
 
-          for (const match of pageMatches) {
+        for (const match of pageMatches) {
+          // Strategy 1: single item contains the match (normal PDFs)
+          for (const item of textItems) {
             if (item.str.includes(match.value)) {
-              // item.transform = [scaleX, skewX, skewY, scaleY, translateX, translateY]
               const tx = item.transform[4];
               const ty = item.transform[5];
               const height = item.transform[3] || item.height || 12;
               const width = item.width || match.value.length * height * 0.6;
-
-              // pdf-lib uses bottom-left origin, pdfjs uses top-left
               const pdfY = viewport.height - ty - height;
-
               page.drawRectangle({
                 x: tx - 1,
                 y: pdfY - 1,
@@ -170,6 +176,52 @@ export default function DocumentRedactor() {
                 color: rgb(0, 0, 0),
               });
             }
+          }
+
+          // Strategy 2: match spans multiple consecutive items (kerned/LaTeX PDFs)
+          // Concatenate items and find spans that form the match value
+          let concat = "";
+          const itemRanges: { start: number; end: number; itemIdx: number }[] = [];
+          for (let idx = 0; idx < textItems.length; idx++) {
+            const start = concat.length;
+            concat += textItems[idx].str;
+            itemRanges.push({ start, end: concat.length, itemIdx: idx });
+          }
+
+          let searchFrom = 0;
+          while (searchFrom < concat.length) {
+            const matchStart = concat.indexOf(match.value, searchFrom);
+            if (matchStart === -1) break;
+            const matchEnd = matchStart + match.value.length;
+            searchFrom = matchEnd;
+
+            // Find all items that overlap this match span
+            const spanItems = itemRanges.filter(
+              (r) => r.end > matchStart && r.start < matchEnd
+            );
+            if (spanItems.length <= 1) continue; // already handled by Strategy 1
+
+            // Draw rectangle covering all items in the span
+            let minX = Infinity, maxRight = 0, minY = Infinity, maxHeight = 0;
+            for (const { itemIdx } of spanItems) {
+              const item = textItems[itemIdx];
+              const tx = item.transform[4];
+              const ty = item.transform[5];
+              const h = item.transform[3] || item.height || 12;
+              const w = item.width || item.str.length * h * 0.6;
+              minX = Math.min(minX, tx);
+              maxRight = Math.max(maxRight, tx + w);
+              minY = Math.min(minY, ty);
+              maxHeight = Math.max(maxHeight, h);
+            }
+            const pdfY = viewport.height - minY - maxHeight;
+            page.drawRectangle({
+              x: minX - 1,
+              y: pdfY - 1,
+              width: maxRight - minX + 2,
+              height: maxHeight + 4,
+              color: rgb(0, 0, 0),
+            });
           }
         }
       }
