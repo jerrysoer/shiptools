@@ -11,7 +11,7 @@ export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const isConvert = pathname.startsWith("/convert");
-  const isRecord = pathname.startsWith("/record") || pathname.startsWith("/scan");
+  const isRecord = pathname.startsWith("/record");
   const isTools = pathname.startsWith("/tools");
   const isAI = pathname.startsWith("/ai");
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Mic, Pause, Play, Square, Bookmark } from "lucide-react";
+import { Pause, Play, Square, Bookmark } from "lucide-react";
 import type { RecordingState } from "@/lib/recording/types";
 import DurationDisplay from "./DurationDisplay";
 import type { Bookmark as BookmarkType } from "@/lib/recording/types";
@@ -69,7 +69,7 @@ export default function RecordingControls({
             className="group relative flex items-center justify-center w-20 h-20 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             title="Start recording"
           >
-            <Mic className="w-8 h-8" />
+            <span className="w-7 h-7 rounded-full bg-white" />
           </button>
         ) : (
           <button

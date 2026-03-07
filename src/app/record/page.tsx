@@ -1,11 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import {
-  Mic,
   MonitorSpeaker,
   Monitor,
-  Camera,
-  ImageIcon,
   Users,
 } from "lucide-react";
 import EditorialRule from "@/components/EditorialRule";
@@ -13,17 +10,10 @@ import EditorialRule from "@/components/EditorialRule";
 export const metadata: Metadata = {
   title: "Record & Capture — ShipLocal",
   description:
-    "Voice memos, screen recordings, meeting notes, and document scanning. All processed locally.",
+    "Screen recordings, audio capture, and meeting notes. All processed locally.",
 };
 
 const TOOLS = [
-  {
-    href: "/record/voice",
-    icon: Mic,
-    title: "Voice Memo",
-    description: "Record audio from your microphone with bookmarks and trimming.",
-    tag: "Audio",
-  },
   {
     href: "/record/audio",
     icon: MonitorSpeaker,
@@ -35,22 +25,8 @@ const TOOLS = [
     href: "/record/screen",
     icon: Monitor,
     title: "Screen Recorder",
-    description: "Record your screen with optional webcam overlay and audio. Export as WebM or MP4.",
+    description: "Record your screen with optional webcam overlay and audio. Export as WebM, MP4, or GIF.",
     tag: "Video",
-  },
-  {
-    href: "/record/gif",
-    icon: ImageIcon,
-    title: "GIF Recorder",
-    description: "Capture your screen as a high-quality animated GIF.",
-    tag: "Video",
-  },
-  {
-    href: "/scan",
-    icon: Camera,
-    title: "Document Scanner",
-    description: "Scan documents with your camera. Edge detection, perspective correction, OCR.",
-    tag: "Capture",
   },
   {
     href: "/record/meeting",

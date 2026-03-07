@@ -124,15 +124,15 @@ export default function HomePage() {
               <DepartmentCard
                 number="02"
                 name="Record & Capture"
-                toolCount={6}
-                description="Voice memos, screen recordings, meeting notes, and document scanning — processed on your device."
+                toolCount={3}
+                description="Screen recordings, audio capture, and meeting notes — processed on your device."
                 href="/record"
                 deptColor="var(--color-dept-record)"
               />
               <DepartmentCard
                 number="03"
                 name="Convert"
-                toolCount={6}
+                toolCount={7}
                 description="Images, documents, audio, and video — all processed locally with WebAssembly. No uploads."
                 href="/convert"
                 deptColor="var(--color-dept-convert)"

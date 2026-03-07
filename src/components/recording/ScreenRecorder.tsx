@@ -68,7 +68,7 @@ import ToolPageHeader from "../tools/ToolPageHeader";
 type RecorderMode = "standard" | "annotate";
 
 interface ExportFormat {
-  id: "webm" | "mp4";
+  id: "webm" | "mp4" | "gif";
   label: string;
   description: string;
 }
@@ -76,6 +76,7 @@ interface ExportFormat {
 const EXPORT_FORMATS: ExportFormat[] = [
   { id: "webm", label: "WebM", description: "Instant (native format)" },
   { id: "mp4", label: "MP4", description: "Universal compatibility (slower)" },
+  { id: "gif", label: "GIF", description: "Animated image (shorter clips)" },
 ];
 
 const PIP_POSITIONS: Array<{ id: PipPosition; label: string }> = [
@@ -117,7 +118,7 @@ export default function ScreenRecorder() {
   const [micEnabled, setMicEnabled] = useState(true);
   const [pipPosition, setPipPosition] = useState<PipPosition>("bottom-right");
   const [pipSize, setPipSize] = useState<PipSize>("medium");
-  const [showSettings, setShowSettings] = useState(false);
+  const [showSettings, setShowSettings] = useState(true);
 
   // ---- Recording state ----
   const [state, setState] = useState<RecordingState>("idle");
@@ -339,11 +340,70 @@ export default function ScreenRecorder() {
 
   // ---- Export ----
   const handleExport = useCallback(
-    async (format: "webm" | "mp4") => {
+    async (format: "webm" | "mp4" | "gif") => {
       if (!screenResult) return;
 
       if (format === "webm") {
         downloadBlob(screenResult.blob, "screen-recording.webm");
+        return;
+      }
+
+      if (format === "gif") {
+        // GIF export via ffmpeg (2-step palette approach)
+        setIsExporting(true);
+        setExportProgress(0);
+
+        try {
+          const { getFFmpeg } = await import("@/lib/ffmpeg");
+          const { fetchFile } = await import("@ffmpeg/util");
+
+          setExportProgress(10);
+          const ffmpeg = await getFFmpeg();
+          setExportProgress(20);
+
+          await ffmpeg.writeFile(
+            "input.webm",
+            await fetchFile(screenResult.blob),
+          );
+          setExportProgress(30);
+
+          // Step 1: Generate palette
+          await ffmpeg.exec([
+            "-i", "input.webm",
+            "-vf", "fps=10,palettegen=stats_mode=diff",
+            "-y", "palette.png",
+          ]);
+          setExportProgress(50);
+
+          // Step 2: Apply palette to create GIF
+          await ffmpeg.exec([
+            "-i", "input.webm",
+            "-i", "palette.png",
+            "-lavfi", "fps=10[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle",
+            "-y", "output.gif",
+          ]);
+          setExportProgress(85);
+
+          const data = await ffmpeg.readFile("output.gif");
+          const blob = new Blob([data], { type: "image/gif" });
+          downloadBlob(blob, "screen-recording.gif");
+
+          // Cleanup
+          try {
+            await ffmpeg.deleteFile("input.webm");
+            await ffmpeg.deleteFile("palette.png");
+            await ffmpeg.deleteFile("output.gif");
+          } catch {
+            // Non-fatal
+          }
+
+          setExportProgress(100);
+        } catch (err) {
+          console.error("GIF export failed:", err);
+          setError("GIF export failed. Try downloading as WebM instead.");
+        } finally {
+          setIsExporting(false);
+        }
         return;
       }
 
@@ -677,7 +737,7 @@ export default function ScreenRecorder() {
               autoPlay
               muted
               playsInline
-              className="w-full rounded-xl"
+              className="w-full aspect-video object-contain rounded-xl"
             />
 
             {/* Webcam PiP overlay */}
@@ -772,7 +832,7 @@ export default function ScreenRecorder() {
               <Download className="w-4 h-4 text-accent" />
               Export
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
               {EXPORT_FORMATS.map((format) => (
                 <button
                   key={format.id}
@@ -796,7 +856,7 @@ export default function ScreenRecorder() {
                 <div className="flex items-center gap-2 mb-1">
                   <Loader2 className="w-3 h-3 animate-spin text-accent" />
                   <span className="text-xs text-text-secondary">
-                    Converting to MP4... {exportProgress}%
+                    Exporting... {exportProgress}%
                   </span>
                 </div>
                 <div className="w-full bg-bg-elevated rounded-full h-1.5 overflow-hidden">

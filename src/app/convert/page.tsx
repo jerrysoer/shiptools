@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Image, FileText, Music, Video, Layers, FileArchive } from "lucide-react";
+import { Image, FileText, Music, Video, Layers, Camera, FileArchive } from "lucide-react";
 import EditorialRule from "@/components/EditorialRule";
 
 export const metadata: Metadata = {
@@ -44,6 +44,13 @@ const CONVERTERS = [
     title: "PDF Merge & Split",
     description: "Merge multiple PDFs into one or split by page ranges.",
     formats: ["PDF"],
+  },
+  {
+    href: "/convert/scan",
+    icon: Camera,
+    title: "Document Scanner",
+    description: "Scan documents with your camera. Edge detection, perspective correction, OCR.",
+    formats: ["PDF", "PNG", "JPG"],
   },
   {
     href: "/convert/zip",
