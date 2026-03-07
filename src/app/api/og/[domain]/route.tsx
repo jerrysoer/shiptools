@@ -57,7 +57,7 @@ export async function GET(
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0F0F0F",
+          backgroundColor: "#151311",
           fontFamily: "sans-serif",
         }}
       >
@@ -132,7 +132,7 @@ export async function GET(
             position: "absolute",
             bottom: 32,
             fontSize: 16,
-            color: "#F87171",
+            color: "#D4704A",
           }}
         >
           uploadless.dev

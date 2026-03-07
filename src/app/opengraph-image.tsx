@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Uploadless — browser tools, no cloud required";
+export const alt = "Uploadless — Privacy-First Browser Tools";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,9 +15,9 @@ export default function OgImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#0F0F0F",
+          backgroundColor: "#151311",
           backgroundImage:
-            "radial-gradient(circle at 50% 50%, #1A1918 0%, #0F0F0F 70%)",
+            "radial-gradient(circle at 50% 50%, #1A1918 0%, #151311 70%)",
         }}
       >
         {/* Monogram accent */}
@@ -25,7 +25,7 @@ export default function OgImage() {
           style={{
             fontSize: 40,
             fontWeight: 800,
-            color: "#F87171",
+            color: "#D4704A",
             fontFamily: "Georgia, serif",
             lineHeight: 1,
             marginBottom: 20,
@@ -39,7 +39,7 @@ export default function OgImage() {
           style={{
             width: 48,
             height: 2,
-            backgroundColor: "#F87171",
+            backgroundColor: "#D4704A",
             marginBottom: 28,
             borderRadius: 1,
           }}
@@ -68,7 +68,20 @@ export default function OgImage() {
             textAlign: "center",
           }}
         >
-          browser tools, no cloud required
+          Privacy-First Browser Tools
+        </div>
+
+        {/* Bottom tagline */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 40,
+            fontSize: 18,
+            color: "#5C5652",
+            letterSpacing: "2px",
+          }}
+        >
+          Zero uploads. Zero tracking.
         </div>
       </div>
     ),
