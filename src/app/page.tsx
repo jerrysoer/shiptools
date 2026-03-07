@@ -41,10 +41,10 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="/ai"
+                href="/ai/models"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-text-primary font-medium transition-colors hover:bg-bg-surface w-full sm:w-auto"
               >
-                Try local AI
+                Manage AI Models
               </a>
             </div>
           </div>
@@ -109,11 +109,11 @@ export default function HomePage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <DepartmentCard
                 number="01"
-                name="AI-Powered"
-                toolCount={1}
-                description="Summarize and rewrite text using a local AI model. No server, no API keys, no data leaves your device."
-                href="/ai"
-                deptColor="var(--color-dept-ai)"
+                name="All Tools"
+                toolCount={62}
+                description="Developer, AI, and privacy tools — hash, encode, generate, review code, analyze documents, and more."
+                href="/tools"
+                deptColor="var(--color-dept-dev)"
               />
               <DepartmentCard
                 number="02"
@@ -130,14 +130,6 @@ export default function HomePage() {
                 description="Images, documents, audio, and video — all processed locally with WebAssembly. No uploads."
                 href="/convert"
                 deptColor="var(--color-dept-convert)"
-              />
-              <DepartmentCard
-                number="04"
-                name="Developer Tools"
-                toolCount={18}
-                description="Hash, encode, format, generate, diff, and inspect. The everyday toolkit for developers."
-                href="/tools"
-                deptColor="var(--color-dept-dev)"
               />
             </div>
           </div>

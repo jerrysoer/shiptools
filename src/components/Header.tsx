@@ -16,10 +16,9 @@ export default function Header() {
   const isAI = pathname.startsWith("/ai");
 
   const navLinks = [
-    { href: "/ai", label: "AI", active: isAI },
     { href: "/record", label: "Record", active: isRecord },
     { href: "/convert", label: "Convert", active: isConvert },
-    { href: "/tools", label: "Tools", active: isTools },
+    { href: "/tools", label: "Tools", active: isTools || isAI },
   ];
 
   // Close drawer on route change

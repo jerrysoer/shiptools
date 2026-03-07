@@ -3,9 +3,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Developer & Privacy Tools — BrowserShip",
+  title: "Tool Hub — BrowserShip",
   description:
-    "18 developer and 7 privacy tools that run entirely in your browser. Hash, encode, encrypt, generate, diff, inspect — no uploads, no tracking.",
+    "62 developer, AI, and privacy tools that run entirely in your browser. Hash, encode, encrypt, generate, review code, analyze documents — no uploads, no tracking.",
 };
 
 export default function ToolsLayout({
