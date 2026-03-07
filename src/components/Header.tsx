@@ -10,7 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isConvert = pathname.startsWith("/convert");
+  const isConvert = pathname.startsWith("/convert") || pathname.startsWith("/sign");
   const isRecord = pathname.startsWith("/record");
   const isTools = pathname.startsWith("/tools");
   const isAI = pathname.startsWith("/ai");

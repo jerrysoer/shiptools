@@ -132,7 +132,7 @@ export default function HomePage() {
               <DepartmentCard
                 number="03"
                 name="Convert"
-                toolCount={7}
+                toolCount={8}
                 description="Images, documents, audio, and video — all processed locally with WebAssembly. No uploads."
                 href="/convert"
                 deptColor="var(--color-dept-convert)"
