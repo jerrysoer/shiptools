@@ -14,6 +14,13 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-4">
           <Link
+            href="/about"
+            className="hover:text-text-secondary transition-colors"
+          >
+            About
+          </Link>
+          <span className="text-text-tertiary">·</span>
+          <Link
             href="/transparency"
             className="hover:text-text-secondary transition-colors"
           >
