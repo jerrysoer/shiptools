@@ -24,7 +24,7 @@ export default function HomePage() {
               Local-first productivity suite
             </p>
             <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-4 sm:mb-6 max-w-4xl">
-              37 tools that never
+              Tools that never
               <br />
               leave your browser
             </h1>
