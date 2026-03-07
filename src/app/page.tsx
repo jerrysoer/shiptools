@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import EditorialRule from "@/components/EditorialRule";
-import WorkflowSection from "@/components/WorkflowSection";
 import FeaturedToolCard from "@/components/FeaturedToolCard";
 import DepartmentCard from "@/components/DepartmentCard";
 
@@ -55,12 +54,7 @@ export default function HomePage() {
           <EditorialRule />
         </div>
 
-        {/* Workflow Section */}
-        <WorkflowSection />
-
-        <div className="max-w-6xl mx-auto px-6">
-          <EditorialRule />
-        </div>
+        {/* TODO: Workflow Section — future roadmap (chain tools into pipelines) */}
 
         {/* The Feature — Asymmetric layout */}
         <section className="px-6 py-12 sm:py-20">
