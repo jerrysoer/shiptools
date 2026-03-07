@@ -2,7 +2,7 @@
 
 Local-first productivity suite — 40+ tools that run entirely in your browser. No uploads, no accounts, no tracking.
 
-**[shiptools.vercel.app](https://shiptools.vercel.app)**
+**[shiplocal.vercel.app](https://shiplocal.vercel.app)**
 
 ## What is this?
 
