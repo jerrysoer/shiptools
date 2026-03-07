@@ -270,7 +270,7 @@ export default function TransparencyPage() {
 
               <div className="grid sm:grid-cols-2 gap-3">
                 <a
-                  href="https://github.com/jerrysoer/shiptools/blob/main/src/lib/analytics.ts"
+                  href="https://github.com/jerrysoer/shiplocal/blob/main/src/lib/analytics.ts"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
@@ -281,7 +281,7 @@ export default function TransparencyPage() {
                   <ExternalLink className="w-3.5 h-3.5 text-text-tertiary ml-auto" />
                 </a>
                 <a
-                  href="https://github.com/jerrysoer/shiptools/blob/main/src/lib/consent.ts"
+                  href="https://github.com/jerrysoer/shiplocal/blob/main/src/lib/consent.ts"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
@@ -292,7 +292,7 @@ export default function TransparencyPage() {
                   <ExternalLink className="w-3.5 h-3.5 text-text-tertiary ml-auto" />
                 </a>
                 <a
-                  href="https://github.com/jerrysoer/shiptools/blob/main/src/app/api/analytics/event/route.ts"
+                  href="https://github.com/jerrysoer/shiplocal/blob/main/src/app/api/analytics/event/route.ts"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
@@ -303,7 +303,7 @@ export default function TransparencyPage() {
                   <ExternalLink className="w-3.5 h-3.5 text-text-tertiary ml-auto" />
                 </a>
                 <a
-                  href="https://github.com/jerrysoer/shiptools/blob/main/src/app/api/analytics/aggregate/route.ts"
+                  href="https://github.com/jerrysoer/shiplocal/blob/main/src/app/api/analytics/aggregate/route.ts"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
@@ -317,7 +317,7 @@ export default function TransparencyPage() {
 
               <div className="mt-4 text-center">
                 <a
-                  href="https://github.com/jerrysoer/shiptools/issues/new"
+                  href="https://github.com/jerrysoer/shiplocal/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-accent-fg font-medium rounded-xl hover:bg-accent/90 transition-colors text-sm"
