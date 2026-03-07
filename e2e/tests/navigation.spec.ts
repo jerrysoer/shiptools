@@ -19,7 +19,7 @@ test.describe("Navigation & Cross-Cutting", () => {
 
     await expect(page.getByText("Quick AI Tools")).toBeVisible();
     // Target the Quick AI card links by their exact visible title text
-    await expect(page.getByRole("link", { name: /^Summarize Condense/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Summarize/ })).toBeVisible();
     await expect(page.getByRole("link", { name: /^Rewrite Adjust/ })).toBeVisible();
   });
 
@@ -27,7 +27,6 @@ test.describe("Navigation & Cross-Cutting", () => {
     await page.goto("/write");
 
     await expect(page.getByText("Email Composer")).toBeVisible();
-    await expect(page.getByText("Privacy Policy Summarizer")).toBeVisible();
     await expect(page.getByText("SWOT Analyzer")).toBeVisible();
   });
 

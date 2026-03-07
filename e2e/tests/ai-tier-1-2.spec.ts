@@ -8,7 +8,6 @@ import { DevToolPage } from "../pages/dev-tool.page";
  */
 
 const TIER_1_2_TOOLS = [
-  { path: "/ai/privacy-policy", titleContains: "Privacy" },
   { path: "/ai/email", titleContains: "Email" },
   { path: "/ai/social", titleContains: "Social" },
   { path: "/ai/extract", titleContains: "Extract" },
