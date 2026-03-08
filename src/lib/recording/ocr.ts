@@ -63,29 +63,53 @@ export async function recognizeText(
   }
 
   const typedWorker = worker as {
-    recognize: (image: HTMLCanvasElement | Blob | string) => Promise<{
+    recognize: (
+      image: HTMLCanvasElement | Blob | string,
+      options?: Record<string, unknown>,
+      output?: { text?: boolean; blocks?: boolean },
+    ) => Promise<{
       data: {
         text: string;
         confidence: number;
-        words: Array<{
-          text: string;
-          confidence: number;
-          bbox: { x0: number; y0: number; x1: number; y1: number };
-        }>;
+        blocks: Array<{
+          paragraphs: Array<{
+            lines: Array<{
+              words: Array<{
+                text: string;
+                confidence: number;
+                bbox: { x0: number; y0: number; x1: number; y1: number };
+              }>;
+            }>;
+          }>;
+        }> | null;
       };
     }>;
   };
 
-  const { data } = await typedWorker.recognize(image);
+  const { data } = await typedWorker.recognize(image, {}, { text: true, blocks: true });
+
+  // Flatten words from the nested block structure (Tesseract.js v7)
+  const words: OCRResult["words"] = [];
+  if (data.blocks) {
+    for (const block of data.blocks) {
+      for (const para of block.paragraphs) {
+        for (const line of para.lines) {
+          for (const w of line.words) {
+            words.push({
+              text: w.text,
+              confidence: w.confidence,
+              bbox: w.bbox,
+            });
+          }
+        }
+      }
+    }
+  }
 
   return {
     text: data.text,
     confidence: data.confidence,
-    words: (data.words ?? []).map((w) => ({
-      text: w.text,
-      confidence: w.confidence,
-      bbox: w.bbox,
-    })),
+    words,
   };
 }
 
