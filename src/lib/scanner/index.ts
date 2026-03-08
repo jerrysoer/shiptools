@@ -4,6 +4,7 @@ import type { Browser, Page } from "puppeteer-core";
 import type { ScanData, TrackerMatch } from "../types";
 import { classifyCookies, isThirdPartyDomain, detectServerSideProcessing } from "./classify";
 import { classifyDomain, classifyDomains, INLINE_SCRIPT_PATTERNS } from "./trackers";
+import { acceptConsentBanner, type ConsentResult } from "./consent";
 import { PAGE_TIMEOUT_MS } from "../constants";
 
 /** Stealth browser args to avoid headless detection */
@@ -247,10 +248,23 @@ export async function scanUrl(url: string): Promise<ScanData> {
     }
     const loadTimeMs = Date.now() - startTime;
 
-    // Wait for lazy-loaded trackers (many fire after DOMContentLoaded + delays).
-    // If navigation timed out, we still wait — the request handler may still be
-    // capturing third-party domains from in-flight requests.
-    await new Promise((r) => setTimeout(r, navigationTimedOut ? 2000 : 5000));
+    // Attempt to click consent banners to reveal the full tracking profile.
+    // Many sites consent-gate heavy tracking — without clicking "Accept All",
+    // we'd only see the pre-consent baseline (e.g. 5 cookies instead of 637).
+    let consentResult: ConsentResult = { bannerDetected: false, bannerClicked: false, cmpName: null };
+    if (!navigationTimedOut) {
+      consentResult = await acceptConsentBanner(page);
+    }
+
+    // Wait for lazy-loaded trackers using adaptive network idle.
+    // If consent was clicked, the consent module already waited 3s — brief settle.
+    // If no consent, wait longer for deferred scripts to fire.
+    const idleTimeout = consentResult.bannerClicked ? 2000 : navigationTimedOut ? 2000 : 5000;
+    try {
+      await page.waitForNetworkIdle({ timeout: idleTimeout, idleTime: 500 });
+    } catch {
+      // Network didn't settle within timeout — continue with captured data
+    }
 
     // Scan <script> tags for inline and external trackers
     const scriptTrackers = await extractScriptTrackers(page, pageDomain);
@@ -298,6 +312,13 @@ export async function scanUrl(url: string): Promise<ScanData> {
       domain: pageDomain,
       scannedAt: new Date().toISOString(),
       loadTimeMs,
+      consent: {
+        bannerDetected: consentResult.bannerDetected,
+        bannerClicked: consentResult.bannerClicked,
+        cmpName: consentResult.cmpName,
+        googleConsentMode: consentResult.googleConsentMode,
+        consentDefaultGranted: consentResult.consentDefaultGranted,
+      },
       cookies: {
         total: cookies.length,
         firstParty: cookies.filter((c) => !c.thirdParty).length,

@@ -11,6 +11,7 @@ import {
   BarChart3,
   Server,
   ExternalLink,
+  ShieldCheck,
 } from "lucide-react";
 import AIChip from "@/components/AIChip";
 import AIStreamOutput from "@/components/AIStreamOutput";
@@ -251,8 +252,18 @@ export default function AuditReport({ result }: AuditReportProps) {
       )}
 
       {/* Scan meta */}
-      <div className="text-center text-text-tertiary text-xs font-mono">
-        Scanned at {new Date(scan.scannedAt).toLocaleString()} · Load time: {scan.loadTimeMs}ms
+      <div className="text-center text-text-tertiary text-xs font-mono space-y-1">
+        <div>
+          Scanned at {new Date(scan.scannedAt).toLocaleString()} · Load time: {scan.loadTimeMs}ms
+        </div>
+        {scan.consent?.bannerClicked && (
+          <div className="flex items-center justify-center gap-1.5">
+            <ShieldCheck className="w-3 h-3" />
+            <span>
+              Cookie consent banner{scan.consent.cmpName ? ` (${scan.consent.cmpName})` : ""} detected and accepted to reveal full tracking profile
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

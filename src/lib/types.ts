@@ -23,6 +23,13 @@ export interface ScanData {
   domain: string;
   scannedAt: string;
   loadTimeMs: number;
+  consent: {
+    bannerDetected: boolean;
+    bannerClicked: boolean;
+    cmpName: string | null;
+    googleConsentMode?: boolean;
+    consentDefaultGranted?: boolean;
+  };
   cookies: {
     total: number;
     firstParty: number;

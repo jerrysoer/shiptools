@@ -19,11 +19,11 @@ function linearScore(value: number, bestAt: number, worstAt: number): number {
 }
 
 export function computeScores(scan: ScanData): AuditScores {
-  const thirdPartyCookies = linearScore(scan.cookies.thirdParty, 0, 200);
-  const thirdPartyDomains = linearScore(scan.thirdPartyDomains.total, 0, 50);
+  const thirdPartyCookies = linearScore(scan.cookies.thirdParty, 0, 30);
+  const thirdPartyDomains = linearScore(scan.thirdPartyDomains.total, 0, 20);
   const sessionRecording = scan.trackers.sessionRecording.length > 0 ? 0 : 100;
   const adNetworks = linearScore(scan.trackers.advertising.length, 0, 2);
-  const analyticsTrackers = linearScore(scan.trackers.analytics.length, 0, 4);
+  const analyticsTrackers = linearScore(scan.trackers.analytics.length, 0, 3);
   const serverSide = scan.serverSideProcessing ? 0 : 100;
 
   const total = Math.round(
