@@ -1,18 +1,13 @@
 import {
   // Write tab — AI Writing
   Mail,
-  Share2,
   Shield,
   PenTool,
   // Write tab — Document Analysis
   FileJson,
   FileText,
   Users,
-  Briefcase,
   Receipt,
-  LayoutGrid,
-  HeartPulse,
-  Tags,
   // Write tab — AI Text Processing
   FileStack,
   ScanText,
@@ -111,10 +106,10 @@ export const QUICK_TOOLS: QuickTool[] = [
     href: "/ai/summarize",
     icon: Sparkles,
     title: "Summarize",
-    description: "Condense text to key points or analyze privacy policies",
+    description: "Condense text or analyze privacy policies",
   },
   {
-    href: "/ai/rewrite",
+    href: "/ai/writer?mode=rewrite",
     icon: Sparkles,
     title: "Rewrite",
     description: "Adjust tone, length, style",
@@ -122,7 +117,7 @@ export const QUICK_TOOLS: QuickTool[] = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
-// TAB 1: WRITE — 16 tools in accordion + 2 Quick AI = 18 total
+// TAB 1: WRITE — 10 tools in accordion + 2 Quick AI = 12 total
 // "I need to compose, analyze, or process text."
 // ═══════════════════════════════════════════════════════════════════════
 
@@ -130,22 +125,16 @@ export const WRITE_GROUPS: ToolHubGroup[] = [
   {
     label: "AI Writing",
     tools: [
-      { href: "/ai/email", icon: Mail, title: "Email Composer", description: "Draft emails with tone control — professional, casual, follow-up.", ai: { tier: "Balanced+", capability: "email_compose" } },
-      { href: "/ai/social", icon: Share2, title: "Social Post Generator", description: "Create platform-optimized posts for Twitter, LinkedIn, Instagram.", ai: { tier: "Balanced+", capability: "social_post" } },
+      { href: "/ai/writer", icon: PenTool, title: "Writer", description: "Compose emails, social posts, rewrite text, or write with custom instructions.", ai: { tier: "Balanced+", capability: "email_compose" } },
       { href: "/ai/tech-writing", icon: PenTool, title: "Tech Writing Assistant", description: "Generate technical documentation and guides.", ai: { tier: "Ollama", capability: "tech_writing" } },
     ],
   },
   {
     label: "Document Analysis",
     tools: [
+      { href: "/ai/analyze", icon: FileSearch, title: "Analyzer", description: "Analyze contracts, job postings, meeting notes, sentiment, keywords, and SWOT.", ai: { tier: "Tiny+", capability: "sentiment" } },
       { href: "/ai/extract", icon: FileJson, title: "Structured Extractor", description: "Extract structured JSON from unstructured text using a custom schema.", ai: { tier: "General+", capability: "extract_json" } },
-      { href: "/ai/contracts", icon: FileText, title: "Contract Analyzer", description: "Analyze contracts and flag clauses by severity.", ai: { tier: "General+", capability: "contract_analyze" } },
-      { href: "/ai/meeting-minutes", icon: Users, title: "Meeting Minutes", description: "Generate structured minutes from meeting transcripts.", ai: { tier: "General+", capability: "meeting_minutes" } },
-      { href: "/ai/job-analyzer", icon: Briefcase, title: "Job Description Analyzer", description: "Analyze job postings for red flags, requirements, and match tips.", ai: { tier: "General+", capability: "job_analyze" } },
       { href: "/ai/receipts", icon: Receipt, title: "Receipt Parser", description: "Upload receipt images \u2192 OCR \u2192 structured line items and totals.", ai: { tier: "General+", capability: "receipt_parse" } },
-      { href: "/ai/swot", icon: LayoutGrid, title: "SWOT Analyzer", description: "Strategic SWOT analysis for businesses and projects.", ai: { tier: "Reasoning", capability: "swot" } },
-      { href: "/ai/sentiment", icon: HeartPulse, title: "Sentiment Analyzer", description: "Analyze emotional tone and sentiment of text.", ai: { tier: "Tiny+", capability: "sentiment" } },
-      { href: "/ai/keywords", icon: Tags, title: "Keyword Extractor", description: "Extract and categorize keywords from text.", ai: { tier: "Tiny+", capability: "keywords" } },
     ],
   },
   {
@@ -313,7 +302,7 @@ const countTools = (groups: ToolHubGroup[]) =>
 const countAI = (groups: ToolHubGroup[]) =>
   groups.reduce((sum, g) => sum + g.tools.filter((t) => t.ai).length, 0);
 
-export const WRITE_TOOL_COUNT = countTools(WRITE_GROUPS) + QUICK_TOOLS.length; // 16 + 2 = 18
+export const WRITE_TOOL_COUNT = countTools(WRITE_GROUPS) + QUICK_TOOLS.length; // 10 + 2 = 12
 export const CODE_TOOL_COUNT = countTools(CODE_GROUPS);   // 29
 export const MEDIA_TOOL_COUNT = countTools(MEDIA_GROUPS);  // 15
 export const PROTECT_TOOL_COUNT = countTools(PROTECT_GROUPS); // 12

@@ -1,7 +1,5 @@
-"use client";
-
-import MeetingMinutesGenerator from "@/components/tools/MeetingMinutesGenerator";
+import { redirect } from "next/navigation";
 
 export default function MeetingMinutesPage() {
-  return <MeetingMinutesGenerator />;
+  redirect("/ai/analyze?mode=meeting");
 }

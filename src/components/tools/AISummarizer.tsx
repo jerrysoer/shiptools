@@ -8,6 +8,7 @@ import { PROMPTS } from "@/lib/ai/prompts";
 import AIStreamOutput from "@/components/AIStreamOutput";
 import FeatureLock from "@/components/ai/FeatureLock";
 import ToolPageHeader from "@/components/tools/ToolPageHeader";
+import FileTextInput from "@/components/FileTextInput";
 import { trackEvent } from "@/lib/analytics";
 
 type SummaryMode = "general" | "privacy-policy";
@@ -110,6 +111,9 @@ export default function AISummarizer() {
               ))}
             </div>
           </div>
+
+          {/* File upload */}
+          <FileTextInput onTextExtracted={(text) => setInput(text)} />
 
           {/* Input */}
           <div>

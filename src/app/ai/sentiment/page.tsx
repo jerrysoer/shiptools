@@ -1,7 +1,5 @@
-"use client";
-
-import SentimentAnalyzer from "@/components/tools/SentimentAnalyzer";
+import { redirect } from "next/navigation";
 
 export default function SentimentPage() {
-  return <SentimentAnalyzer />;
+  redirect("/ai/analyze?mode=sentiment");
 }

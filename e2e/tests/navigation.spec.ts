@@ -20,14 +20,14 @@ test.describe("Navigation & Cross-Cutting", () => {
     await expect(page.getByText("Quick AI Tools")).toBeVisible();
     // Target the Quick AI card links by their exact visible title text
     await expect(page.getByRole("link", { name: /^Summarize/ })).toBeVisible();
-    await expect(page.getByRole("link", { name: /^Rewrite Adjust/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: /^Rewrite/ })).toBeVisible();
   });
 
-  test("write page lists AI writing tools", async ({ page }) => {
+  test("write page lists consolidated AI writing tools", async ({ page }) => {
     await page.goto("/write");
 
-    await expect(page.getByText("Email Composer")).toBeVisible();
-    await expect(page.getByText("SWOT Analyzer")).toBeVisible();
+    await expect(page.getByText("Writer")).toBeVisible();
+    await expect(page.getByText("Analyzer")).toBeVisible();
   });
 
   // ─── Code Tab (/tools) ────────────────────────────────────────────

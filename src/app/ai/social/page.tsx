@@ -1,7 +1,5 @@
-"use client";
-
-import SocialPostGenerator from "@/components/tools/SocialPostGenerator";
+import { redirect } from "next/navigation";
 
 export default function SocialPage() {
-  return <SocialPostGenerator />;
+  redirect("/ai/writer?mode=social");
 }

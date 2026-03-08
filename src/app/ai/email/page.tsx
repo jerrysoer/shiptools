@@ -1,7 +1,5 @@
-"use client";
-
-import EmailComposer from "@/components/tools/EmailComposer";
+import { redirect } from "next/navigation";
 
 export default function EmailPage() {
-  return <EmailComposer />;
+  redirect("/ai/writer?mode=email");
 }

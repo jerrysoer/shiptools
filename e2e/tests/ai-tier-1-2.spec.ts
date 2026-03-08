@@ -8,13 +8,13 @@ import { DevToolPage } from "../pages/dev-tool.page";
  */
 
 const TIER_1_2_TOOLS = [
-  { path: "/ai/email", titleContains: "Email" },
-  { path: "/ai/social", titleContains: "Social" },
+  { path: "/ai/writer", titleContains: "Writer" },
+  { path: "/ai/writer?mode=email", titleContains: "Writer" },
+  { path: "/ai/writer?mode=social", titleContains: "Writer" },
+  { path: "/ai/analyze", titleContains: "Analyzer" },
+  { path: "/ai/analyze?mode=contract", titleContains: "Analyzer" },
   { path: "/ai/extract", titleContains: "Extract" },
   { path: "/ai/receipts", titleContains: "Receipt" },
-  { path: "/ai/contracts", titleContains: "Contract" },
-  { path: "/ai/meeting-minutes", titleContains: "Meeting" },
-  { path: "/ai/job-analyzer", titleContains: "Job" },
 ] as const;
 
 test.describe("AI Tier 1-2 Tools (F8)", () => {
@@ -29,7 +29,7 @@ test.describe("AI Tier 1-2 Tools (F8)", () => {
   test("AI tool pages show form, FeatureLock, or WebGPU warning", async ({
     page,
   }) => {
-    await page.goto("/ai/email");
+    await page.goto("/ai/writer");
 
     // Three possible states:
     // 1. WebGPU + model loaded: form with textarea
@@ -50,7 +50,7 @@ test.describe("AI Tier 1-2 Tools (F8)", () => {
   });
 
   test("AI tool pages render content below heading", async ({ page }) => {
-    await page.goto("/ai/email");
+    await page.goto("/ai/writer");
     const heading = page.getByRole("heading", { level: 1 });
     await expect(heading).toBeVisible();
 
@@ -58,10 +58,10 @@ test.describe("AI Tier 1-2 Tools (F8)", () => {
     // either the form (WebGPU + model), the lock (WebGPU + no model),
     // or a "WebGPU required" message. Any of these is valid.
     const body = await page.textContent("body");
-    const hasForm = body?.includes("Compose") || body?.includes("Generate");
+    const hasForm = body?.includes("Compose") || body?.includes("Generate") || body?.includes("Rewrite");
     const hasLock = body?.includes("requires") || body?.includes("Upgrade");
     const hasWebGPUWarning = body?.includes("WebGPU");
-    const hasHeading = body?.includes("Email");
+    const hasHeading = body?.includes("Writer");
     // On no-WebGPU browsers, FeatureLock returns null — only heading visible
     expect(hasForm || hasLock || hasWebGPUWarning || hasHeading).toBe(true);
   });

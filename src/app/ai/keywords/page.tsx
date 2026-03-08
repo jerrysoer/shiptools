@@ -1,7 +1,5 @@
-"use client";
-
-import KeywordExtractor from "@/components/tools/KeywordExtractor";
+import { redirect } from "next/navigation";
 
 export default function KeywordsPage() {
-  return <KeywordExtractor />;
+  redirect("/ai/analyze?mode=keywords");
 }

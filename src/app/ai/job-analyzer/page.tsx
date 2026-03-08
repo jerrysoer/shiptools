@@ -1,7 +1,5 @@
-"use client";
-
-import JobDescriptionAnalyzer from "@/components/tools/JobDescriptionAnalyzer";
+import { redirect } from "next/navigation";
 
 export default function JobAnalyzerPage() {
-  return <JobDescriptionAnalyzer />;
+  redirect("/ai/analyze?mode=job");
 }

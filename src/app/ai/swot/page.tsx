@@ -1,7 +1,5 @@
-"use client";
-
-import SWOTAnalyzer from "@/components/tools/SWOTAnalyzer";
+import { redirect } from "next/navigation";
 
 export default function SWOTPage() {
-  return <SWOTAnalyzer />;
+  redirect("/ai/analyze?mode=swot");
 }

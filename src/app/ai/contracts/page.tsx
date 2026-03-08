@@ -1,7 +1,5 @@
-"use client";
-
-import ContractAnalyzer from "@/components/tools/ContractAnalyzer";
+import { redirect } from "next/navigation";
 
 export default function ContractsPage() {
-  return <ContractAnalyzer />;
+  redirect("/ai/analyze?mode=contract");
 }
