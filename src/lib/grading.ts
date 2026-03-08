@@ -4,12 +4,16 @@ import type { AuditScores, PrivacyGrade, ScanData } from "./types";
  * Privacy grading algorithm.
  *
  * Each factor is scored 0-100 where 100 = best privacy, then weighted:
- *   - Third-party cookies: 25%
- *   - Third-party domains: 20%
- *   - Session recording:   20%
- *   - Ad networks:         15%
- *   - Analytics trackers:  10%
- *   - Server-side processing: 10%
+ *   - Third-party cookies:  20%  (less reliable from US due to geo-fencing)
+ *   - Third-party domains:  20%  (reliable from US)
+ *   - Session recording:    20%  (binary, reliable)
+ *   - Ad networks:          20%  (reliable from US — increased weight)
+ *   - Analytics trackers:   10%  (reliable)
+ *   - Server-side:          10%  (heuristic)
+ *
+ * Tracker diversity penalty: when trackers span multiple categories
+ * (analytics + advertising + recording + social), it signals a site that
+ * monetizes visitors aggressively. Applied as a small penalty to the total.
  */
 
 function linearScore(value: number, bestAt: number, worstAt: number): number {
@@ -26,14 +30,33 @@ export function computeScores(scan: ScanData): AuditScores {
   const analyticsTrackers = linearScore(scan.trackers.analytics.length, 0, 3);
   const serverSide = scan.serverSideProcessing ? 0 : 100;
 
-  const total = Math.round(
-    thirdPartyCookies * 0.25 +
-      thirdPartyDomains * 0.2 +
-      sessionRecording * 0.2 +
-      adNetworks * 0.15 +
-      analyticsTrackers * 0.1 +
-      serverSide * 0.1
+  // Tracker diversity: how many categories have at least one tracker?
+  const categoriesPresent = [
+    scan.trackers.analytics.length > 0,
+    scan.trackers.advertising.length > 0,
+    scan.trackers.sessionRecording.length > 0,
+    scan.trackers.social.length > 0,
+  ].filter(Boolean).length;
+  const trackerDiversity = linearScore(categoriesPresent, 0, 3);
+
+  // Consent-default-granted penalty: if the site silently grants consent
+  // for US visitors (no banner shown, tracking fires immediately), penalize
+  const consentPenalty =
+    scan.consent.googleConsentMode && scan.consent.consentDefaultGranted ? 5 : 0;
+
+  const weightedTotal = Math.round(
+    thirdPartyCookies * 0.20 +
+      thirdPartyDomains * 0.20 +
+      sessionRecording * 0.20 +
+      adNetworks * 0.20 +
+      analyticsTrackers * 0.10 +
+      serverSide * 0.10
   );
+
+  // Apply diversity penalty: if trackers span 3+ categories, deduct up to 10 points
+  const diversityPenalty = categoriesPresent >= 3 ? (categoriesPresent - 2) * 5 : 0;
+
+  const total = Math.max(0, Math.min(100, weightedTotal - diversityPenalty - consentPenalty));
 
   return {
     thirdPartyCookies,
@@ -42,6 +65,7 @@ export function computeScores(scan: ScanData): AuditScores {
     adNetworks,
     analyticsTrackers,
     serverSide,
+    trackerDiversity,
     total,
   };
 }

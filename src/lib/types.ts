@@ -57,6 +57,8 @@ export interface AuditScores {
   adNetworks: number;
   analyticsTrackers: number;
   serverSide: number;
+  /** How many tracker categories (analytics/ads/recording/social) are present (0-100) */
+  trackerDiversity: number;
   /** Weighted total (0-100) */
   total: number;
 }

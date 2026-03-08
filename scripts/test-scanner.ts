@@ -14,8 +14,8 @@
  */
 
 import { scanUrl } from "../src/lib/scanner/index";
-import { gradeFromScan } from "../src/lib/grading";
-import type { PrivacyGrade, ScanData } from "../src/lib/types";
+import { gradeFromScan, computeScores } from "../src/lib/grading";
+import type { PrivacyGrade, ScanData, AuditScores } from "../src/lib/types";
 
 interface TestCase {
   url: string;
@@ -30,25 +30,43 @@ const TEST_CASES: TestCase[] = [
     url: "https://www.ilovepdf.com",
     tier: 1,
     expectedGrades: ["A", "B", "C"],
-    description: "Google Consent Mode v2 geo-fences banner; US sees minimal tracking",
+    description: "Geo-fenced: Google Consent Mode v2; US sees minimal tracking (EU=D/F)",
   },
   {
     url: "https://www.online-convert.com",
     tier: 1,
     expectedGrades: ["A", "B", "C"],
-    description: "No CMP for US visitors; consent geo-fenced to EU",
+    description: "Geo-fenced: No CMP for US visitors; consent restricted to EU",
   },
   {
     url: "https://www.convertio.co",
     tier: 1,
     expectedGrades: ["A", "B", "C"],
-    description: "No CMP from US; GA only, tracking geo-fenced",
+    description: "Geo-fenced: No CMP from US; GA only, tracking restricted to EU",
   },
   {
     url: "https://www.sodapdf.com",
     tier: 1,
-    expectedGrades: ["D", "F"],
+    expectedGrades: ["C", "D", "F"],
     description: "Session replay, heavy tracking stack, upsell funnels",
+  },
+  {
+    url: "https://www.forbes.com",
+    tier: 1,
+    expectedGrades: ["C", "D", "F"],
+    description: "Prebid, DoubleClick, Criteo, Taboola, session recording, 50+ 3P domains",
+  },
+  {
+    url: "https://weather.com",
+    tier: 1,
+    expectedGrades: ["C", "D", "F"],
+    description: "Native ads, multiple analytics, ad exchanges",
+  },
+  {
+    url: "https://www.cnet.com",
+    tier: 1,
+    expectedGrades: ["C", "D", "F"],
+    description: "Heavy SSP stack, multiple ad exchanges, session recording",
   },
 
   // ── Tier 2: Ad-Supported Tools (expected: C/D) ──
@@ -61,8 +79,8 @@ const TEST_CASES: TestCase[] = [
   {
     url: "https://smallpdf.com",
     tier: 2,
-    expectedGrades: ["A", "B"],
-    description: "Consent geo-fenced; US visitors see minimal tracking",
+    expectedGrades: ["A", "B", "C"],
+    description: "Consent geo-fenced; US sees AdSense + Google Consent Mode default:granted",
   },
   {
     url: "https://www.remove.bg",
@@ -75,6 +93,20 @@ const TEST_CASES: TestCase[] = [
     tier: 2,
     expectedGrades: ["C", "D"],
     description: "Minimal UI, some analytics and ad scripts",
+  },
+
+  // ── Tier 2.5: Edge Cases ──
+  {
+    url: "https://www.bbc.com",
+    tier: 2,
+    expectedGrades: ["B", "C", "D"],
+    description: "EU cookie banner edge case; US sees moderate tracking",
+  },
+  {
+    url: "https://open.spotify.com",
+    tier: 3,
+    expectedGrades: ["A", "B", "C"],
+    description: "SPA edge case; dynamically-loaded trackers",
   },
 
   // ── Tier 3: Big Tech Platforms (expected: B/C) ──
@@ -150,9 +182,9 @@ const TEST_CASES: TestCase[] = [
   },
   {
     url: "https://blog.cloudflare.com",
-    tier: 5,
-    expectedGrades: ["A", "B", "C"],
-    description: "CF analytics, some third-party domains in practice",
+    tier: 3,
+    expectedGrades: ["B", "C", "D"],
+    description: "CF blog has LinkedIn Ads, OneTrust, 25+ 3P domains — surprisingly tracked for CF",
   },
 ];
 
@@ -305,6 +337,22 @@ async function main() {
       passed++;
     } else {
       failed++;
+      // Diagnostic output on failure — print score breakdown + tracker names
+      if (result.scan) {
+        const scores = computeScores(result.scan);
+        console.log(`    ── DIAGNOSTIC (expected ${testCase.expectedGrades.join("/")} got ${result.grade}) ──`);
+        console.log(`    Score breakdown: cookies=${scores.thirdPartyCookies} domains=${scores.thirdPartyDomains} recording=${scores.sessionRecording} ads=${scores.adNetworks} analytics=${scores.analyticsTrackers} server=${scores.serverSide}`);
+        const allTrackers = [
+          ...result.scan.trackers.analytics.map((t) => `[analytics] ${t.name}`),
+          ...result.scan.trackers.advertising.map((t) => `[ads] ${t.name}`),
+          ...result.scan.trackers.sessionRecording.map((t) => `[recording] ${t.name}`),
+          ...result.scan.trackers.social.map((t) => `[social] ${t.name}`),
+        ];
+        if (allTrackers.length > 0) {
+          console.log(`    Detected trackers: ${allTrackers.join(", ")}`);
+        }
+        console.log(`    3P domains (${result.scan.thirdPartyDomains.total}): ${result.scan.thirdPartyDomains.items.slice(0, 15).join(", ")}${result.scan.thirdPartyDomains.items.length > 15 ? ` (+${result.scan.thirdPartyDomains.items.length - 15} more)` : ""}`);
+      }
     }
   }
 

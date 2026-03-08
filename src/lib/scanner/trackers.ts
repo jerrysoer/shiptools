@@ -97,6 +97,63 @@ const TRACKER_DB: TrackerEntry[] = [
   { pattern: /vwo\.com/i, name: "VWO", category: "analytics" },
   { pattern: /launchdarkly\.com/i, name: "LaunchDarkly", category: "analytics" },
 
+  // --- Live Chat / Customer Success ---
+  { pattern: /intercom\.io/i, name: "Intercom", category: "analytics" },
+  { pattern: /intercomcdn\.com/i, name: "Intercom", category: "analytics" },
+  { pattern: /drift\.com/i, name: "Drift", category: "analytics" },
+  { pattern: /js\.driftt\.com/i, name: "Drift", category: "analytics" },
+  { pattern: /zendesk\.com/i, name: "Zendesk", category: "analytics" },
+  { pattern: /zdassets\.com/i, name: "Zendesk", category: "analytics" },
+  { pattern: /freshdesk\.com/i, name: "Freshdesk", category: "analytics" },
+  { pattern: /freshchat\.com/i, name: "Freshchat", category: "analytics" },
+  { pattern: /livechatinc\.com/i, name: "LiveChat", category: "analytics" },
+  { pattern: /crisp\.chat/i, name: "Crisp", category: "analytics" },
+  { pattern: /tawk\.to/i, name: "Tawk.to", category: "analytics" },
+  { pattern: /hubspot\.com/i, name: "HubSpot", category: "analytics" },
+  { pattern: /hs-analytics\.net/i, name: "HubSpot Analytics", category: "analytics" },
+  { pattern: /hsforms\.net/i, name: "HubSpot Forms", category: "analytics" },
+
+  // --- Fingerprinting / Bot Detection ---
+  { pattern: /fpjs\.io/i, name: "FingerprintJS", category: "analytics" },
+  { pattern: /fingerprintjs\.com/i, name: "FingerprintJS", category: "analytics" },
+  { pattern: /fpcdn\.io/i, name: "FingerprintJS", category: "analytics" },
+  { pattern: /botd\.io/i, name: "BotD", category: "analytics" },
+
+  // --- Video Analytics ---
+  { pattern: /wistia\.com/i, name: "Wistia", category: "analytics" },
+  { pattern: /wistia\.net/i, name: "Wistia", category: "analytics" },
+  { pattern: /jwplayer\.com/i, name: "JW Player", category: "analytics" },
+  { pattern: /jwpltx\.com/i, name: "JW Player", category: "analytics" },
+  { pattern: /player\.vimeo\.com/i, name: "Vimeo", category: "social" },
+  { pattern: /youtube\.com/i, name: "YouTube", category: "social" },
+  { pattern: /ytimg\.com/i, name: "YouTube", category: "social" },
+
+  // --- Ad Exchanges / SSPs ---
+  { pattern: /prebid\.org/i, name: "Prebid", category: "advertising" },
+  { pattern: /sovrn\.com/i, name: "Sovrn", category: "advertising" },
+  { pattern: /triplelift\.com/i, name: "TripleLift", category: "advertising" },
+  { pattern: /gumgum\.com/i, name: "GumGum", category: "advertising" },
+  { pattern: /33across\.com/i, name: "33Across", category: "advertising" },
+  { pattern: /smartadserver\.com/i, name: "Smart Ad Server", category: "advertising" },
+  { pattern: /id5-sync\.com/i, name: "ID5", category: "advertising" },
+  { pattern: /quantserve\.com/i, name: "Quantcast", category: "advertising" },
+  { pattern: /bluekai\.com/i, name: "Oracle BlueKai", category: "advertising" },
+  { pattern: /exelator\.com/i, name: "Nielsen eXelator", category: "advertising" },
+  { pattern: /mathtag\.com/i, name: "MediaMath", category: "advertising" },
+  { pattern: /intentiq\.com/i, name: "IntentIQ", category: "advertising" },
+  { pattern: /audigent\.com/i, name: "Audigent", category: "advertising" },
+
+  // --- Emerging + Mobile Attribution ---
+  { pattern: /braze\.com/i, name: "Braze", category: "advertising" },
+  { pattern: /appboy\.com/i, name: "Braze", category: "advertising" },
+  { pattern: /customer\.io/i, name: "Customer.io", category: "analytics" },
+  { pattern: /mparticle\.com/i, name: "mParticle", category: "analytics" },
+  { pattern: /statsig\.com/i, name: "Statsig", category: "analytics" },
+  { pattern: /branch\.io/i, name: "Branch", category: "analytics" },
+  { pattern: /app\.link/i, name: "Branch", category: "analytics" },
+  { pattern: /appsflyer\.com/i, name: "AppsFlyer", category: "advertising" },
+  { pattern: /adjust\.com/i, name: "Adjust", category: "advertising" },
+
   // --- Social ---
   { pattern: /platform\.twitter\.com/i, name: "Twitter", category: "social" },
   { pattern: /platform\.linkedin\.com/i, name: "LinkedIn", category: "social" },
@@ -128,6 +185,31 @@ export const INLINE_SCRIPT_PATTERNS: { pattern: RegExp; name: string; category: 
   { pattern: /\bSnaptr\s*\(/, name: "Snapchat Pixel", category: "advertising" },
   { pattern: /\bobApi\s*\(/, name: "Outbrain", category: "advertising" },
   { pattern: /\bpendo\.initialize\b/, name: "Pendo", category: "session-recording" },
+  // --- Segment ---
+  { pattern: /\banalytics\.track\s*\(/, name: "Segment", category: "analytics" },
+  { pattern: /\banalytics\.identify\s*\(/, name: "Segment", category: "analytics" },
+  { pattern: /\banalytics\.page\s*\(/, name: "Segment", category: "analytics" },
+  // --- RudderStack ---
+  { pattern: /\brudderanalytics\b/, name: "RudderStack", category: "analytics" },
+  // --- GTM dataLayer ---
+  { pattern: /\bdataLayer\.push\s*\(/, name: "Google Tag Manager", category: "analytics" },
+  // --- Intercom ---
+  { pattern: /\bIntercom\s*\(\s*['"]boot['"]/, name: "Intercom", category: "analytics" },
+  { pattern: /\bwindow\.intercomSettings\b/, name: "Intercom", category: "analytics" },
+  // --- Drift ---
+  { pattern: /\bdrift\.load\b/, name: "Drift", category: "analytics" },
+  { pattern: /\bdrift\.api\b/, name: "Drift", category: "analytics" },
+  // --- Zendesk ---
+  { pattern: /\bzE\s*\(\s*['"]webWidget['"]/, name: "Zendesk", category: "analytics" },
+  // --- Statsig ---
+  { pattern: /\bstatsig\.initialize\b/, name: "Statsig", category: "analytics" },
+  // --- Braze ---
+  { pattern: /\bbraze\.initialize\b/, name: "Braze", category: "advertising" },
+  // --- Customer.io ---
+  { pattern: /\b_cio\.identify\b/, name: "Customer.io", category: "analytics" },
+  // --- FingerprintJS ---
+  { pattern: /\bFingerprintJS\.load\b/, name: "FingerprintJS", category: "analytics" },
+  { pattern: /\bFpjsClient\b/, name: "FingerprintJS", category: "analytics" },
 ];
 
 /**

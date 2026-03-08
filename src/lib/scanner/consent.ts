@@ -249,23 +249,27 @@ export async function acceptConsentBanner(page: Page): Promise<ConsentResult> {
 }
 
 /**
- * Detect Google Consent Mode v2 in inline scripts.
+ * Detect Google Consent Mode v2 in inline scripts and dataLayer.
  *
- * Sites using `gtag('consent', 'default', {...})` declare a default consent
- * state. When `isgdpr=false` (US visitors), the banner may not appear but
- * tracking fires silently with `analytics_storage: 'granted'`.
+ * Two detection paths:
+ * 1. **Inline scripts**: `gtag('consent', 'default', {...})` — the standard approach.
+ * 2. **dataLayer**: Some sites push consent config through GTM's `dataLayer` array
+ *    rather than inline `gtag()` calls. Format: `['consent', 'default', {...}]`.
+ *
+ * When `analytics_storage: 'granted'` is the default (US visitors), tracking
+ * fires silently without any consent banner.
  */
 async function detectGoogleConsentMode(
   page: Page
 ): Promise<{ detected: boolean; defaultState: "granted" | "denied" | "unknown" }> {
   try {
     const result = await page.evaluate(() => {
+      // --- Path 1: Inline script detection ---
       const scripts = document.querySelectorAll("script:not([src])");
       for (const script of scripts) {
         const content = script.textContent || "";
         // Match gtag('consent', 'default', { ... })
         if (/gtag\s*\(\s*['"]consent['"]\s*,\s*['"]default['"]/.test(content)) {
-          // Check if analytics_storage or ad_storage defaults to 'granted'
           const grantedMatch = /analytics_storage\s*:\s*['"]granted['"]/.test(content) ||
             /ad_storage\s*:\s*['"]granted['"]/.test(content);
           const deniedMatch = /analytics_storage\s*:\s*['"]denied['"]/.test(content) ||
@@ -276,6 +280,50 @@ async function detectGoogleConsentMode(
           };
         }
       }
+
+      // --- Path 2: dataLayer consent signals ---
+      const dl = (window as unknown as Record<string, unknown>).dataLayer;
+      if (Array.isArray(dl)) {
+        for (const entry of dl) {
+          // dataLayer format: ['consent', 'default', { analytics_storage: 'granted' }]
+          if (Array.isArray(entry) && entry[0] === "consent" && entry[1] === "default") {
+            const config = entry[2] as Record<string, string> | undefined;
+            if (config) {
+              const grantedMatch =
+                config.analytics_storage === "granted" || config.ad_storage === "granted";
+              const deniedMatch =
+                config.analytics_storage === "denied" || config.ad_storage === "denied";
+              return {
+                detected: true,
+                defaultState: grantedMatch ? "granted" : deniedMatch ? "denied" : "unknown",
+              };
+            }
+          }
+          // Also check for object format: { event: 'consent_default', ... }
+          if (
+            typeof entry === "object" &&
+            entry !== null &&
+            !Array.isArray(entry)
+          ) {
+            const obj = entry as Record<string, unknown>;
+            if (
+              (obj.event === "consent_default" || obj.event === "default_consent") &&
+              typeof obj.analytics_storage === "string"
+            ) {
+              return {
+                detected: true,
+                defaultState:
+                  obj.analytics_storage === "granted" || obj.ad_storage === "granted"
+                    ? "granted"
+                    : obj.analytics_storage === "denied" || obj.ad_storage === "denied"
+                      ? "denied"
+                      : "unknown",
+              };
+            }
+          }
+        }
+      }
+
       return { detected: false, defaultState: "unknown" as const };
     });
     return result as { detected: boolean; defaultState: "granted" | "denied" | "unknown" };
