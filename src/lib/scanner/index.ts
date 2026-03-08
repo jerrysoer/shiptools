@@ -228,16 +228,29 @@ export async function scanUrl(url: string): Promise<ScanData> {
       }
     });
 
-    // Navigate
+    // Navigate — use domcontentloaded (fast) then wait for trackers to fire.
+    // networkidle2 is too slow with images unblocked (sites never settle).
+    // If even domcontentloaded times out, continue with whatever data was captured.
     const startTime = Date.now();
-    await page.goto(url, {
-      waitUntil: "networkidle2",
-      timeout: PAGE_TIMEOUT_MS,
-    });
+    let navigationTimedOut = false;
+    try {
+      await page.goto(url, {
+        waitUntil: "domcontentloaded",
+        timeout: PAGE_TIMEOUT_MS,
+      });
+    } catch (navErr) {
+      if (navErr instanceof Error && navErr.message.includes("timeout")) {
+        navigationTimedOut = true;
+      } else {
+        throw navErr;
+      }
+    }
     const loadTimeMs = Date.now() - startTime;
 
-    // Wait for lazy-loaded trackers (many fire after DOMContentLoaded + delays)
-    await new Promise((r) => setTimeout(r, 5000));
+    // Wait for lazy-loaded trackers (many fire after DOMContentLoaded + delays).
+    // If navigation timed out, we still wait — the request handler may still be
+    // capturing third-party domains from in-flight requests.
+    await new Promise((r) => setTimeout(r, navigationTimedOut ? 2000 : 5000));
 
     // Scan <script> tags for inline and external trackers
     const scriptTrackers = await extractScriptTrackers(page, pageDomain);
