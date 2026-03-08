@@ -56,6 +56,7 @@ import {
 import RecordingControls from "./RecordingControls";
 import WaveformVisualizer from "./WaveformVisualizer";
 import WebcamPreview from "./WebcamPreview";
+import PlaybackWebcamOverlay from "./PlaybackWebcamOverlay";
 import BrowserSupportWarning from "./BrowserSupportWarning";
 import DrawingOverlay from "./DrawingOverlay";
 import SubtitleGenerator from "./SubtitleGenerator";
@@ -145,6 +146,12 @@ export default function ScreenRecorder() {
     null,
   );
   const [recordingUrl, setRecordingUrl] = useState<string | null>(null);
+  const [webcamUrl, setWebcamUrl] = useState<string | null>(null);
+
+  // ---- Playback refs ----
+  const playbackScreenRef = useRef<HTMLVideoElement>(null);
+  const playbackWebcamRef = useRef<HTMLVideoElement>(null);
+  const playbackContainerRef = useRef<HTMLDivElement>(null);
 
   // ---- Export state ----
   const [isExporting, setIsExporting] = useState(false);
@@ -304,6 +311,7 @@ export default function ScreenRecorder() {
 
     if (webcamRes) {
       setWebcamResult(webcamRes);
+      setWebcamUrl(URL.createObjectURL(webcamRes.blob));
     }
 
     // Stop all streams
@@ -520,10 +528,12 @@ export default function ScreenRecorder() {
   // ---- Reset ----
   const reset = useCallback(() => {
     if (recordingUrl) URL.revokeObjectURL(recordingUrl);
+    if (webcamUrl) URL.revokeObjectURL(webcamUrl);
     setScreenResult(null);
     setWebcamResult(null);
     setCompositedBlob(null);
     setRecordingUrl(null);
+    setWebcamUrl(null);
     setTranscription(null);
     setState("idle");
     setDuration(0);
@@ -531,7 +541,7 @@ export default function ScreenRecorder() {
     setExportProgress(0);
     setExportPhase("");
     setTranscribeProgress(0);
-  }, [recordingUrl]);
+  }, [recordingUrl, webcamUrl]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -562,6 +572,53 @@ export default function ScreenRecorder() {
       setWebcamStream(webcamStreamRef.current);
     }
   }, [isActive, webcamStream]);
+
+  // Invalidate composite cache when PiP position/size changes
+  useEffect(() => {
+    setCompositedBlob(null);
+  }, [pipPosition, pipSize]);
+
+  // Sync playback webcam video with screen video (play/pause/seek/rate)
+  useEffect(() => {
+    const screen = playbackScreenRef.current;
+    const webcam = playbackWebcamRef.current;
+    if (!screen || !webcam || !recordingUrl || !webcamUrl) return;
+
+    const DRIFT_THRESHOLD = 0.15; // seconds
+
+    const onPlay = () => {
+      void webcam.play().catch(() => {});
+    };
+    const onPause = () => {
+      webcam.pause();
+    };
+    const onSeeked = () => {
+      webcam.currentTime = screen.currentTime;
+    };
+    const onRateChange = () => {
+      webcam.playbackRate = screen.playbackRate;
+    };
+    const onTimeUpdate = () => {
+      const drift = Math.abs(screen.currentTime - webcam.currentTime);
+      if (drift > DRIFT_THRESHOLD) {
+        webcam.currentTime = screen.currentTime;
+      }
+    };
+
+    screen.addEventListener("play", onPlay);
+    screen.addEventListener("pause", onPause);
+    screen.addEventListener("seeked", onSeeked);
+    screen.addEventListener("ratechange", onRateChange);
+    screen.addEventListener("timeupdate", onTimeUpdate);
+
+    return () => {
+      screen.removeEventListener("play", onPlay);
+      screen.removeEventListener("pause", onPause);
+      screen.removeEventListener("seeked", onSeeked);
+      screen.removeEventListener("ratechange", onRateChange);
+      screen.removeEventListener("timeupdate", onTimeUpdate);
+    };
+  }, [recordingUrl, webcamUrl]);
 
   if (!isSupported) {
     return (
@@ -830,14 +887,88 @@ export default function ScreenRecorder() {
       {/* Post-recording: playback + export */}
       {isStopped && screenResult && (
         <div className="space-y-6">
-          {/* Video player */}
+          {/* Video player with webcam overlay */}
           {recordingUrl && (
-            <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+            <div
+              ref={playbackContainerRef}
+              className="relative bg-bg-surface border border-border rounded-xl overflow-hidden group/playback"
+            >
               <video
+                ref={playbackScreenRef}
                 src={recordingUrl}
                 controls
                 className="w-full"
               />
+
+              {webcamUrl && (
+                <PlaybackWebcamOverlay
+                  webcamUrl={webcamUrl}
+                  webcamRef={playbackWebcamRef}
+                  position={pipPosition}
+                  size={pipSize}
+                  onPositionChange={(pos) => setPipPosition(pos)}
+                />
+              )}
+
+              {/* Fullscreen button — includes webcam overlay (native fullscreen is screen-only) */}
+              {webcamUrl && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const container = playbackContainerRef.current;
+                    if (!container) return;
+                    if (document.fullscreenElement) {
+                      void document.exitFullscreen();
+                    } else {
+                      void container.requestFullscreen();
+                    }
+                  }}
+                  className="absolute top-3 right-3 z-20 p-2 rounded-lg bg-black/50 text-white opacity-0 group-hover/playback:opacity-100 transition-opacity hover:bg-black/70"
+                  title="Fullscreen with webcam overlay"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* PiP position/size controls */}
+          {webcamUrl && (
+            <div className="flex items-center gap-4 px-1">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-text-tertiary mr-1">Position</span>
+                {PIP_POSITIONS.map(({ id, label }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setPipPosition(id)}
+                    className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                      pipPosition === id
+                        ? "bg-accent text-white"
+                        : "bg-bg-surface border border-border text-text-secondary hover:text-text-primary"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs text-text-tertiary mr-1">Size</span>
+                {PIP_SIZES.map(({ id, label }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setPipSize(id)}
+                    className={`w-7 h-7 rounded text-xs font-medium transition-colors ${
+                      pipSize === id
+                        ? "bg-accent text-white"
+                        : "bg-bg-surface border border-border text-text-secondary hover:text-text-primary"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 
@@ -891,7 +1022,7 @@ export default function ScreenRecorder() {
             {webcamResult && !isExporting && (
               <p className="mt-3 text-xs text-text-tertiary flex items-center gap-1.5">
                 <Camera className="w-3 h-3" />
-                Webcam overlay will be composited on export
+                Export will bake webcam overlay into the final file at its current position
               </p>
             )}
 
