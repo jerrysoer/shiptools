@@ -43,6 +43,7 @@
     "spark-md5": "^3.0.2",
     "sql-formatter": "^15.7.2",
     "tesseract.js": "^7.0.0",
+    "tldts": "^7.0.25",
     "xlsx": "^0.18.5",
     "zod": "^3.24.0",
     "zxcvbn": "^4.4.2"

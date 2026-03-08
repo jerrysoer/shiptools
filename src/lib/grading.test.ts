@@ -10,6 +10,8 @@ function makeScan(overrides: Partial<{
   adCount: number;
   sessionRecordingCount: number;
   serverSide: boolean;
+  fingerprinting: string[];
+  longLivedThirdPartyCookies: number;
 }>): ScanData {
   const {
     thirdPartyCookies = 0,
@@ -17,8 +19,36 @@ function makeScan(overrides: Partial<{
     analyticsCount = 0,
     adCount = 0,
     sessionRecordingCount = 0,
-    serverSide = false,
+    fingerprinting = [],
+    longLivedThirdPartyCookies = 0,
   } = overrides;
+
+  // Build cookie items: include long-lived 3P cookies if requested
+  const now = Date.now() / 1000;
+  const cookieItems = [
+    // Regular third-party cookies (session)
+    ...Array.from({ length: Math.max(0, thirdPartyCookies - longLivedThirdPartyCookies) }, (_, i) => ({
+      name: `cookie${i}`,
+      domain: `.tracker${i}.com`,
+      path: "/",
+      secure: false,
+      httpOnly: false,
+      sameSite: "None",
+      expires: -1, // session
+      thirdParty: true,
+    })),
+    // Long-lived third-party cookies (2 years)
+    ...Array.from({ length: longLivedThirdPartyCookies }, (_, i) => ({
+      name: `longcookie${i}`,
+      domain: `.longtracker${i}.com`,
+      path: "/",
+      secure: false,
+      httpOnly: false,
+      sameSite: "None",
+      expires: now + 86400 * 730, // 2 years
+      thirdParty: true,
+    })),
+  ];
 
   return {
     url: "https://example.com",
@@ -30,7 +60,7 @@ function makeScan(overrides: Partial<{
       total: thirdPartyCookies,
       firstParty: 0,
       thirdParty: thirdPartyCookies,
-      items: [],
+      items: cookieItems,
     },
     thirdPartyDomains: {
       total: thirdPartyDomains,
@@ -54,7 +84,8 @@ function makeScan(overrides: Partial<{
       })),
       social: [],
     },
-    serverSideProcessing: serverSide,
+    serverSideProcessing: false,
+    fingerprinting,
   };
 }
 
@@ -94,7 +125,8 @@ describe("computeScores", () => {
     expect(scores.sessionRecording).toBe(100);
     expect(scores.adNetworks).toBe(100);
     expect(scores.analyticsTrackers).toBe(100);
-    expect(scores.serverSide).toBe(100);
+    expect(scores.fingerprinting).toBe(100);
+    expect(scores.cookieDuration).toBe(100);
     expect(scores.total).toBe(100);
   });
 
@@ -136,24 +168,63 @@ describe("computeScores", () => {
     const scores = computeScores(makeScan({ sessionRecordingCount: 1 }));
     expect(scores.sessionRecording).toBe(0);
   });
+});
 
-  it("gives 0 for server-side when detected", () => {
-    const scores = computeScores(makeScan({ serverSide: true }));
-    expect(scores.serverSide).toBe(0);
+describe("fingerprinting scoring", () => {
+  it("gives 100 when no fingerprinting detected", () => {
+    const scores = computeScores(makeScan({ fingerprinting: [] }));
+    expect(scores.fingerprinting).toBe(100);
   });
 
-  it("computes weighted total correctly", () => {
-    // All factors at 0 except session recording (100) — weight 0.2
-    const scan = makeScan({
-      thirdPartyCookies: 100,
-      thirdPartyDomains: 100,
-      analyticsCount: 10,
-      adCount: 10,
-      serverSide: true,
-    });
-    const scores = computeScores(scan);
-    // Only sessionRecording contributes: 100 * 0.2 = 20
-    expect(scores.total).toBe(20);
+  it("gives 50 when one technique detected", () => {
+    const scores = computeScores(makeScan({ fingerprinting: ["canvas"] }));
+    expect(scores.fingerprinting).toBe(50);
+  });
+
+  it("gives 0 when two or more techniques detected", () => {
+    const scores = computeScores(makeScan({ fingerprinting: ["canvas", "webgl"] }));
+    expect(scores.fingerprinting).toBe(0);
+  });
+
+  it("clamps at 0 for three techniques", () => {
+    const scores = computeScores(makeScan({ fingerprinting: ["canvas", "webgl", "audio"] }));
+    expect(scores.fingerprinting).toBe(0);
+  });
+
+  it("fingerprinting contributes 10% to total", () => {
+    // Clean scan with only fingerprinting penalty
+    const clean = computeScores(makeScan({}));
+    const withFP = computeScores(makeScan({ fingerprinting: ["canvas", "webgl"] }));
+    // Fingerprinting goes from 100→0, 10% weight = 10 point difference
+    expect(clean.total - withFP.total).toBe(10);
+  });
+});
+
+describe("cookie duration scoring", () => {
+  it("gives 100 when no third-party cookies", () => {
+    const scores = computeScores(makeScan({}));
+    expect(scores.cookieDuration).toBe(100);
+  });
+
+  it("gives 100 when all third-party cookies are session cookies", () => {
+    const scores = computeScores(makeScan({ thirdPartyCookies: 5 }));
+    expect(scores.cookieDuration).toBe(100);
+  });
+
+  it("penalizes long-lived third-party cookies", () => {
+    const scores = computeScores(makeScan({
+      thirdPartyCookies: 5,
+      longLivedThirdPartyCookies: 5,
+    }));
+    expect(scores.cookieDuration).toBe(0);
+  });
+
+  it("partially penalizes some long-lived cookies", () => {
+    const scores = computeScores(makeScan({
+      thirdPartyCookies: 5,
+      longLivedThirdPartyCookies: 2,
+    }));
+    expect(scores.cookieDuration).toBe(60);
   });
 });
 

@@ -15,6 +15,71 @@ const STEALTH_ARGS = [
 ];
 
 /**
+ * Inject fingerprinting detection hooks via evaluateOnNewDocument.
+ * Monitors Canvas, WebGL, and AudioContext API calls that are
+ * commonly used for browser fingerprinting.
+ */
+async function setupFingerprintDetection(page: Page): Promise<void> {
+  await page.evaluateOnNewDocument(() => {
+    const detected = new Set<string>();
+    const win = window as unknown as Record<string, unknown>;
+    win.__fingerprintDetected = detected;
+
+    // Canvas fingerprinting: toDataURL / toBlob / getImageData
+    const origToDataURL = HTMLCanvasElement.prototype.toDataURL;
+    HTMLCanvasElement.prototype.toDataURL = function (...args) {
+      // Only flag if the canvas has content drawn (width/height > 0 pixel data)
+      if (this.width > 0 && this.height > 0) {
+        detected.add("canvas");
+      }
+      return origToDataURL.apply(this, args);
+    };
+
+    // WebGL fingerprinting: getParameter reveals GPU info
+    const origGetParam = WebGLRenderingContext.prototype.getParameter;
+    WebGLRenderingContext.prototype.getParameter = function (pname: number) {
+      // RENDERER (0x1F01) and VENDOR (0x1F00) are the key fingerprint vectors
+      if (pname === 0x1f01 || pname === 0x1f00) {
+        detected.add("webgl");
+      }
+      return origGetParam.call(this, pname);
+    };
+
+    // Also hook WebGL2
+    if (typeof WebGL2RenderingContext !== "undefined") {
+      const origGetParam2 = WebGL2RenderingContext.prototype.getParameter;
+      WebGL2RenderingContext.prototype.getParameter = function (pname: number) {
+        if (pname === 0x1f01 || pname === 0x1f00) {
+          detected.add("webgl");
+        }
+        return origGetParam2.call(this, pname);
+      };
+    }
+
+    // AudioContext fingerprinting: createOscillator + createDynamicsCompressor
+    const origCreateOsc = AudioContext.prototype.createOscillator;
+    AudioContext.prototype.createOscillator = function () {
+      detected.add("audio");
+      return origCreateOsc.call(this);
+    };
+  });
+}
+
+/**
+ * Retrieve detected fingerprinting techniques from the page context.
+ */
+async function collectFingerprintResults(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const win = window as unknown as Record<string, unknown>;
+    const detected = win.__fingerprintDetected;
+    if (detected instanceof Set) {
+      return Array.from(detected) as string[];
+    }
+    return [];
+  });
+}
+
+/**
  * Apply anti-bot stealth techniques to a page.
  *
  * Cloudflare, PerimeterX, and similar bot-detection services check:
@@ -199,8 +264,9 @@ export async function scanUrl(url: string): Promise<ScanData> {
     pageDomain = new URL(url).hostname;
     const page = await browser.newPage();
 
-    // Apply stealth techniques before navigation
+    // Apply stealth techniques and fingerprint detection before navigation
     await applyStealthTechniques(page);
+    await setupFingerprintDetection(page);
 
     // Block heavy resources for speed — but NOT images (tracking pixels are images)
     await page.setRequestInterception(true);
@@ -234,11 +300,25 @@ export async function scanUrl(url: string): Promise<ScanData> {
     // If even domcontentloaded times out, continue with whatever data was captured.
     const startTime = Date.now();
     let navigationTimedOut = false;
+    let securityHeaders: Record<string, string | null> = {};
     try {
-      await page.goto(url, {
+      const response = await page.goto(url, {
         waitUntil: "domcontentloaded",
         timeout: PAGE_TIMEOUT_MS,
       });
+
+      // Capture security headers from the navigation response
+      if (response) {
+        const headers = response.headers();
+        securityHeaders = {
+          "strict-transport-security": headers["strict-transport-security"] ?? null,
+          "content-security-policy": headers["content-security-policy"] ?? null,
+          "x-content-type-options": headers["x-content-type-options"] ?? null,
+          "x-frame-options": headers["x-frame-options"] ?? null,
+          "permissions-policy": headers["permissions-policy"] ?? null,
+          "referrer-policy": headers["referrer-policy"] ?? null,
+        };
+      }
     } catch (navErr) {
       if (navErr instanceof Error && navErr.message.includes("timeout")) {
         navigationTimedOut = true;
@@ -307,6 +387,9 @@ export async function scanUrl(url: string): Promise<ScanData> {
     // Server-side processing heuristic
     const serverSideProcessing = detectServerSideProcessing(thirdPartyDomainsList);
 
+    // Collect fingerprinting detection results
+    const fingerprinting = await collectFingerprintResults(page);
+
     return {
       url,
       domain: pageDomain,
@@ -331,6 +414,8 @@ export async function scanUrl(url: string): Promise<ScanData> {
       },
       trackers,
       serverSideProcessing,
+      fingerprinting,
+      securityHeaders,
     };
   } finally {
     await browser.close();

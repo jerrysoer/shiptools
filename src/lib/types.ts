@@ -48,6 +48,10 @@ export interface ScanData {
   };
   /** Whether the tool processes files server-side (heuristic) */
   serverSideProcessing: boolean;
+  /** Detected browser fingerprinting techniques */
+  fingerprinting: string[];
+  /** Captured HTTP security headers from initial navigation */
+  securityHeaders?: Record<string, string | null>;
 }
 
 export interface AuditScores {
@@ -57,6 +61,10 @@ export interface AuditScores {
   adNetworks: number;
   analyticsTrackers: number;
   serverSide: number;
+  /** Browser fingerprinting score (0-100, 100 = none detected) */
+  fingerprinting: number;
+  /** Cookie duration penalty score (0-100, 100 = all short-lived) */
+  cookieDuration: number;
   /** How many tracker categories (analytics/ads/recording/social) are present (0-100) */
   trackerDiversity: number;
   /** Weighted total (0-100) */

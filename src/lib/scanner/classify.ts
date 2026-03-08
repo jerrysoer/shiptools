@@ -1,21 +1,16 @@
+import { getDomain } from "tldts";
 import type { CookieInfo } from "../types";
 
 /**
  * Extract the registrable domain (eTLD+1) from a full hostname.
- * Simplified — handles common TLDs. For production, use a proper PSL library.
+ * Uses the Public Suffix List via tldts for accurate parsing of all ccTLDs
+ * (co.uk, com.au, co.za, etc.) — replaces the previous hand-rolled version
+ * that only handled 6 double-TLD patterns.
  */
 export function getBaseDomain(hostname: string): string {
-  const parts = hostname.replace(/\.$/, "").split(".");
-  if (parts.length <= 2) return hostname;
-
-  // Handle common double TLDs (co.uk, com.au, etc.)
-  const doubleTlds = ["co.uk", "com.au", "co.nz", "co.jp", "com.br", "co.in"];
-  const last2 = parts.slice(-2).join(".");
-  if (doubleTlds.includes(last2) && parts.length > 2) {
-    return parts.slice(-3).join(".");
-  }
-
-  return parts.slice(-2).join(".");
+  const domain = getDomain(hostname);
+  // tldts returns null for IPs, localhost, or invalid hostnames — fall back to input
+  return domain ?? hostname;
 }
 
 /**

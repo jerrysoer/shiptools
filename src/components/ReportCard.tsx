@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 import { toPng } from "html-to-image";
-import { Download, Share2 } from "lucide-react";
+import { Download, Share2, Check } from "lucide-react";
 import type { AuditResult } from "@/lib/types";
 import { GRADE_TEXT_CLASSES, GRADE_LABELS, GRADE_COLORS } from "@/lib/constants";
 import { trackEvent } from "@/lib/analytics";
@@ -34,10 +34,14 @@ export default function ReportCard({ result }: ReportCardProps) {
     }
   }, [result.domain]);
 
+  const [copied, setCopied] = useState(false);
+
   const handleCopyLink = useCallback(async () => {
     const slug = result.domain.replace(/\./g, "-");
     const url = `${window.location.origin}/audit/${slug}`;
     await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
     trackEvent("report_shared", { method: "copy_link", domain: result.domain });
   }, [result.domain]);
 
@@ -118,8 +122,8 @@ export default function ReportCard({ result }: ReportCardProps) {
           onClick={handleCopyLink}
           className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
         >
-          <Share2 className="w-4 h-4" />
-          Copy Link
+          {copied ? <Check className="w-4 h-4 text-grade-a" /> : <Share2 className="w-4 h-4" />}
+          {copied ? "Copied!" : "Copy Link"}
         </button>
       </div>
     </div>

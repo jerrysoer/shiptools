@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { url } = parsed.data;
+    const { url, force } = parsed.data;
 
     // 2. Rate limiting
     const clientIp = getClientIp(req);
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     const slug = domainToSlug(domain);
     const supabase = getSupabase();
 
-    if (supabase) {
+    if (supabase && !force) {
       const { data: cached } = await supabase
         .from("ul_audits")
         .select("*")

@@ -17,6 +17,7 @@ const urlSchema = z.object({
       parsed.protocol = "https:";
       return parsed.toString();
     }),
+  force: z.boolean().optional(),
 });
 
 export function parseScanRequest(body: unknown) {
