@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AIProvider from "@/components/AIProvider";
 import ConsentBanner from "@/components/ConsentBanner";
 import PageViewTracker from "@/components/PageViewTracker";
+import { ToastProvider } from "@/components/Toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -75,8 +76,16 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-bg-primary text-text-primary min-h-dvh flex flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-accent-fg focus:font-medium focus:text-sm"
+        >
+          Skip to content
+        </a>
         <AIProvider>
-          {children}
+          <ToastProvider>
+            {children}
+          </ToastProvider>
           <PageViewTracker />
           <ConsentBanner />
         </AIProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useId } from "react";
 import { Upload } from "lucide-react";
 
 interface DropZoneProps {
@@ -21,6 +21,7 @@ export default function DropZone({
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const errorId = useId();
 
   const validateFiles = useCallback(
     (files: FileList | File[]): File[] => {
@@ -84,6 +85,10 @@ export default function DropZone({
   return (
     <div>
       <div
+        role="button"
+        tabIndex={0}
+        aria-label={label}
+        aria-describedby={error ? errorId : undefined}
         onDragOver={(e) => {
           e.preventDefault();
           setIsDragging(true);
@@ -91,6 +96,12 @@ export default function DropZone({
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            inputRef.current?.click();
+          }
+        }}
         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
           isDragging
             ? "border-accent bg-accent/5"
@@ -116,7 +127,7 @@ export default function DropZone({
         />
       </div>
       {error && (
-        <p className="text-grade-f text-xs mt-2">{error}</p>
+        <p id={errorId} className="text-grade-f text-xs mt-2" role="alert">{error}</p>
       )}
     </div>
   );

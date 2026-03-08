@@ -18,6 +18,7 @@ import {
   ChevronUp,
   Check,
   X,
+  AlertTriangle,
 } from "lucide-react";
 import AIChip from "@/components/AIChip";
 import AIStreamOutput from "@/components/AIStreamOutput";
@@ -100,8 +101,53 @@ export default function AuditReport({ result }: AuditReportProps) {
     }
   }
 
+  const serverSideWarning = scan.serverSideInfo?.detected || scan.serverSideProcessing;
+  const serverConfidence = scan.serverSideInfo?.confidence ?? "low";
+
   return (
     <div className="space-y-6">
+      {/* Server-side file processing warning */}
+      {serverSideWarning && (
+        <div className="bg-amber-500/5 border border-amber-500/30 rounded-xl p-6">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+            <div className="space-y-2">
+              <h2 className="font-heading font-semibold text-amber-400">
+                Server-Side File Processing Detected
+              </h2>
+              <p className="text-text-secondary text-sm">
+                {serverConfidence === "high"
+                  ? "This site uploads your files to remote servers for processing. Your files leave your device."
+                  : serverConfidence === "medium"
+                    ? "This site likely uploads your files to remote servers for processing."
+                    : "This site may process files on remote servers."}
+              </p>
+              <p className="text-text-tertiary text-xs">
+                The tracking score below measures cookies, trackers, and surveillance only — it does not penalize server-side file handling.
+              </p>
+              {scan.serverSideInfo && scan.serverSideInfo.signals.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {scan.serverSideInfo.signals.map((signal, i) => (
+                    <span
+                      key={i}
+                      className="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded text-xs font-mono"
+                    >
+                      {signal.type === "known_service"
+                        ? signal.detail
+                        : signal.type === "file_input"
+                          ? "File upload input"
+                          : signal.type === "multipart_form"
+                            ? "Multipart form"
+                            : signal.detail}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Score breakdown */}
       <div className="bg-bg-surface border border-border rounded-xl p-6">
         <h2 className="font-heading font-semibold text-lg mb-4">Score Breakdown</h2>

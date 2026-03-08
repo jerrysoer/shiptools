@@ -72,7 +72,7 @@ function ToolRow({ href, icon: Icon, title, description, ai, activeSlug, isModel
   return (
     <Link
       href={href}
-      className="group flex items-center gap-4 py-3 border-b border-border hover:bg-bg-surface transition-colors -mx-3 px-3"
+      className="group flex items-center gap-4 py-3 border-b border-border hover:bg-bg-surface even:bg-bg-surface/30 transition-colors -mx-3 px-3"
     >
       <Icon className="w-4 h-4 text-text-tertiary group-hover:text-text-secondary transition-colors flex-shrink-0" />
       <span className="font-medium text-sm group-hover:text-accent transition-colors min-w-[140px] sm:min-w-[180px]">
@@ -160,7 +160,7 @@ export default function ToolAccordion({
   }, []);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {filteredGroups.map((group) => {
         // Force-open all groups during search; otherwise use persisted state
         const isOpen = isSearching

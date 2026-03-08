@@ -1,7 +1,7 @@
 "use client";
 
 import type { PrivacyGrade } from "@/lib/types";
-import { GRADE_TEXT_CLASSES, GRADE_GLOW_CLASSES, GRADE_LABELS } from "@/lib/constants";
+import { GRADE_TEXT_CLASSES, GRADE_GLOW_CLASSES, GRADE_LABELS, GRADE_SUBTITLE } from "@/lib/constants";
 
 interface GradeRevealProps {
   grade: PrivacyGrade;
@@ -30,6 +30,9 @@ export default function GradeReveal({ grade, score, domain }: GradeRevealProps) 
         </p>
         <p className="text-text-tertiary text-sm mt-1">
           Score: {score}/100
+        </p>
+        <p className="text-text-tertiary text-xs mt-1">
+          {GRADE_SUBTITLE}
         </p>
       </div>
     </div>

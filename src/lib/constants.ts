@@ -50,6 +50,9 @@ export const AUDIT_CACHE_TTL_HOURS = 24;
 /** Puppeteer navigation timeout */
 export const PAGE_TIMEOUT_MS = 25_000;
 
+/** Grade context label — clarifies that the numeric score measures tracking only */
+export const GRADE_SUBTITLE = "Tracking & Surveillance Score";
+
 /** Max file sizes for converters (bytes) */
 export const MAX_IMAGE_SIZE = 50 * 1024 * 1024; // 50 MB
 export const MAX_DOCUMENT_SIZE = 25 * 1024 * 1024; // 25 MB

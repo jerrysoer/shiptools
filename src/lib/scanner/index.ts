@@ -2,7 +2,7 @@ import puppeteerCore from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import type { Browser, Page } from "puppeteer-core";
 import type { ScanData, TrackerMatch } from "../types";
-import { classifyCookies, isThirdPartyDomain, detectServerSideProcessing } from "./classify";
+import { classifyCookies, isThirdPartyDomain, detectServerSideProcessing, detectServerSideProcessingDetailed } from "./classify";
 import { classifyDomain, classifyDomains, INLINE_SCRIPT_PATTERNS } from "./trackers";
 import { acceptConsentBanner, type ConsentResult } from "./consent";
 import { PAGE_TIMEOUT_MS } from "../constants";
@@ -384,8 +384,17 @@ export async function scanUrl(url: string): Promise<ScanData> {
       }
     }
 
-    // Server-side processing heuristic
+    // Server-side processing heuristic (legacy boolean)
     const serverSideProcessing = detectServerSideProcessing(thirdPartyDomainsList);
+
+    // Enhanced server-side detection: DOM signals + known services + domain patterns
+    const domSignals = await page.evaluate(() => ({
+      fileInputCount: document.querySelectorAll('input[type="file"]').length,
+      multipartFormCount: document.querySelectorAll('form[enctype="multipart/form-data"]').length,
+    }));
+    const serverSideInfo = detectServerSideProcessingDetailed(
+      pageDomain, thirdPartyDomainsList, domSignals
+    );
 
     // Collect fingerprinting detection results
     const fingerprinting = await collectFingerprintResults(page);
@@ -414,6 +423,7 @@ export async function scanUrl(url: string): Promise<ScanData> {
       },
       trackers,
       serverSideProcessing,
+      serverSideInfo,
       fingerprinting,
       securityHeaders,
     };

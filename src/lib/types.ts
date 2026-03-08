@@ -18,6 +18,17 @@ export interface TrackerMatch {
   name: string;
 }
 
+export interface ServerSideSignal {
+  type: 'known_service' | 'file_input' | 'multipart_form' | 'upload_domain';
+  detail: string;
+}
+
+export interface ServerSideProcessingInfo {
+  detected: boolean;
+  signals: ServerSideSignal[];
+  confidence: 'high' | 'medium' | 'low';
+}
+
 export interface ScanData {
   url: string;
   domain: string;
@@ -48,6 +59,8 @@ export interface ScanData {
   };
   /** Whether the tool processes files server-side (heuristic) */
   serverSideProcessing: boolean;
+  /** Enhanced server-side processing detection with confidence tiers */
+  serverSideInfo?: ServerSideProcessingInfo;
   /** Detected browser fingerprinting techniques */
   fingerprinting: string[];
   /** Captured HTTP security headers from initial navigation */

@@ -1,5 +1,6 @@
 import { getDomain } from "tldts";
-import type { CookieInfo } from "../types";
+import type { CookieInfo, ServerSideSignal, ServerSideProcessingInfo } from "../types";
+import { isKnownFileService } from "./file-services";
 
 /**
  * Extract the registrable domain (eTLD+1) from a full hostname.
@@ -81,4 +82,76 @@ export function detectServerSideProcessing(domains: string[]): boolean {
   return domains.some((d) =>
     uploadPatterns.some((p) => p.test(d))
   );
+}
+
+/**
+ * Enhanced server-side processing detection with confidence tiers.
+ *
+ * Signal layers (highest → lowest confidence):
+ * 1. Known service match — curated list of file processing sites
+ * 2. File input elements — <input type="file"> found in DOM
+ * 3. Multipart forms — form[enctype="multipart/form-data"] in DOM
+ * 4. Upload domain patterns — regex matches on third-party domains
+ */
+export function detectServerSideProcessingDetailed(
+  pageDomain: string,
+  thirdPartyDomains: string[],
+  domSignals: { fileInputCount: number; multipartFormCount: number }
+): ServerSideProcessingInfo {
+  const signals: ServerSideSignal[] = [];
+
+  // 1. Known service match (high confidence)
+  const knownService = isKnownFileService(pageDomain);
+  if (knownService) {
+    signals.push({ type: "known_service", detail: knownService });
+  }
+
+  // 2. File input elements (medium confidence)
+  if (domSignals.fileInputCount > 0) {
+    signals.push({
+      type: "file_input",
+      detail: `${domSignals.fileInputCount} file input${domSignals.fileInputCount > 1 ? "s" : ""} found`,
+    });
+  }
+
+  // 3. Multipart forms (medium confidence)
+  if (domSignals.multipartFormCount > 0) {
+    signals.push({
+      type: "multipart_form",
+      detail: `${domSignals.multipartFormCount} multipart form${domSignals.multipartFormCount > 1 ? "s" : ""} found`,
+    });
+  }
+
+  // 4. Upload domain patterns (low confidence)
+  const uploadPatterns = [
+    /upload/i,
+    /convert/i,
+    /process/i,
+    /api.*file/i,
+    /s3\.amazonaws\.com/i,
+    /storage\.googleapis\.com/i,
+    /blob\.core\.windows\.net/i,
+  ];
+  for (const domain of thirdPartyDomains) {
+    for (const pattern of uploadPatterns) {
+      if (pattern.test(domain)) {
+        signals.push({ type: "upload_domain", detail: domain });
+        break; // one signal per domain
+      }
+    }
+  }
+
+  // Confidence = highest signal type found
+  let confidence: ServerSideProcessingInfo["confidence"] = "low";
+  if (signals.some((s) => s.type === "known_service")) {
+    confidence = "high";
+  } else if (signals.some((s) => s.type === "file_input" || s.type === "multipart_form")) {
+    confidence = "medium";
+  }
+
+  return {
+    detected: signals.length > 0,
+    signals,
+    confidence,
+  };
 }
