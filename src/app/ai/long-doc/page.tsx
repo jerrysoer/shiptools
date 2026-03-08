@@ -1,7 +1,5 @@
-"use client";
-
-import LongDocSummarizer from "@/components/tools/LongDocSummarizer";
+import { redirect } from "next/navigation";
 
 export default function LongDocPage() {
-  return <LongDocSummarizer />;
+  redirect("/ai/summarize?mode=long-document");
 }

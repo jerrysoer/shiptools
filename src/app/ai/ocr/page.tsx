@@ -1,7 +1,5 @@
-"use client";
-
-import OCRTool from "@/components/tools/OCRTool";
+import { redirect } from "next/navigation";
 
 export default function OCRPage() {
-  return <OCRTool />;
+  redirect("/ai/image-scanner?mode=extract-text");
 }

@@ -27,7 +27,7 @@ const TIER_4_MODES = [
 ] as const;
 
 const TIER_5_TOOLS = [
-  { path: "/ai/long-doc", titleContains: "Long" },
+  { path: "/ai/summarize?mode=long-document", titleContains: "Summar" },
   { path: "/ai/full-review", titleContains: "Code" },
   { path: "/ai/tech-writing", titleContains: "Tech" },
 ] as const;
@@ -75,7 +75,7 @@ test.describe("AI Tier 5 — Ollama-Only Tools", () => {
   test("Tier 5 tools show Ollama requirement when not connected", async ({
     page,
   }) => {
-    await page.goto("/ai/long-doc");
+    await page.goto("/ai/summarize?mode=long-document");
     // OllamaGate should show fallback when Ollama isn't running
     const ollamaMsg = page.getByText(/ollama/i);
     await expect(ollamaMsg.first()).toBeVisible();

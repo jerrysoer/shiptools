@@ -72,6 +72,9 @@ test.describe("AI Tool Routing & Nav Highlighting", () => {
     { from: "/ai/sentiment", to: /\/ai\/analyze\?mode=sentiment/ },
     { from: "/ai/keywords", to: /\/ai\/analyze\?mode=keywords/ },
     { from: "/ai/swot", to: /\/ai\/analyze\?mode=swot/ },
+    { from: "/ai/long-doc", to: /\/ai\/summarize\?mode=long-document/ },
+    { from: "/ai/ocr", to: /\/ai\/image-scanner\?mode=extract-text/ },
+    { from: "/ai/receipts", to: /\/ai\/image-scanner\?mode=parse-receipt/ },
   ] as const;
 
   for (const { from, to } of REDIRECTS) {
@@ -169,5 +172,26 @@ test.describe("AI Tool Routing & Nav Highlighting", () => {
     const hasLock = await page.getByText(/requires|upgrade|model/i).first().isVisible().catch(() => false);
     const isMobile = (page.viewportSize()?.width ?? 1280) < 768;
     expect(hasBtn || hasLock || isMobile).toBe(true);
+  });
+
+  test("/ai/summarize?mode=long-document loads correctly", async ({
+    page,
+  }) => {
+    await page.goto("/ai/summarize?mode=long-document");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/summar/i);
+    const hasBtn = await page.getByRole("button", { name: "Long Document" }).isVisible().catch(() => false);
+    const hasOllama = await page.getByText(/ollama/i).first().isVisible().catch(() => false);
+    const isMobile = (page.viewportSize()?.width ?? 1280) < 768;
+    expect(hasBtn || hasOllama || isMobile).toBe(true);
+  });
+
+  // ─── Image Scanner ────────────────────────────────────────────────────
+
+  test("/ai/image-scanner renders with correct heading", async ({ page }) => {
+    await page.goto("/ai/image-scanner");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/image scanner/i);
+    const hasMode = await page.getByRole("button", { name: "Extract Text" }).isVisible().catch(() => false);
+    const isMobile = (page.viewportSize()?.width ?? 1280) < 768;
+    expect(hasMode || isMobile).toBe(true);
   });
 });

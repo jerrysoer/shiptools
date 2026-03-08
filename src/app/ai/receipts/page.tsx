@@ -1,7 +1,5 @@
-"use client";
-
-import ReceiptParser from "@/components/tools/ReceiptParser";
+import { redirect } from "next/navigation";
 
 export default function ReceiptsPage() {
-  return <ReceiptParser />;
+  redirect("/ai/image-scanner?mode=parse-receipt");
 }

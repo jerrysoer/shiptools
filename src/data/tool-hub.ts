@@ -1,20 +1,15 @@
 import {
-  // Write tab — AI Writing
+  // Write tab — Writing
   Mail,
   Shield,
   PenTool,
-  // Write tab — Document Analysis
+  // Write tab — Analysis
   FileJson,
   FileText,
   Users,
-  Receipt,
-  // Write tab — AI Text Processing
-  FileStack,
   ScanText,
   // Write tab — Text Utilities
   ALargeSmall,
-  Pilcrow,
-  TextCursorInput,
   // Code tab — AI Code
   SearchCode,
   FileCode,
@@ -106,7 +101,7 @@ export const QUICK_TOOLS: QuickTool[] = [
     href: "/ai/summarize",
     icon: Sparkles,
     title: "Summarize",
-    description: "Condense text or analyze privacy policies",
+    description: "Condense text, analyze privacy policies, or summarize long documents",
   },
   {
     href: "/ai/writer?mode=rewrite",
@@ -117,39 +112,25 @@ export const QUICK_TOOLS: QuickTool[] = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
-// TAB 1: WRITE — 10 tools in accordion + 2 Quick AI = 12 total
+// TAB 1: WRITE — 6 tools in accordion + 2 Quick AI = 8 unique tools
 // "I need to compose, analyze, or process text."
 // ═══════════════════════════════════════════════════════════════════════
 
 export const WRITE_GROUPS: ToolHubGroup[] = [
   {
-    label: "AI Writing",
+    label: "Writing",
     tools: [
       { href: "/ai/writer", icon: PenTool, title: "Writer", description: "Compose emails, social posts, rewrite text, or write with custom instructions.", ai: { tier: "Balanced+", capability: "email_compose" } },
       { href: "/ai/tech-writing", icon: PenTool, title: "Tech Writing Assistant", description: "Generate technical documentation and guides.", ai: { tier: "Ollama", capability: "tech_writing" } },
+      { href: "/tools/text", icon: ALargeSmall, title: "Text Utilities", description: "Word count, case conversion, lorem ipsum, and text transformations." },
     ],
   },
   {
-    label: "Document Analysis",
+    label: "Analysis",
     tools: [
       { href: "/ai/analyze", icon: FileSearch, title: "Analyzer", description: "Analyze contracts, job postings, meeting notes, sentiment, keywords, and SWOT.", ai: { tier: "Tiny+", capability: "sentiment" } },
       { href: "/ai/extract", icon: FileJson, title: "Structured Extractor", description: "Extract structured JSON from unstructured text using a custom schema.", ai: { tier: "General+", capability: "extract_json" } },
-      { href: "/ai/receipts", icon: Receipt, title: "Receipt Parser", description: "Upload receipt images \u2192 OCR \u2192 structured line items and totals.", ai: { tier: "General+", capability: "receipt_parse" } },
-    ],
-  },
-  {
-    label: "AI Text Processing",
-    tools: [
-      { href: "/ai/long-doc", icon: FileStack, title: "Long Document Summarizer", description: "Summarize lengthy documents with 8K+ context.", ai: { tier: "Ollama", capability: "long_doc" } },
-      { href: "/ai/ocr", icon: ScanText, title: "OCR \u2014 Text from Images", description: "Extract text from images with Tesseract.js.", ai: { tier: "Specialized" } },
-    ],
-  },
-  {
-    label: "Text Utilities",
-    tools: [
-      { href: "/tools/text", icon: ALargeSmall, title: "Text Utilities", description: "Word count, case conversion, and text transformations." },
-      { href: "/tools/lorem", icon: Pilcrow, title: "Lorem Ipsum Generator", description: "Generate placeholder text in various styles and lengths." },
-      { href: "/tools/wordcount", icon: TextCursorInput, title: "Word Count", description: "Count words, characters, sentences, and reading time." },
+      { href: "/ai/image-scanner", icon: ScanText, title: "Image Scanner", description: "Extract text from images via OCR, or parse receipts into structured data.", ai: { tier: "Specialized" } },
     ],
   },
 ];
@@ -274,6 +255,7 @@ export const PROTECT_GROUPS: ToolHubGroup[] = [
   {
     label: "Privacy & Data Protection",
     tools: [
+      { href: "/audit", icon: ShieldCheck, title: "Privacy Audit", description: "Scan any website for trackers, cookies, and data collection. Get an A\u2013F grade." },
       { href: "/tools/fingerprint", icon: Scan, title: "Browser Fingerprint", description: "See what your browser reveals. Canvas, WebGL, fonts, and more." },
       { href: "/tools/tracking-pixels", icon: Unplug, title: "Tracking Pixel Detector", description: "Paste email HTML to detect hidden tracking pixels." },
       { href: "/tools/invisible-chars", icon: Type, title: "Invisible Characters", description: "Detect zero-width chars, homoglyphs, and bidi controls." },
@@ -302,7 +284,7 @@ const countTools = (groups: ToolHubGroup[]) =>
 const countAI = (groups: ToolHubGroup[]) =>
   groups.reduce((sum, g) => sum + g.tools.filter((t) => t.ai).length, 0);
 
-export const WRITE_TOOL_COUNT = countTools(WRITE_GROUPS) + QUICK_TOOLS.length; // 10 + 2 = 12
+export const WRITE_TOOL_COUNT = countTools(WRITE_GROUPS) + QUICK_TOOLS.length; // 6 + 2 = 8
 export const CODE_TOOL_COUNT = countTools(CODE_GROUPS);   // 29
 export const MEDIA_TOOL_COUNT = countTools(MEDIA_GROUPS);  // 15
 export const PROTECT_TOOL_COUNT = countTools(PROTECT_GROUPS); // 12

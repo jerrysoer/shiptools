@@ -28,7 +28,7 @@ export default function AuditPageClient({ audit, slug }: AuditPageClientProps) {
               No cached audit exists for <span className="font-mono">{displayDomain}</span>.
             </p>
             <a
-              href="/"
+              href="/audit"
               className="inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
             >
               Run a new scan

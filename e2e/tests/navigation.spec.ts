@@ -3,15 +3,13 @@ import { test, expect } from "@playwright/test";
 test.describe("Navigation & Cross-Cutting", () => {
   // ─── Write Tab (/write) ────────────────────────────────────────────
 
-  test("write page shows AI writing and document analysis groups", async ({ page }) => {
+  test("write page shows Writing and Analysis groups", async ({ page }) => {
     await page.goto("/write");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Write & Analyze");
 
     // Use accordion button roles to avoid strict mode violations (tool names can match group names)
-    await expect(page.getByRole("button", { name: /AI Writing/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /Document Analysis/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /AI Text Processing/ })).toBeVisible();
-    await expect(page.getByRole("button", { name: /Text Utilities/ })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Writing/ })).toBeVisible();
+    await expect(page.getByRole("button", { name: /^Analysis/ })).toBeVisible();
   });
 
   test("write page has Quick AI Tools section", async ({ page }) => {
@@ -115,11 +113,20 @@ test.describe("Navigation & Cross-Cutting", () => {
     await expect(page.getByText("Privacy & Data Protection")).toBeVisible();
   });
 
-  test("protect page has Privacy Audit hero card", async ({ page }) => {
+  test("protect page has Privacy Audit hero card linking to /audit", async ({ page }) => {
     await page.goto("/protect");
 
     await expect(page.getByText("Privacy Audit")).toBeVisible();
     await expect(page.getByText("Scan any website")).toBeVisible();
+    const auditLink = page.getByRole("link", { name: /Privacy Audit/ });
+    await expect(auditLink).toHaveAttribute("href", "/audit");
+  });
+
+  test("/audit page renders scan form", async ({ page }) => {
+    await page.goto("/audit");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/Privacy Audit/i);
+    await expect(page.getByPlaceholder("e.g. example.com")).toBeVisible();
+    await expect(page.getByRole("button", { name: /Scan/ })).toBeVisible();
   });
 
   test("protect page lists security tools", async ({ page }) => {
