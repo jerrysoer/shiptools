@@ -16,7 +16,7 @@ export default function AuditLayout({
   return (
     <>
       <Header />
-      <main className="flex-1 px-6 py-8">
+      <main id="main-content" className="flex-1 px-6 py-8">
         <div className="max-w-4xl mx-auto">{children}</div>
       </main>
       <Footer />

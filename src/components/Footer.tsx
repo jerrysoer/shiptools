@@ -12,7 +12,7 @@ export default function Footer() {
           <span className="mx-2">·</span>
           <span>{new Date().getFullYear()}</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <Link
             href="/about"
             className="hover:text-text-secondary transition-colors"
@@ -26,8 +26,9 @@ export default function Footer() {
           >
             Transparency
           </Link>
-          <span className="text-text-tertiary">·</span>
-          <span>No tracking. No uploads. No cookies.</span>
+          <span className="basis-full sm:basis-auto order-last sm:order-none">
+            No tracking. No uploads. No cookies.
+          </span>
           <AnalyticsStatus />
         </div>
       </div>

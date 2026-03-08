@@ -237,3 +237,23 @@ body {
 .nav-drawer-enter {
   animation: slide-in-from-top 0.2s ease-out forwards;
 }
+
+/* Accessibility — respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .scan-line-enter,
+  .grade-reveal,
+  .done-check,
+  .fade-in,
+  .progress-fill,
+  .slide-up,
+  .nav-drawer-enter {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

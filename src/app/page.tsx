@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* Hero — editorial, left-aligned */}
         <section className="px-6 pt-12 pb-10 sm:pt-20 sm:pb-16">
           <div className="max-w-6xl mx-auto">
@@ -34,7 +34,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <a
                 href="/tools"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-text-primary text-bg-primary font-medium transition-opacity hover:opacity-90 w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-accent-fg font-medium transition-colors hover:bg-accent-hover w-full sm:w-auto"
               >
                 Browse all tools
                 <ArrowRight className="w-4 h-4" />
@@ -65,6 +65,7 @@ export default function HomePage() {
                 title="Sign PDFs without uploading them"
                 description="Add signatures, fill form fields, and insert dates — all processed in your browser."
                 deptColor="var(--color-dept-convert)"
+                deptName="Media"
                 size="large"
               />
               <FeaturedToolCard
@@ -72,6 +73,7 @@ export default function HomePage() {
                 title="Scan any website for trackers"
                 description="Enter a URL to audit its privacy. Get an A–F grade for trackers, cookies, and data collection — powered by headless browser scanning."
                 deptColor="var(--color-dept-privacy)"
+                deptName="Protect"
                 size="large"
               />
               <FeaturedToolCard
@@ -79,6 +81,7 @@ export default function HomePage() {
                 title="AI Text Summarizer"
                 description="Paste long text, get a concise summary — powered by a model running entirely in your browser."
                 deptColor="var(--color-dept-ai)"
+                deptName="Write"
                 size="small"
               />
               <FeaturedToolCard
@@ -86,6 +89,7 @@ export default function HomePage() {
                 title="Screen Recorder"
                 description="Capture your screen with webcam overlay and audio. Export as WebM or MP4."
                 deptColor="var(--color-dept-record)"
+                deptName="Media"
                 size="small"
               />
             </div>
@@ -156,7 +160,9 @@ export default function HomePage() {
 
             <div className="grid sm:grid-cols-3 gap-6 sm:gap-12">
               <div>
-                <ShieldCheck className="w-6 h-6 mb-3 text-text-secondary" />
+                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg mb-3">
+                  <ShieldCheck className="w-8 h-8 text-accent" />
+                </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">No Uploads</h3>
                 <p className="text-text-secondary text-sm leading-relaxed">
                   Your files never leave your device. All processing runs
@@ -165,7 +171,9 @@ export default function HomePage() {
               </div>
 
               <div>
-                <EyeOff className="w-6 h-6 mb-3 text-text-secondary" />
+                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg mb-3">
+                  <EyeOff className="w-8 h-8 text-accent" />
+                </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">No Tracking</h3>
                 <p className="text-text-secondary text-sm leading-relaxed">
                   No third-party scripts, no ad networks, no fingerprinting.
@@ -174,7 +182,9 @@ export default function HomePage() {
               </div>
 
               <div>
-                <Lock className="w-6 h-6 mb-3 text-text-secondary" />
+                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg mb-3">
+                  <Lock className="w-8 h-8 text-accent" />
+                </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">No Accounts</h3>
                 <p className="text-text-secondary text-sm leading-relaxed">
                   No sign-ups, no logins, no personal data collected. Just open

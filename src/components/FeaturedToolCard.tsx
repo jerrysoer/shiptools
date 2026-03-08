@@ -6,6 +6,7 @@ interface FeaturedToolCardProps {
   title: string;
   description: string;
   deptColor: string;
+  deptName?: string;
   size: "large" | "small";
 }
 
@@ -14,6 +15,7 @@ export default function FeaturedToolCard({
   title,
   description,
   deptColor,
+  deptName,
   size,
 }: FeaturedToolCardProps) {
   if (size === "large") {
@@ -23,6 +25,14 @@ export default function FeaturedToolCard({
         className="group block bg-bg-surface p-5 sm:p-8 md:p-10 transition-colors hover:bg-bg-elevated"
         style={{ borderTop: `4px solid ${deptColor}` }}
       >
+        {deptName && (
+          <p
+            className="font-mono text-[10px] tracking-widest uppercase mb-3"
+            style={{ color: deptColor }}
+          >
+            {deptName}
+          </p>
+        )}
         <h3 className="font-heading text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 group-hover:text-accent transition-colors">
           {title}
         </h3>
@@ -43,6 +53,14 @@ export default function FeaturedToolCard({
       className="group block bg-bg-surface p-4 sm:p-6 transition-colors hover:bg-bg-elevated"
       style={{ borderTop: `3px solid ${deptColor}` }}
     >
+      {deptName && (
+        <p
+          className="font-mono text-[10px] tracking-widest uppercase mb-2"
+          style={{ color: deptColor }}
+        >
+          {deptName}
+        </p>
+      )}
       <h3 className="font-heading text-xl font-semibold mb-2 group-hover:text-accent transition-colors">
         {title}
       </h3>
