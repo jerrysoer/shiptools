@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   ShieldAlert,
   ChevronDown,
+  ChevronUp,
   Check,
   X,
 } from "lucide-react";
@@ -72,6 +73,8 @@ export default function AuditReport({ result }: AuditReportProps) {
   const [aiExplanation, setAiExplanation] = useState("");
   const [isExplaining, setIsExplaining] = useState(false);
   const [showAllCookies, setShowAllCookies] = useState(false);
+  const [showAllDomains, setShowAllDomains] = useState(false);
+  const [showAllTrackers, setShowAllTrackers] = useState(false);
 
   const allTrackers = [
     ...scan.trackers.sessionRecording.map((t) => `${t.name} (session recording) - ${t.domain}`),
@@ -226,36 +229,66 @@ export default function AuditReport({ result }: AuditReportProps) {
           }
         }
 
+        const COLLAPSED_DOMAIN_COUNT = 12;
+        const allDomains = scan.thirdPartyDomains.items;
+        const displayedDomains = showAllDomains
+          ? allDomains
+          : allDomains.slice(0, COLLAPSED_DOMAIN_COUNT);
+        const hiddenDomainCount = allDomains.length - COLLAPSED_DOMAIN_COUNT;
+
         return (
           <div className="bg-bg-surface border border-border rounded-xl p-6">
             <h2 className="font-heading font-semibold text-lg mb-4">
-              Third-Party Domains ({scan.thirdPartyDomains.total})
+              Third-Party Domains
+              <span className="text-text-tertiary font-normal text-sm ml-2">
+                {scan.thirdPartyDomains.total}
+              </span>
             </h2>
-            <div className="flex flex-wrap gap-2">
-              {scan.thirdPartyDomains.items.map((domain) => {
-                const tracker = domainTrackerMap.get(domain);
-                const categoryColors: Record<string, string> = {
-                  analytics: "border-grade-c/40",
-                  advertising: "border-grade-d/40",
-                  "session-recording": "border-grade-f/40",
-                  social: "border-grade-b/40",
-                };
-                const borderClass = tracker
-                  ? categoryColors[tracker.category] || "border-border"
-                  : "border-transparent";
+            <div className={showAllDomains ? "max-h-80 overflow-y-auto" : ""}>
+              <div className="flex flex-wrap gap-2">
+                {displayedDomains.map((domain) => {
+                  const tracker = domainTrackerMap.get(domain);
+                  const categoryColors: Record<string, string> = {
+                    analytics: "border-grade-c/40",
+                    advertising: "border-grade-d/40",
+                    "session-recording": "border-grade-f/40",
+                    social: "border-grade-b/40",
+                  };
+                  const borderClass = tracker
+                    ? categoryColors[tracker.category] || "border-border"
+                    : "border-transparent";
 
-                return (
-                  <span
-                    key={domain}
-                    title={tracker ? `${tracker.name} (${tracker.category})` : "Unclassified"}
-                    className={`inline-flex items-center gap-1 px-2 py-1 bg-bg-elevated rounded text-xs text-text-secondary font-mono border ${borderClass} cursor-default`}
-                  >
-                    <ExternalLink className="w-3 h-3" />
-                    {domain}
-                  </span>
-                );
-              })}
+                  return (
+                    <span
+                      key={domain}
+                      title={tracker ? `${tracker.name} (${tracker.category})` : "Unclassified"}
+                      className={`inline-flex items-center gap-1 px-2 py-1 bg-bg-elevated rounded text-xs text-text-secondary font-mono border ${borderClass} cursor-default`}
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      {domain}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
+            {hiddenDomainCount > 0 && (
+              <button
+                onClick={() => setShowAllDomains((prev) => !prev)}
+                className="flex items-center gap-1 mt-3 text-xs text-accent hover:text-accent-hover transition-colors"
+              >
+                {showAllDomains ? (
+                  <>
+                    <ChevronUp className="w-3 h-3" />
+                    Show less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3 h-3" />
+                    Show all {allDomains.length} domains
+                  </>
+                )}
+              </button>
+            )}
           </div>
         );
       })()}
@@ -263,42 +296,63 @@ export default function AuditReport({ result }: AuditReportProps) {
       {/* Trackers found */}
       {(scan.trackers.analytics.length > 0 ||
         scan.trackers.advertising.length > 0 ||
-        scan.trackers.sessionRecording.length > 0) && (
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
-          <h2 className="font-heading font-semibold text-lg mb-4">
-            Identified Trackers
-          </h2>
-          <div className="space-y-3">
-            {scan.trackers.sessionRecording.map((t) => (
-              <div key={t.name} className="flex items-center gap-2 text-sm">
-                <span className="px-2 py-0.5 rounded bg-grade-f/10 text-grade-f text-xs">
-                  recorder
-                </span>
-                <span className="text-text-primary">{t.name}</span>
-                <span className="text-text-tertiary font-mono text-xs">{t.domain}</span>
+        scan.trackers.sessionRecording.length > 0) && (() => {
+        const COLLAPSED_TRACKER_COUNT = 10;
+        const categoryConfig: { key: "sessionRecording" | "advertising" | "analytics"; label: string; colorClass: string }[] = [
+          { key: "sessionRecording", label: "recorder", colorClass: "bg-grade-f/10 text-grade-f" },
+          { key: "advertising", label: "ads", colorClass: "bg-grade-d/10 text-grade-d" },
+          { key: "analytics", label: "analytics", colorClass: "bg-grade-c/10 text-grade-c" },
+        ];
+        const flatTrackers = categoryConfig.flatMap(({ key, label, colorClass }) =>
+          scan.trackers[key].map((t) => ({ ...t, label, colorClass }))
+        );
+        const displayedTrackers = showAllTrackers
+          ? flatTrackers
+          : flatTrackers.slice(0, COLLAPSED_TRACKER_COUNT);
+        const hiddenTrackerCount = flatTrackers.length - COLLAPSED_TRACKER_COUNT;
+
+        return (
+          <div className="bg-bg-surface border border-border rounded-xl p-6">
+            <h2 className="font-heading font-semibold text-lg mb-4">
+              Identified Trackers
+              <span className="text-text-tertiary font-normal text-sm ml-2">
+                {flatTrackers.length}
+              </span>
+            </h2>
+            <div className={showAllTrackers ? "max-h-80 overflow-y-auto" : ""}>
+              <div className="space-y-3">
+                {displayedTrackers.map((t) => (
+                  <div key={`${t.label}-${t.name}`} className="flex items-center gap-2 text-sm">
+                    <span className={`px-2 py-0.5 rounded text-xs ${t.colorClass}`}>
+                      {t.label}
+                    </span>
+                    <span className="text-text-primary">{t.name}</span>
+                    <span className="text-text-tertiary font-mono text-xs">{t.domain}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-            {scan.trackers.advertising.map((t) => (
-              <div key={t.name} className="flex items-center gap-2 text-sm">
-                <span className="px-2 py-0.5 rounded bg-grade-d/10 text-grade-d text-xs">
-                  ads
-                </span>
-                <span className="text-text-primary">{t.name}</span>
-                <span className="text-text-tertiary font-mono text-xs">{t.domain}</span>
-              </div>
-            ))}
-            {scan.trackers.analytics.map((t) => (
-              <div key={t.name} className="flex items-center gap-2 text-sm">
-                <span className="px-2 py-0.5 rounded bg-grade-c/10 text-grade-c text-xs">
-                  analytics
-                </span>
-                <span className="text-text-primary">{t.name}</span>
-                <span className="text-text-tertiary font-mono text-xs">{t.domain}</span>
-              </div>
-            ))}
+            </div>
+            {hiddenTrackerCount > 0 && (
+              <button
+                onClick={() => setShowAllTrackers((prev) => !prev)}
+                className="flex items-center gap-1 mt-3 text-xs text-accent hover:text-accent-hover transition-colors"
+              >
+                {showAllTrackers ? (
+                  <>
+                    <ChevronUp className="w-3 h-3" />
+                    Show less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-3 h-3" />
+                    Show all {flatTrackers.length} trackers
+                  </>
+                )}
+              </button>
+            )}
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Fingerprinting techniques */}
       {scan.fingerprinting && scan.fingerprinting.length > 0 && (
