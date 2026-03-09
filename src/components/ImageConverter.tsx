@@ -358,7 +358,7 @@ export default function ImageConverter() {
           <select
             value={outputFormat}
             onChange={(e) => setOutputFormat(e.target.value as ImageFormat)}
-            className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+            className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
           >
             {OUTPUT_FORMATS.map((f) => (
               <option key={f} value={f}>
@@ -389,7 +389,7 @@ export default function ImageConverter() {
           <select
             value={resizePreset}
             onChange={(e) => setResizePreset(e.target.value)}
-            className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+            className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
           >
             {RESIZE_PRESETS.map((p) => (
               <option key={p.label} value={p.label}>
@@ -409,12 +409,12 @@ export default function ImageConverter() {
                 value={customWidth}
                 onChange={(e) => handleCustomWidth(e.target.value)}
                 placeholder="px"
-                className="w-20 bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+                className="w-20 bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
               />
             </div>
             <button
               onClick={() => setAspectLock(!aspectLock)}
-              className={`p-2 rounded-lg border transition-colors ${
+              className={`p-2 border transition-colors ${
                 aspectLock
                   ? "border-accent text-accent bg-accent/10"
                   : "border-border text-text-tertiary hover:text-text-primary"
@@ -431,7 +431,7 @@ export default function ImageConverter() {
                 value={customHeight}
                 onChange={(e) => handleCustomHeight(e.target.value)}
                 placeholder="px"
-                className="w-20 bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+                className="w-20 bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
               />
             </div>
           </div>
@@ -463,7 +463,7 @@ export default function ImageConverter() {
 
       {/* Batch completion banner */}
       {isBatchComplete && doneCount > 1 && (
-        <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 rounded-xl px-4 py-3 fade-in">
+        <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 px-4 py-3 fade-in">
           <div className="flex items-center gap-2">
             <CircleCheck className="w-4 h-4 text-grade-a done-check" />
             <span className="text-sm text-grade-a font-medium">
@@ -472,7 +472,7 @@ export default function ImageConverter() {
           </div>
           <button
             onClick={downloadAll}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a rounded-lg text-xs font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a text-xs font-medium transition-colors"
           >
             <DownloadCloud className="w-3.5 h-3.5" />
             Download All
@@ -486,7 +486,7 @@ export default function ImageConverter() {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className={`flex items-center gap-3 rounded-lg px-4 py-3 ${
+              className={`flex items-center gap-3 px-4 py-3 ${
                 job.status === "done"
                   ? "bg-grade-a/5 border border-grade-a/25 border-l-2 border-l-grade-a"
                   : job.status === "error"
@@ -534,7 +534,7 @@ export default function ImageConverter() {
           {pendingCount > 0 && (
             <button
               onClick={() => { trackEvent("tool_used", { tool: "convert-images" }); processAll(); }}
-              className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
+              className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg text-sm font-medium transition-colors"
             >
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}
             </button>

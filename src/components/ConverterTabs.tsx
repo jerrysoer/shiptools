@@ -15,14 +15,14 @@ export default function ConverterTabs() {
   const pathname = usePathname();
 
   return (
-    <div className="flex gap-1 bg-bg-surface border border-border rounded-xl p-1">
+    <div className="flex gap-1 bg-bg-surface border border-border p-1">
       {TABS.map(({ href, label, icon: Icon }) => {
         const isActive = pathname === href;
         return (
           <Link
             key={href}
             href={href}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
               isActive
                 ? "bg-bg-elevated text-text-primary"
                 : "text-text-secondary hover:text-text-primary"

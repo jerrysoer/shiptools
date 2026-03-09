@@ -156,7 +156,7 @@ export default function ReceiptParser() {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
+              className={`border-2 border-dashed p-8 text-center cursor-pointer transition-colors ${
                 isDragging
                   ? "border-accent bg-accent/5"
                   : "border-border hover:border-accent/50"
@@ -167,7 +167,7 @@ export default function ReceiptParser() {
                   <img
                     src={imagePreview}
                     alt="Receipt preview"
-                    className="max-h-48 mx-auto rounded-lg"
+                    className="max-h-48 mx-auto"
                   />
                   <p className="text-text-tertiary text-xs">
                     {imageFile?.name} — Click or drop to replace
@@ -203,7 +203,7 @@ export default function ReceiptParser() {
               <button
                 onClick={handleOCR}
                 disabled={isOcrLoading}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isOcrLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -241,7 +241,7 @@ export default function ReceiptParser() {
                 value={ocrText}
                 readOnly
                 rows={8}
-                className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary resize-y font-mono opacity-80"
+                className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary resize-y font-mono opacity-80"
               />
             </div>
           )}
@@ -257,7 +257,7 @@ export default function ReceiptParser() {
                 <button
                   onClick={handleParse}
                   disabled={!ocrText.trim() || isStreaming || isModelLoading}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isStreaming || isModelLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -285,7 +285,7 @@ export default function ReceiptParser() {
 
           {/* Output */}
           {displayOutput && (
-            <div className="bg-bg-elevated border border-border rounded-xl p-4 text-sm text-text-primary leading-relaxed overflow-y-auto max-h-96">
+            <div className="bg-bg-elevated border border-border p-4 text-sm text-text-primary leading-relaxed overflow-y-auto max-h-96">
               <pre className="whitespace-pre-wrap font-mono text-xs">
                 {displayOutput}
               </pre>
@@ -299,7 +299,7 @@ export default function ReceiptParser() {
           {displayOutput && !isStreaming && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
             >
               {copied ? (
                 <Check className="w-4 h-4 text-grade-a" />

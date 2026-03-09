@@ -283,21 +283,21 @@ export default function JsonFormatter() {
         <button
           onClick={handleFormat}
           disabled={!result.valid}
-          className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+          className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
         >
           Format
         </button>
         <button
           onClick={handleMinify}
           disabled={!result.valid}
-          className="flex items-center gap-1.5 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+          className="flex items-center gap-1.5 bg-bg-elevated border border-border px-4 py-2 hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
         >
           <Minimize2 className="w-3.5 h-3.5" />
           Minify
         </button>
 
         {/* Indent toggle */}
-        <div className="flex items-center gap-1 bg-bg-surface border border-border rounded-lg p-0.5 ml-auto">
+        <div className="flex items-center gap-1 bg-bg-surface border border-border p-0.5 ml-auto">
           {([2, 4] as IndentSize[]).map((size) => (
             <button
               key={size}
@@ -314,7 +314,7 @@ export default function JsonFormatter() {
         </div>
 
         {/* View toggle */}
-        <div className="flex items-center gap-1 bg-bg-surface border border-border rounded-lg p-0.5">
+        <div className="flex items-center gap-1 bg-bg-surface border border-border p-0.5">
           <button
             onClick={() => setViewMode("formatted")}
             className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-medium transition-colors ${
@@ -350,7 +350,7 @@ export default function JsonFormatter() {
             placeholder='Paste JSON here... or click "Load sample"'
             spellCheck={false}
             rows={18}
-            className={`w-full bg-bg-surface border rounded-xl px-4 py-3 text-sm font-mono resize-none focus:outline-none placeholder:text-text-tertiary ${
+            className={`w-full bg-bg-surface border px-4 py-3 text-sm font-mono resize-none focus:outline-none placeholder:text-text-tertiary ${
               result.error
                 ? "border-grade-f focus:border-grade-f"
                 : "border-border focus:border-accent"
@@ -387,7 +387,7 @@ export default function JsonFormatter() {
         </div>
 
         {/* Output */}
-        <div className="relative bg-bg-surface border border-border rounded-xl overflow-hidden">
+        <div className="relative bg-bg-surface border border-border overflow-hidden">
           {/* Copy button */}
           {result.valid && viewMode === "formatted" && (
             <button
@@ -427,7 +427,7 @@ export default function JsonFormatter() {
         <button
           onClick={convertToCSV}
           disabled={!result.valid || !Array.isArray(result.data)}
-          className="flex items-center gap-1.5 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+          className="flex items-center gap-1.5 bg-bg-elevated border border-border px-4 py-2 hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
           title={!Array.isArray(result.data) ? "Requires an array of objects" : ""}
         >
           <FileSpreadsheet className="w-4 h-4" />
@@ -436,7 +436,7 @@ export default function JsonFormatter() {
         <button
           onClick={convertToYAML}
           disabled={!result.valid}
-          className="flex items-center gap-1.5 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+          className="flex items-center gap-1.5 bg-bg-elevated border border-border px-4 py-2 hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
         >
           <FileText className="w-4 h-4" />
           Convert to YAML

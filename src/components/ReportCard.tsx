@@ -52,7 +52,7 @@ export default function ReportCard({ result }: ReportCardProps) {
       {/* Downloadable card */}
       <div
         ref={cardRef}
-        className="bg-bg-surface border border-border rounded-xl p-8 max-w-md mx-auto"
+        className="bg-bg-surface border border-border p-8 max-w-md mx-auto"
       >
         <div className="text-center mb-6">
           <p className="text-text-tertiary text-xs font-mono mb-3">
@@ -78,25 +78,25 @@ export default function ReportCard({ result }: ReportCardProps) {
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3 text-center">
-          <div className="bg-bg-elevated rounded-lg p-3">
+          <div className="bg-bg-elevated p-3">
             <p className="text-2xl font-mono font-bold text-text-primary">
               {scan.cookies.thirdParty}
             </p>
             <p className="text-text-tertiary text-xs">3rd-party cookies</p>
           </div>
-          <div className="bg-bg-elevated rounded-lg p-3">
+          <div className="bg-bg-elevated p-3">
             <p className="text-2xl font-mono font-bold text-text-primary">
               {scan.thirdPartyDomains.total}
             </p>
             <p className="text-text-tertiary text-xs">3rd-party domains</p>
           </div>
-          <div className="bg-bg-elevated rounded-lg p-3">
+          <div className="bg-bg-elevated p-3">
             <p className="text-2xl font-mono font-bold text-text-primary">
               {scan.trackers.advertising.length}
             </p>
             <p className="text-text-tertiary text-xs">Ad networks</p>
           </div>
-          <div className="bg-bg-elevated rounded-lg p-3">
+          <div className="bg-bg-elevated p-3">
             <p className="text-2xl font-mono font-bold text-text-primary">
               {scan.trackers.sessionRecording.length}
             </p>
@@ -113,14 +113,14 @@ export default function ReportCard({ result }: ReportCardProps) {
       <div className="flex justify-center gap-3">
         <button
           onClick={handleDownload}
-          className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-accent-fg text-sm font-medium transition-colors"
         >
           <Download className="w-4 h-4" />
           Download PNG
         </button>
         <button
           onClick={handleCopyLink}
-          className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
         >
           {copied ? <Check className="w-4 h-4 text-grade-a" /> : <Share2 className="w-4 h-4" />}
           {copied ? "Copied!" : "Copy Link"}

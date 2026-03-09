@@ -78,7 +78,7 @@ export default function ContrastChecker() {
       />
 
       {/* Color Inputs */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+      <div className="bg-bg-surface border border-border p-6 mb-6">
         <div className="flex items-end gap-4">
           {/* Foreground */}
           <div className="flex-1">
@@ -90,14 +90,14 @@ export default function ContrastChecker() {
                 type="color"
                 value={hexToRgb(fg) ? fg : "#000000"}
                 onChange={(e) => setFg(e.target.value)}
-                className="w-10 h-10 rounded-lg border border-border cursor-pointer shrink-0 bg-transparent"
+                className="w-10 h-10 border border-border cursor-pointer shrink-0 bg-transparent"
               />
               <input
                 type="text"
                 value={fg}
                 onChange={(e) => handleHexInput(e.target.value, setFg)}
                 maxLength={7}
-                className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm font-mono outline-none focus:border-accent"
+                className="flex-1 bg-bg-elevated border border-border px-3 py-2 text-sm font-mono outline-none focus:border-accent"
                 placeholder="#000000"
               />
             </div>
@@ -106,7 +106,7 @@ export default function ContrastChecker() {
           {/* Swap Button */}
           <button
             onClick={handleSwap}
-            className="p-2.5 rounded-lg border border-border hover:bg-bg-elevated transition-colors shrink-0 mb-0.5"
+            className="p-2.5 border border-border hover:bg-bg-elevated transition-colors shrink-0 mb-0.5"
             title="Swap colors"
           >
             <ArrowUpDown className="w-4 h-4 text-text-secondary" />
@@ -122,14 +122,14 @@ export default function ContrastChecker() {
                 type="color"
                 value={hexToRgb(bg) ? bg : "#ffffff"}
                 onChange={(e) => setBg(e.target.value)}
-                className="w-10 h-10 rounded-lg border border-border cursor-pointer shrink-0 bg-transparent"
+                className="w-10 h-10 border border-border cursor-pointer shrink-0 bg-transparent"
               />
               <input
                 type="text"
                 value={bg}
                 onChange={(e) => handleHexInput(e.target.value, setBg)}
                 maxLength={7}
-                className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm font-mono outline-none focus:border-accent"
+                className="flex-1 bg-bg-elevated border border-border px-3 py-2 text-sm font-mono outline-none focus:border-accent"
                 placeholder="#ffffff"
               />
             </div>
@@ -139,7 +139,7 @@ export default function ContrastChecker() {
 
       {/* Live Preview */}
       <div
-        className="rounded-xl border border-border p-8 mb-6 text-center"
+        className="border border-border p-8 mb-6 text-center"
         style={{ backgroundColor: bg }}
       >
         <p style={{ color: fg }} className="text-2xl font-bold mb-1">
@@ -151,7 +151,7 @@ export default function ContrastChecker() {
       </div>
 
       {/* Contrast Ratio Display */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6 text-center">
+      <div className="bg-bg-surface border border-border p-6 mb-6 text-center">
         <p className="text-text-secondary text-sm mb-1">Contrast Ratio</p>
         <p className="text-4xl font-bold font-mono">
           {ratioDisplay}
@@ -160,7 +160,7 @@ export default function ContrastChecker() {
       </div>
 
       {/* WCAG Levels */}
-      <div className="bg-bg-surface border border-border rounded-xl divide-y divide-border">
+      <div className="bg-bg-surface border border-border divide-y divide-border">
         {LEVELS.map(({ label, threshold, desc }) => {
           const passes = ratio !== null && ratio >= threshold;
           return (

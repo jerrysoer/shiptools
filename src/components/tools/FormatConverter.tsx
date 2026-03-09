@@ -199,7 +199,7 @@ export default function FormatConverter() {
           <select
             value={inputFormat}
             onChange={(e) => setInputFormat(e.target.value as Format)}
-            className="w-full bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
+            className="w-full bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
           >
             {FORMAT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -213,7 +213,7 @@ export default function FormatConverter() {
           <select
             value={outputFormat}
             onChange={(e) => setOutputFormat(e.target.value as Format)}
-            className="w-full bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
+            className="w-full bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
           >
             {OUTPUT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -225,7 +225,7 @@ export default function FormatConverter() {
       {/* Detected format badge */}
       {detectedFormat && inputFormat === "auto" && (
         <div className="mb-4">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 text-accent rounded-lg text-xs font-medium">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 text-accent text-xs font-medium">
             Detected: {detectedFormat.toUpperCase()}
           </span>
         </div>
@@ -249,7 +249,7 @@ export default function FormatConverter() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your JSON, YAML, or TOML here..."
           rows={10}
-          className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+          className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
           spellCheck={false}
         />
       </div>
@@ -258,7 +258,7 @@ export default function FormatConverter() {
       <button
         onClick={handleConvert}
         disabled={!input.trim()}
-        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-4"
       >
         <ArrowLeftRight className="w-4 h-4" />
         Convert
@@ -266,7 +266,7 @@ export default function FormatConverter() {
 
       {/* Error */}
       {error && (
-        <div className="bg-grade-f/10 border border-grade-f/20 rounded-xl px-4 py-3 mb-4">
+        <div className="bg-grade-f/10 border border-grade-f/20 px-4 py-3 mb-4">
           <p className="text-sm text-grade-f">{error}</p>
         </div>
       )}
@@ -299,7 +299,7 @@ export default function FormatConverter() {
             value={output}
             readOnly
             rows={10}
-            className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-mono resize-y"
+            className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary font-mono resize-y"
             spellCheck={false}
           />
         </div>

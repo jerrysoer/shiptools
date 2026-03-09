@@ -19,7 +19,7 @@ export default function WorkflowCard({ number, title, summary, tools, deptColor 
           <div key={tool.href} className="flex items-center gap-2">
             <Link
               href={tool.href}
-              className="p-2 bg-bg-elevated rounded-lg hover:bg-bg-hover transition-colors"
+              className="p-2 bg-bg-elevated hover:bg-bg-hover transition-colors"
               title={tool.name}
             >
               <tool.icon className="w-4 h-4 text-text-secondary" />

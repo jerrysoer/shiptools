@@ -201,7 +201,7 @@ export default function Writer() {
                 <button
                   key={opt.value}
                   onClick={() => setMode(opt.value)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                     mode === opt.value
                       ? "bg-accent text-accent-fg"
                       : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -222,7 +222,7 @@ export default function Writer() {
                   <button
                     key={opt}
                     onClick={() => setEmailTone(opt)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                       emailTone === opt
                         ? "bg-accent text-accent-fg"
                         : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -243,7 +243,7 @@ export default function Writer() {
                   <button
                     key={opt}
                     onClick={() => setPlatform(opt)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                       platform === opt
                         ? "bg-accent text-accent-fg"
                         : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -267,7 +267,7 @@ export default function Writer() {
                       setRewriteTone(opt);
                       setInstruction("");
                     }}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                       rewriteTone === opt && !instruction
                         ? "bg-accent text-accent-fg"
                         : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -289,7 +289,7 @@ export default function Writer() {
                     <button
                       key={opt}
                       onClick={() => setAudience(opt)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                         audience === opt
                           ? "bg-accent text-accent-fg"
                           : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -307,7 +307,7 @@ export default function Writer() {
                     <button
                       key={opt}
                       onClick={() => setContentType(opt)}
-                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                      className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                         contentType === opt
                           ? "bg-accent text-accent-fg"
                           : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -334,7 +334,7 @@ export default function Writer() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={inputPlaceholder}
               rows={mode === "rewrite" || mode === "custom" ? 6 : 4}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
             />
           </div>
 
@@ -354,7 +354,7 @@ export default function Writer() {
                   : "e.g., Focus on privacy-first approach and local processing..."
                 }
                 rows={mode === "email" ? 3 : mode === "techdocs" ? 4 : 2}
-                className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+                className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
               />
             </div>
           )}
@@ -373,7 +373,7 @@ export default function Writer() {
                   ? 'e.g., "Summarize this for a 5th grader"'
                   : 'e.g., "Make it sound like a pirate"'
                 }
-                className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
+                className="w-full bg-bg-elevated border border-border px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
               />
             </div>
           )}
@@ -387,7 +387,7 @@ export default function Writer() {
             <button
               onClick={handleGenerate}
               disabled={disableButton}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isStreaming || isModelLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -405,7 +405,7 @@ export default function Writer() {
           {output && !isStreaming && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
             >
               {copied ? (
                 <Check className="w-4 h-4 text-grade-a" />

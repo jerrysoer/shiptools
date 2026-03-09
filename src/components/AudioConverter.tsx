@@ -134,7 +134,7 @@ export default function AudioConverter() {
           <select
             value={outputFormat}
             onChange={(e) => setOutputFormat(e.target.value as AudioFormat)}
-            className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+            className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
           >
             {OUTPUT_FORMATS.map((f) => (
               <option key={f} value={f}>{f.toUpperCase()}</option>
@@ -147,7 +147,7 @@ export default function AudioConverter() {
           <select
             value={bitrate}
             onChange={(e) => setBitrate(Number(e.target.value))}
-            className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+            className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
           >
             <option value={128}>128 kbps</option>
             <option value={192}>192 kbps</option>
@@ -189,7 +189,7 @@ export default function AudioConverter() {
 
       {/* Batch completion banner */}
       {isBatchComplete && doneCount > 1 && (
-        <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 rounded-xl px-4 py-3 fade-in">
+        <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 px-4 py-3 fade-in">
           <div className="flex items-center gap-2">
             <CircleCheck className="w-4 h-4 text-grade-a done-check" />
             <span className="text-sm text-grade-a font-medium">
@@ -198,7 +198,7 @@ export default function AudioConverter() {
           </div>
           <button
             onClick={downloadAll}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a rounded-lg text-xs font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a text-xs font-medium transition-colors"
           >
             <DownloadCloud className="w-3.5 h-3.5" />
             Download All
@@ -209,7 +209,7 @@ export default function AudioConverter() {
       {jobs.length > 0 && (
         <div className="space-y-2">
           {jobs.map((job) => (
-            <div key={job.id} className={`flex items-center gap-3 rounded-lg px-4 py-3 ${
+            <div key={job.id} className={`flex items-center gap-3 px-4 py-3 ${
               job.status === "done"
                 ? "bg-grade-a/5 border border-grade-a/25 border-l-2 border-l-grade-a"
                 : job.status === "error"
@@ -242,7 +242,7 @@ export default function AudioConverter() {
             </div>
           ))}
           {pendingCount > 0 && (
-            <button onClick={() => { trackEvent("tool_used", { tool: "convert-audio" }); processAll(); }} className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors">
+            <button onClick={() => { trackEvent("tool_used", { tool: "convert-audio" }); processAll(); }} className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg text-sm font-medium transition-colors">
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}
             </button>
           )}

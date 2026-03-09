@@ -265,7 +265,7 @@ export default function VideoConverter() {
 
       {/* Mobile / SharedArrayBuffer warning */}
       {noSharedArrayBuffer && (
-        <div className="flex items-start gap-3 rounded-lg bg-grade-d/10 border border-grade-d/25 px-4 py-3">
+        <div className="flex items-start gap-3 bg-grade-d/10 border border-grade-d/25 px-4 py-3">
           <AlertTriangle className="w-5 h-5 text-grade-d shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-text-primary">
@@ -288,7 +288,7 @@ export default function VideoConverter() {
           <select
             value={outputFormat}
             onChange={(e) => setOutputFormat(e.target.value as VideoFormat)}
-            className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+            className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
           >
             {OUTPUT_FORMATS.map((f) => (
               <option key={f} value={f}>
@@ -305,7 +305,7 @@ export default function VideoConverter() {
           <select
             value={resolution}
             onChange={(e) => setResolution(e.target.value)}
-            className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary"
+            className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary"
           >
             {RESOLUTION_PRESETS.map((p) => (
               <option key={p.value} value={p.value}>
@@ -348,7 +348,7 @@ export default function VideoConverter() {
               placeholder="0"
               value={trimStart}
               onChange={(e) => setTrimStart(e.target.value)}
-              className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary w-24"
+              className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary w-24"
             />
           </div>
           <div>
@@ -362,7 +362,7 @@ export default function VideoConverter() {
               placeholder="End"
               value={trimEnd}
               onChange={(e) => setTrimEnd(e.target.value)}
-              className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary w-24"
+              className="bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary w-24"
             />
           </div>
         </div>
@@ -400,7 +400,7 @@ export default function VideoConverter() {
 
       {/* Batch completion banner */}
       {isBatchComplete && doneCount > 1 && (
-        <div className="fade-in flex items-center justify-between rounded-lg bg-grade-a/10 border border-grade-a/25 px-4 py-3">
+        <div className="fade-in flex items-center justify-between bg-grade-a/10 border border-grade-a/25 px-4 py-3">
           <div className="flex items-center gap-2">
             <CircleCheck className="w-5 h-5 text-grade-a" />
             <p className="text-sm font-medium text-text-primary">
@@ -409,7 +409,7 @@ export default function VideoConverter() {
           </div>
           <button
             onClick={downloadAll}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a text-sm font-medium transition-colors"
           >
             <Download className="w-4 h-4" />
             Download All
@@ -423,7 +423,7 @@ export default function VideoConverter() {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className={`flex items-center gap-3 rounded-lg px-4 py-3 ${
+              className={`flex items-center gap-3 px-4 py-3 ${
                 job.status === "done"
                   ? "bg-grade-a/5 border border-grade-a/25 border-l-2 border-l-grade-a"
                   : job.status === "error"
@@ -496,7 +496,7 @@ export default function VideoConverter() {
           {pendingCount > 0 && (
             <button
               onClick={() => { trackEvent("tool_used", { tool: "convert-video" }); processAll(); }}
-              className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
+              className="w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-fg text-sm font-medium transition-colors"
             >
               Convert {pendingCount} file{pendingCount > 1 ? "s" : ""}
             </button>

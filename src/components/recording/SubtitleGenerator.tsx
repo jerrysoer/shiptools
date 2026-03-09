@@ -114,7 +114,7 @@ export default function SubtitleGenerator({
   return (
     <div className={`space-y-4 ${className ?? ""}`}>
       {/* Transcript segments */}
-      <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+      <div className="bg-bg-surface border border-border overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
           <Subtitles className="w-4 h-4 text-accent" />
           <h3 className="font-heading font-semibold text-sm">
@@ -148,7 +148,7 @@ export default function SubtitleGenerator({
         <button
           type="button"
           onClick={handleDownloadSRT}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-bg-surface border border-border hover:border-border-hover text-text-primary text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-bg-surface border border-border hover:border-border-hover text-text-primary text-sm font-medium transition-colors"
         >
           <Download className="w-4 h-4" />
           Download SRT
@@ -156,7 +156,7 @@ export default function SubtitleGenerator({
         <button
           type="button"
           onClick={handleDownloadVTT}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-bg-surface border border-border hover:border-border-hover text-text-primary text-sm font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-bg-surface border border-border hover:border-border-hover text-text-primary text-sm font-medium transition-colors"
         >
           <Download className="w-4 h-4" />
           Download VTT
@@ -166,7 +166,7 @@ export default function SubtitleGenerator({
             type="button"
             onClick={handleBurnIn}
             disabled={isBurningIn}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium transition-colors hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-4 py-2 bg-accent text-white text-sm font-medium transition-colors hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isBurningIn ? (
               <>

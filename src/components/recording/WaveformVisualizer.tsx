@@ -48,7 +48,7 @@ export default function WaveformVisualizer({
     <div ref={containerRef} className={`w-full ${className ?? ""}`}>
       <canvas
         ref={canvasRef}
-        className="w-full rounded-lg"
+        className="w-full"
         height={height}
         style={{ height }}
       />

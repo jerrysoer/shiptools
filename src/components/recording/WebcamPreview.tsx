@@ -62,7 +62,7 @@ export default function WebcamPreview({
 
   if (!stream) return null;
 
-  const shapeClass = shape === "circle" ? "rounded-full" : "rounded-2xl";
+  const shapeClass = shape === "circle" ? "rounded-full" : "";
 
   return (
     <div

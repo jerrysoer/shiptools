@@ -102,7 +102,7 @@ export default function DropZone({
             inputRef.current?.click();
           }
         }}
-        className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
+        className={`border-2 border-dashed p-8 text-center cursor-pointer transition-all ${
           isDragging
             ? "border-accent bg-accent/5"
             : "border-border hover:border-border-hover hover:bg-bg-surface/50"

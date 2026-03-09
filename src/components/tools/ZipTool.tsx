@@ -224,7 +224,7 @@ function CreateMode() {
       />
 
       {files.length > 0 && (
-        <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-3">
+        <div className="bg-bg-surface border border-border p-4 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-text-secondary text-sm">
               {files.length} file{files.length !== 1 ? "s" : ""} &middot;{" "}
@@ -270,14 +270,14 @@ function CreateMode() {
                 value={zipName}
                 onChange={(e) => setZipName(e.target.value)}
                 placeholder="archive"
-                className="bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm font-mono flex-1 focus:outline-none focus:border-accent"
+                className="bg-bg-elevated border border-border px-3 py-2 text-sm font-mono flex-1 focus:outline-none focus:border-accent"
               />
               <span className="text-text-tertiary text-sm">.zip</span>
             </div>
             <button
               onClick={createZip}
               disabled={creating || files.length === 0}
-              className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium"
+              className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium"
             >
               {creating ? (
                 <>
@@ -398,13 +398,13 @@ function ExtractMode() {
       )}
 
       {error && (
-        <div className="bg-grade-f/10 border border-grade-f/20 rounded-xl p-4 text-grade-f text-sm">
+        <div className="bg-grade-f/10 border border-grade-f/20 p-4 text-grade-f text-sm">
           {error}
         </div>
       )}
 
       {tree.length > 0 && (
-        <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-3">
+        <div className="bg-bg-surface border border-border p-4 space-y-3">
           <div className="flex items-center justify-between">
             <div className="text-text-secondary text-sm">
               <span className="font-mono text-text-primary">{zipFileName}</span>
@@ -414,7 +414,7 @@ function ExtractMode() {
             <button
               onClick={extractAll}
               disabled={extractingAll}
-              className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium"
+              className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium"
             >
               {extractingAll ? (
                 <>
@@ -430,7 +430,7 @@ function ExtractMode() {
             </button>
           </div>
 
-          <div className="border border-border rounded-lg overflow-hidden bg-bg-primary/50">
+          <div className="border border-border overflow-hidden bg-bg-primary/50">
             <div className="max-h-96 overflow-y-auto py-1">
               {tree.map((node) => (
                 <FileTreeNode key={node.path} node={node} depth={0} />
@@ -459,7 +459,7 @@ export default function ZipTool() {
       />
       <div className="space-y-6">
       <div className="flex items-center justify-center">
-        <div className="flex bg-bg-surface border border-border rounded-lg p-1">
+        <div className="flex bg-bg-surface border border-border p-1">
           <button
             onClick={() => setMode("create")}
             className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${

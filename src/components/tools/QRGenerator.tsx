@@ -158,12 +158,12 @@ export default function QRGenerator() {
       />
 
       {/* Preset tabs */}
-      <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-xl mb-6">
+      <div className="flex gap-1 p-1 bg-bg-surface border border-border mb-6">
         {PRESET_TABS.map(({ key, label, icon: Icon }) => (
           <button
             key={key}
             onClick={() => setPreset(key)}
-            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium transition-colors ${
               preset === key
                 ? "bg-accent text-accent-fg"
                 : "text-text-secondary hover:text-text-primary hover:bg-bg-hover"
@@ -178,7 +178,7 @@ export default function QRGenerator() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Input panel */}
         <div className="space-y-4">
-          <div className="bg-bg-surface border border-border rounded-xl p-5">
+          <div className="bg-bg-surface border border-border p-5">
             <h2 className="font-heading font-semibold mb-4">Content</h2>
 
             {preset === "text" && (
@@ -187,7 +187,7 @@ export default function QRGenerator() {
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Enter text to encode..."
                 rows={4}
-                className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm font-mono resize-none focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm font-mono resize-none focus:outline-none focus:border-accent placeholder:text-text-tertiary"
               />
             )}
 
@@ -197,7 +197,7 @@ export default function QRGenerator() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com"
-                className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm font-mono focus:outline-none focus:border-accent placeholder:text-text-tertiary"
               />
             )}
 
@@ -208,7 +208,7 @@ export default function QRGenerator() {
                   value={wifi.ssid}
                   onChange={(e) => setWifi({ ...wifi, ssid: e.target.value })}
                   placeholder="Network name (SSID)"
-                  className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                  className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                 />
                 {wifi.encryption !== "nopass" && (
                   <input
@@ -216,14 +216,14 @@ export default function QRGenerator() {
                     value={wifi.password}
                     onChange={(e) => setWifi({ ...wifi, password: e.target.value })}
                     placeholder="Password"
-                    className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                    className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                   />
                 )}
                 <div className="flex gap-3 items-center">
                   <select
                     value={wifi.encryption}
                     onChange={(e) => setWifi({ ...wifi, encryption: e.target.value as WifiEncryption })}
-                    className="bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-accent"
+                    className="bg-bg-elevated border border-border px-3 py-2 text-sm focus:outline-none focus:border-accent"
                   >
                     <option value="WPA">WPA/WPA2</option>
                     <option value="WEP">WEP</option>
@@ -250,14 +250,14 @@ export default function QRGenerator() {
                     value={vcard.firstName}
                     onChange={(e) => setVcard({ ...vcard, firstName: e.target.value })}
                     placeholder="First name"
-                    className="bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                    className="bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                   />
                   <input
                     type="text"
                     value={vcard.lastName}
                     onChange={(e) => setVcard({ ...vcard, lastName: e.target.value })}
                     placeholder="Last name"
-                    className="bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                    className="bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                   />
                 </div>
                 <input
@@ -265,28 +265,28 @@ export default function QRGenerator() {
                   value={vcard.phone}
                   onChange={(e) => setVcard({ ...vcard, phone: e.target.value })}
                   placeholder="Phone number"
-                  className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                  className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                 />
                 <input
                   type="email"
                   value={vcard.email}
                   onChange={(e) => setVcard({ ...vcard, email: e.target.value })}
                   placeholder="Email address"
-                  className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                  className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                 />
                 <input
                   type="text"
                   value={vcard.org}
                   onChange={(e) => setVcard({ ...vcard, org: e.target.value })}
                   placeholder="Organization (optional)"
-                  className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
+                  className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm focus:outline-none focus:border-accent placeholder:text-text-tertiary"
                 />
               </div>
             )}
           </div>
 
           {/* Color pickers */}
-          <div className="bg-bg-surface border border-border rounded-xl p-5">
+          <div className="bg-bg-surface border border-border p-5">
             <div className="flex items-center gap-2 mb-4">
               <Palette className="w-4 h-4 text-text-tertiary" />
               <h2 className="font-heading font-semibold">Colors</h2>
@@ -315,10 +315,10 @@ export default function QRGenerator() {
         </div>
 
         {/* Preview panel */}
-        <div className="bg-bg-surface border border-border rounded-xl p-5 flex flex-col items-center">
+        <div className="bg-bg-surface border border-border p-5 flex flex-col items-center">
           <h2 className="font-heading font-semibold mb-4 self-start">Preview</h2>
 
-          <div className="w-64 h-64 rounded-xl border border-border flex items-center justify-center overflow-hidden mb-4"
+          <div className="w-64 h-64 border border-border flex items-center justify-center overflow-hidden mb-4"
             style={{ backgroundColor: bgColor }}
           >
             {svgPreview ? (
@@ -341,7 +341,7 @@ export default function QRGenerator() {
             <button
               onClick={downloadPNG}
               disabled={!payload}
-              className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+              className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Download PNG
@@ -349,7 +349,7 @@ export default function QRGenerator() {
             <button
               onClick={downloadSVG}
               disabled={!svgPreview}
-              className="flex-1 flex items-center justify-center gap-2 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+              className="flex-1 flex items-center justify-center gap-2 bg-bg-elevated border border-border px-4 py-2 hover:border-border-hover disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-sm font-medium"
             >
               <Download className="w-4 h-4" />
               Download SVG

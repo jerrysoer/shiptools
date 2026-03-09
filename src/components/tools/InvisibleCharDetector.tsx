@@ -92,7 +92,7 @@ export default function InvisibleCharDetector() {
       <div className="space-y-4">
 
       {/* Input */}
-      <div className="bg-bg-surface border border-border rounded-xl p-4">
+      <div className="bg-bg-surface border border-border p-4">
         <label className="block text-sm font-medium text-text-secondary mb-2">
           Paste text to inspect
         </label>
@@ -101,7 +101,7 @@ export default function InvisibleCharDetector() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste text here to detect invisible characters, homoglyphs, and bidi controls..."
           rows={6}
-          className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent resize-y"
+          className="w-full bg-bg-elevated border border-border px-4 py-3 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent resize-y"
         />
       </div>
 
@@ -109,7 +109,7 @@ export default function InvisibleCharDetector() {
       {result && input && (
         <>
           {/* Summary */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <div className="flex items-center gap-2 mb-3">
               {result.total > 0 ? (
                 <>
@@ -149,11 +149,11 @@ export default function InvisibleCharDetector() {
 
           {/* Highlighted Output */}
           {result.total > 0 && (
-            <div className="bg-bg-surface border border-border rounded-xl p-4">
+            <div className="bg-bg-surface border border-border p-4">
               <h3 className="text-sm font-medium text-text-secondary mb-2">
                 Highlighted Text
               </h3>
-              <div className="bg-bg-elevated border border-border rounded-lg p-4 font-mono text-sm leading-relaxed break-all whitespace-pre-wrap">
+              <div className="bg-bg-elevated border border-border p-4 font-mono text-sm leading-relaxed break-all whitespace-pre-wrap">
                 {renderHighlighted}
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function InvisibleCharDetector() {
 
           {/* Character Table */}
           {result.total > 0 && (
-            <div className="bg-bg-surface border border-border rounded-xl p-4">
+            <div className="bg-bg-surface border border-border p-4">
               <h3 className="text-sm font-medium text-text-secondary mb-2">
                 Detected Characters
               </h3>
@@ -201,7 +201,7 @@ export default function InvisibleCharDetector() {
           {result.total > 0 && (
             <button
               onClick={handleCleanCopy}
-              className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors"
+              className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 transition-colors"
             >
               {copied ? (
                 <>

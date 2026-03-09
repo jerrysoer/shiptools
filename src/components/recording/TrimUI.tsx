@@ -217,7 +217,7 @@ export default function TrimUI({
   const playPercent = timeToPercent(playbackTime);
 
   return (
-    <div className={`bg-bg-surface border border-border rounded-xl p-4 ${className ?? ""}`}>
+    <div className={`bg-bg-surface border border-border p-4 ${className ?? ""}`}>
       <div className="flex items-center gap-2 mb-3">
         <Scissors className="w-4 h-4 text-text-tertiary" />
         <h3 className="text-sm font-medium text-text-secondary">Trim</h3>
@@ -237,7 +237,7 @@ export default function TrimUI({
         {/* Static waveform canvas */}
         <canvas
           ref={canvasRef}
-          className="absolute inset-0 w-full h-full rounded-lg"
+          className="absolute inset-0 w-full h-full"
           style={{ imageRendering: "pixelated" }}
         />
 
@@ -309,7 +309,7 @@ export default function TrimUI({
         <div className="flex items-center gap-3">
           <button
             onClick={togglePlay}
-            className="flex items-center justify-center w-8 h-8 bg-bg-elevated rounded-lg hover:bg-bg-hover transition-colors cursor-pointer"
+            className="flex items-center justify-center w-8 h-8 bg-bg-elevated hover:bg-bg-hover transition-colors cursor-pointer"
           >
             {isPlaying ? (
               <Pause className="w-4 h-4 text-text-primary" />

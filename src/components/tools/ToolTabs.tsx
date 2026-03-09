@@ -34,12 +34,12 @@ export default function ToolTabs({ tabs, defaultTab, children }: ToolTabsProps) 
 
   return (
     <div>
-      <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-xl mb-6">
+      <div className="flex gap-1 p-1 bg-bg-surface border border-border mb-6">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleTabChange(tab.id)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === tab.id
                 ? "bg-accent text-white"
                 : "text-text-secondary hover:text-text-primary"

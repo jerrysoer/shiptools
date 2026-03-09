@@ -82,7 +82,7 @@ export default function AIRewriter() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Paste your text here..."
               rows={6}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
             />
           </div>
 
@@ -99,7 +99,7 @@ export default function AIRewriter() {
                     setTone(opt);
                     setCustomInstruction("");
                   }}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                     tone === opt && !customInstruction
                       ? "bg-accent text-accent-fg"
                       : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -121,7 +121,7 @@ export default function AIRewriter() {
               value={customInstruction}
               onChange={(e) => setCustomInstruction(e.target.value)}
               placeholder='e.g., "Make it sound like a pirate"'
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="w-full bg-bg-elevated border border-border px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
           </div>
 
@@ -134,7 +134,7 @@ export default function AIRewriter() {
             <button
               onClick={handleRewrite}
               disabled={!input.trim() || isStreaming || isModelLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isStreaming || isModelLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -152,7 +152,7 @@ export default function AIRewriter() {
           {output && !isStreaming && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
             >
               {copied ? (
                 <Check className="w-4 h-4 text-grade-a" />

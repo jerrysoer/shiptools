@@ -152,7 +152,7 @@ export default function LoremIpsumGenerator() {
             max={100}
             value={count}
             onChange={(e) => setCount(Math.max(1, Math.min(100, parseInt(e.target.value) || 1)))}
-            className="w-20 bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary font-mono focus:outline-none focus:border-accent"
+            className="w-20 bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary font-mono focus:outline-none focus:border-accent"
           />
         </div>
 
@@ -161,7 +161,7 @@ export default function LoremIpsumGenerator() {
           <label className="block text-xs text-text-tertiary mb-1 font-medium uppercase tracking-wider">
             Unit
           </label>
-          <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg">
+          <div className="flex gap-1 p-1 bg-bg-surface border border-border">
             {(["paragraphs", "sentences", "words"] as Unit[]).map((u) => (
               <button
                 key={u}
@@ -199,7 +199,7 @@ export default function LoremIpsumGenerator() {
         <div className="flex items-end ml-auto">
           <button
             onClick={generate}
-            className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors text-sm font-medium"
+            className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 transition-colors text-sm font-medium"
           >
             Regenerate
           </button>
@@ -236,7 +236,7 @@ export default function LoremIpsumGenerator() {
           readOnly
           value={output}
           rows={12}
-          className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm text-text-secondary focus:outline-none resize-y"
+          className="w-full bg-bg-surface border border-border px-4 py-3 text-sm text-text-secondary focus:outline-none resize-y"
         />
       </div>
     </div>

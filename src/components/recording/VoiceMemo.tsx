@@ -260,7 +260,7 @@ export default function VoiceMemo() {
       </div>
 
       {/* Privacy badge */}
-      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-grade-a/5 border border-grade-a/10 text-xs text-text-secondary mb-6">
+      <div className="flex items-center gap-2 px-3 py-2 bg-grade-a/5 border border-grade-a/10 text-xs text-text-secondary mb-6">
         <ShieldCheck className="w-3.5 h-3.5 text-grade-a shrink-0" />
         Audio is recorded and processed locally. Nothing is uploaded.
       </div>
@@ -335,7 +335,7 @@ export default function VoiceMemo() {
       {isStopped && result && audioUrl && (
         <div className="space-y-6">
           {/* Playback */}
-          <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <div className="bg-bg-surface border border-border p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-heading font-semibold text-base">
                 Recording
@@ -346,13 +346,13 @@ export default function VoiceMemo() {
               ref={audioRef}
               src={audioUrl}
               controls
-              className="w-full rounded-lg"
+              className="w-full"
             />
           </div>
 
           {/* Bookmarks */}
           {bookmarks.length > 0 && (
-            <div className="bg-bg-surface border border-border rounded-xl p-6">
+            <div className="bg-bg-surface border border-border p-6">
               <h2 className="font-heading font-semibold text-base mb-3">
                 <Bookmark className="w-4 h-4 inline-block mr-1.5 -mt-0.5" />
                 Bookmarks ({bookmarks.length})
@@ -363,7 +363,7 @@ export default function VoiceMemo() {
                     <button
                       type="button"
                       onClick={() => handleJumpToBookmark(bm.timestamp)}
-                      className="flex items-center gap-3 w-full text-left px-3 py-2 rounded-lg hover:bg-bg-elevated transition-colors group"
+                      className="flex items-center gap-3 w-full text-left px-3 py-2 hover:bg-bg-elevated transition-colors group"
                     >
                       <span className="text-xs font-mono text-accent tabular-nums">
                         {formatDuration(bm.timestamp)}
@@ -379,7 +379,7 @@ export default function VoiceMemo() {
           )}
 
           {/* Export options */}
-          <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <div className="bg-bg-surface border border-border p-6">
             <h2 className="font-heading font-semibold text-base mb-4">
               Export
             </h2>
@@ -425,7 +425,7 @@ export default function VoiceMemo() {
             <button
               type="button"
               onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-text-secondary hover:text-text-primary hover:bg-bg-surface border border-border hover:border-border-hover transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-text-secondary hover:text-text-primary hover:bg-bg-surface border border-border hover:border-border-hover transition-colors"
             >
               <RotateCcw className="w-4 h-4" />
               New recording
@@ -452,7 +452,7 @@ function ExportButton({
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-bg-elevated border border-border hover:border-border-hover text-text-primary transition-colors"
+      className="flex items-center gap-2 px-4 py-2.5 bg-bg-elevated border border-border hover:border-border-hover text-text-primary transition-colors"
     >
       <Download className="w-4 h-4 text-text-tertiary" />
       <span className="text-sm font-medium">{label}</span>

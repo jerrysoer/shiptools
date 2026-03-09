@@ -171,7 +171,7 @@ export default function CronBuilder() {
       />
 
       {/* Output */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5 mb-6">
+      <div className="bg-bg-surface border border-border p-5 mb-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs text-text-tertiary font-medium uppercase tracking-wider">
             Cron Expression
@@ -207,7 +207,7 @@ export default function CronBuilder() {
             <select
               value={field.value}
               onChange={(e) => field.onChange(e.target.value)}
-              className="w-full bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
+              className="w-full bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
             >
               {field.options.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -220,14 +220,14 @@ export default function CronBuilder() {
       </div>
 
       {/* Presets */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5">
+      <div className="bg-bg-surface border border-border p-5">
         <h2 className="font-heading font-semibold text-sm mb-3">Presets</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {PRESETS.map((preset) => (
             <button
               key={preset.label}
               onClick={() => applyPreset(preset)}
-              className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+              className={`flex items-center justify-between px-3 py-2 text-sm transition-colors ${
                 expression === preset.expression
                   ? "bg-accent/10 text-accent border border-accent/20"
                   : "bg-bg-elevated border border-border hover:border-border-hover text-text-secondary"

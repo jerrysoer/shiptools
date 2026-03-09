@@ -206,7 +206,7 @@ function EmptyChart({ label }: { label: string }) {
   return (
     <div>
       <h3 className="font-heading font-semibold text-lg mb-3">{label}</h3>
-      <div className="bg-bg-surface border border-border rounded-xl p-8 text-center">
+      <div className="bg-bg-surface border border-border p-8 text-center">
         <p className="text-text-tertiary text-sm">
           No data yet. Events will appear after the daily aggregation runs.
         </p>
@@ -525,7 +525,7 @@ export default function AnalyticsDashboard({ data, days }: Props) {
         </div>
         <button
           onClick={() => downloadCSV(data, days)}
-          className="flex items-center gap-2 px-4 py-2 bg-bg-surface border border-border rounded-lg text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-bg-surface border border-border text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
         >
           <Download className="w-4 h-4" />
           Download CSV
@@ -534,22 +534,22 @@ export default function AnalyticsDashboard({ data, days }: Props) {
 
       <div className="space-y-10">
         {/* Traffic Overview */}
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <LineChart points={trafficPoints} label="Traffic Overview" />
         </div>
 
         {/* Sessions */}
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <LineChart points={sessionPoints} label="Daily Unique Sessions" />
         </div>
 
         {/* Tool Popularity */}
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <HorizontalBarChart bars={toolBars} label="Tool Popularity" />
         </div>
 
         {/* Geography */}
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <h3 className="font-heading font-semibold text-lg mb-4">
             Top Countries
           </h3>
@@ -587,16 +587,16 @@ export default function AnalyticsDashboard({ data, days }: Props) {
         </div>
 
         {/* Traffic Sources */}
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <HorizontalBarChart bars={referrerBars} label="Traffic Sources" />
         </div>
 
         {/* Device Split + Engagement Funnel side by side */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <div className="bg-bg-surface border border-border p-6">
             <DonutChart segments={deviceSegments} />
           </div>
-          <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <div className="bg-bg-surface border border-border p-6">
             <FunnelChart data={data} />
           </div>
         </div>

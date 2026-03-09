@@ -106,7 +106,7 @@ export default function TextDiff() {
 
       {/* Input textareas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-sm font-medium text-text-secondary mb-2">
             Original
           </label>
@@ -117,7 +117,7 @@ export default function TextDiff() {
             className="w-full h-48 bg-transparent text-sm font-mono resize-none outline-none placeholder:text-text-tertiary"
           />
         </div>
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-sm font-medium text-text-secondary mb-2">
             Modified
           </label>
@@ -135,7 +135,7 @@ export default function TextDiff() {
         <button
           onClick={handleCompare}
           disabled={!oldText && !newText}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-6 py-2.5 bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
         >
           <GitCompare className="w-4 h-4" />
           Compare
@@ -168,14 +168,14 @@ export default function TextDiff() {
 
       {/* Diff output */}
       {diffResult && (
-        <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+        <div className="bg-bg-surface border border-border overflow-hidden">
           <div className="px-4 py-3 border-b border-border flex items-center justify-between">
             <span className="text-sm font-medium text-text-secondary">
               Diff Output
             </span>
             <button
               onClick={handleCopyDiff}
-              className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-accent text-accent-fg hover:bg-accent/90 transition-colors"
+              className="flex items-center gap-1.5 text-sm px-3 py-1.5 bg-accent text-accent-fg hover:bg-accent/90 transition-colors"
             >
               {copied ? (
                 <Check className="w-3.5 h-3.5" />

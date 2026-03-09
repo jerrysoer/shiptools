@@ -269,13 +269,13 @@ export default function MarkdownEditor() {
       />
 
       {/* Toolbar */}
-      <div className="flex items-center gap-1 p-2 bg-bg-surface border border-border rounded-xl mb-4">
+      <div className="flex items-center gap-1 p-2 bg-bg-surface border border-border mb-4">
         {TOOLBAR.map((action) => (
           <button
             key={action.label}
             onClick={() => handleToolbar(action)}
             title={action.label}
-            className="p-2 rounded-lg hover:bg-bg-elevated transition-colors text-text-secondary hover:text-text-primary"
+            className="p-2 hover:bg-bg-elevated transition-colors text-text-secondary hover:text-text-primary"
           >
             <action.icon className="w-4 h-4" />
           </button>
@@ -285,7 +285,7 @@ export default function MarkdownEditor() {
       {/* Editor + Preview */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Editor pane */}
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-xs font-medium text-text-tertiary uppercase tracking-wider mb-2">
             Markdown
           </label>
@@ -299,7 +299,7 @@ export default function MarkdownEditor() {
         </div>
 
         {/* Preview pane */}
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-xs font-medium text-text-tertiary uppercase tracking-wider mb-2">
             Preview
           </label>

@@ -48,7 +48,7 @@ export default function ScanProgress({ domain, isActive }: ScanProgressProps) {
 
   return (
     <div className="w-full max-w-2xl mx-auto mt-8">
-      <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+      <div className="bg-bg-surface border border-border overflow-hidden">
         {/* Terminal header */}
         <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-bg-elevated">
           <Terminal className="w-4 h-4 text-text-tertiary" />

@@ -45,7 +45,7 @@ export default function ImagePanel() {
         }}
         onDragLeave={() => setIsDragOver(false)}
         onDrop={handleDrop}
-        className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors cursor-pointer ${
+        className={`border-2 border-dashed p-6 text-center transition-colors cursor-pointer ${
           isDragOver
             ? "border-text-primary bg-bg-secondary"
             : "border-border-primary hover:border-text-secondary"

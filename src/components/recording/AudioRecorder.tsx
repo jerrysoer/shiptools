@@ -279,8 +279,8 @@ export default function AudioRecorder() {
   if (!supported) {
     return (
       <div className="min-h-dvh flex items-center justify-center p-4">
-        <div className="max-w-md bg-bg-surface border border-border rounded-2xl p-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-accent/10 mb-4">
+        <div className="max-w-md bg-bg-surface border border-border p-8 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 mb-4">
             <AlertTriangle className="w-6 h-6 text-accent" />
           </div>
           <h2 className="font-heading font-bold text-xl mb-2">
@@ -300,7 +300,7 @@ export default function AudioRecorder() {
       <div className="max-w-2xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-accent/10 mb-4">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 mb-4">
             <Mic className="w-6 h-6 text-accent" />
           </div>
           <h1 className="font-heading font-bold text-3xl mb-2">
@@ -313,7 +313,7 @@ export default function AudioRecorder() {
 
         {/* Source Selection Tabs */}
         {!isStopped && (
-          <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-xl mb-6">
+          <div className="flex gap-1 p-1 bg-bg-surface border border-border mb-6">
             {(
               [
                 { key: "microphone", icon: Mic, label: "Microphone" },
@@ -325,7 +325,7 @@ export default function AudioRecorder() {
                 key={key}
                 onClick={() => !isRecording && !isPaused && setSourceType(key)}
                 disabled={isRecording || isPaused}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 text-sm font-medium transition-colors ${
                   sourceType === key
                     ? "bg-bg-elevated text-text-primary shadow-sm"
                     : "text-text-tertiary hover:text-text-secondary"
@@ -348,7 +348,7 @@ export default function AudioRecorder() {
               {permissionState === "prompt" ? (
                 <button
                   onClick={refreshDevices}
-                  className="w-full py-2.5 px-4 bg-bg-surface border border-border rounded-xl text-sm text-text-secondary hover:border-border-hover transition-colors cursor-pointer"
+                  className="w-full py-2.5 px-4 bg-bg-surface border border-border text-sm text-text-secondary hover:border-border-hover transition-colors cursor-pointer"
                 >
                   Grant microphone access to select device
                 </button>
@@ -357,7 +357,7 @@ export default function AudioRecorder() {
                   value={selectedAudioInput}
                   onChange={(e) => setSelectedAudioInput(e.target.value)}
                   disabled={isRecording || isPaused}
-                  className="w-full py-2.5 px-4 bg-bg-surface border border-border rounded-xl text-sm text-text-primary appearance-none cursor-pointer disabled:opacity-50"
+                  className="w-full py-2.5 px-4 bg-bg-surface border border-border text-sm text-text-primary appearance-none cursor-pointer disabled:opacity-50"
                 >
                   {audioInputs.map((device) => (
                     <option key={device.deviceId} value={device.deviceId}>
@@ -371,12 +371,12 @@ export default function AudioRecorder() {
 
         {/* Live Waveform */}
         {(isRecording || isPaused) && (
-          <div className="mb-6 bg-bg-surface border border-border rounded-xl p-4">
+          <div className="mb-6 bg-bg-surface border border-border p-4">
             <canvas
               ref={waveformCanvasRef}
               width={600}
               height={120}
-              className="w-full h-[120px] rounded-lg"
+              className="w-full h-[120px]"
             />
 
             {/* Duration */}
@@ -395,7 +395,7 @@ export default function AudioRecorder() {
         {sourceType === "both" && (isRecording || isPaused) && (
           <div className="mb-6 space-y-4">
             {/* Mic meter + gain */}
-            <div className="bg-bg-surface border border-border rounded-xl p-4">
+            <div className="bg-bg-surface border border-border p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Mic className="w-3.5 h-3.5 text-green-500" />
@@ -424,7 +424,7 @@ export default function AudioRecorder() {
             </div>
 
             {/* System meter + gain */}
-            <div className="bg-bg-surface border border-border rounded-xl p-4">
+            <div className="bg-bg-surface border border-border p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Monitor className="w-3.5 h-3.5 text-blue-500" />
@@ -460,7 +460,7 @@ export default function AudioRecorder() {
             {isIdle && state !== "stopped" && (
               <button
                 onClick={handleStart}
-                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold rounded-xl hover:bg-accent-hover transition-colors cursor-pointer"
+                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
               >
                 <Circle className="w-4 h-4 fill-current" />
                 Record
@@ -471,21 +471,21 @@ export default function AudioRecorder() {
               <>
                 <button
                   onClick={pauseRecording}
-                  className="flex items-center gap-2 py-3 px-6 bg-bg-surface border border-border text-text-primary font-medium rounded-xl hover:bg-bg-elevated transition-colors cursor-pointer"
+                  className="flex items-center gap-2 py-3 px-6 bg-bg-surface border border-border text-text-primary font-medium hover:bg-bg-elevated transition-colors cursor-pointer"
                 >
                   <Pause className="w-4 h-4" />
                   Pause
                 </button>
                 <button
                   onClick={handleStop}
-                  className="flex items-center gap-2 py-3 px-6 bg-accent text-accent-fg font-semibold rounded-xl hover:bg-accent-hover transition-colors cursor-pointer"
+                  className="flex items-center gap-2 py-3 px-6 bg-accent text-accent-fg font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
                 >
                   <Square className="w-4 h-4 fill-current" />
                   Stop
                 </button>
                 <button
                   onClick={() => addBookmark()}
-                  className="flex items-center gap-2 py-3 px-4 bg-bg-surface border border-border text-text-secondary rounded-xl hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer"
+                  className="flex items-center gap-2 py-3 px-4 bg-bg-surface border border-border text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer"
                   title="Add bookmark"
                 >
                   <Bookmark className="w-4 h-4" />
@@ -497,14 +497,14 @@ export default function AudioRecorder() {
               <>
                 <button
                   onClick={resumeRecording}
-                  className="flex items-center gap-2 py-3 px-6 bg-bg-surface border border-border text-text-primary font-medium rounded-xl hover:bg-bg-elevated transition-colors cursor-pointer"
+                  className="flex items-center gap-2 py-3 px-6 bg-bg-surface border border-border text-text-primary font-medium hover:bg-bg-elevated transition-colors cursor-pointer"
                 >
                   <Circle className="w-4 h-4 fill-accent text-accent" />
                   Resume
                 </button>
                 <button
                   onClick={handleStop}
-                  className="flex items-center gap-2 py-3 px-6 bg-accent text-accent-fg font-semibold rounded-xl hover:bg-accent-hover transition-colors cursor-pointer"
+                  className="flex items-center gap-2 py-3 px-6 bg-accent text-accent-fg font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
                 >
                   <Square className="w-4 h-4 fill-current" />
                   Stop
@@ -516,7 +516,7 @@ export default function AudioRecorder() {
 
         {/* Error */}
         {error && (
-          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20">
             <p className="text-sm text-red-400">{error}</p>
           </div>
         )}
@@ -538,7 +538,7 @@ export default function AudioRecorder() {
               </div>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-2 py-2 px-4 bg-bg-surface border border-border text-text-secondary text-sm rounded-xl hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer"
+                className="flex items-center gap-2 py-2 px-4 bg-bg-surface border border-border text-text-secondary text-sm hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 New Recording

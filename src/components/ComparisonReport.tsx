@@ -47,7 +47,7 @@ export default function ComparisonReport({ resultA, resultB }: ComparisonReportP
   const { scan: b, scores: scoresB } = resultB;
 
   return (
-    <div className="bg-bg-surface border border-border rounded-xl p-6">
+    <div className="bg-bg-surface border border-border p-6">
       {/* Grade header */}
       <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center mb-8">
         <div className="text-center">

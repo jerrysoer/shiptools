@@ -182,7 +182,7 @@ export default function WaveformGenerator() {
             e.preventDefault();
             handleFileUpload(e.dataTransfer.files);
           }}
-          className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all border-border hover:border-border-hover hover:bg-bg-surface/50"
+          className="border-2 border-dashed p-8 text-center cursor-pointer transition-all border-border hover:border-border-hover hover:bg-bg-surface/50"
         >
           <Upload className="w-8 h-8 mx-auto mb-3 text-text-tertiary" />
           <p className="text-text-secondary text-sm">
@@ -207,7 +207,7 @@ export default function WaveformGenerator() {
       {isReady && (
         <div className="space-y-6">
           {/* Preview canvas */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4 overflow-hidden">
+          <div className="bg-bg-surface border border-border p-4 overflow-hidden">
             <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-text-secondary truncate">
                 {fileName}
@@ -226,13 +226,13 @@ export default function WaveformGenerator() {
             </div>
             <canvas
               ref={canvasRef}
-              className="w-full rounded-lg"
+              className="w-full"
               style={{ height: 200, aspectRatio: "3/1" }}
             />
           </div>
 
           {/* Style selector */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-4">
+          <div className="bg-bg-surface border border-border p-4 space-y-4">
             <div>
               <label className="text-sm font-medium text-text-primary mb-2 flex items-center gap-2">
                 <Palette className="w-4 h-4 text-accent" />
@@ -247,7 +247,7 @@ export default function WaveformGenerator() {
                       setStyle(id);
                       requestAnimationFrame(renderWaveform);
                     }}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                       style === id
                         ? "bg-accent text-white"
                         : "bg-bg-elevated text-text-secondary hover:text-text-primary"
@@ -336,7 +336,7 @@ export default function WaveformGenerator() {
           </div>
 
           {/* Text overlay */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-3">
+          <div className="bg-bg-surface border border-border p-4 space-y-3">
             <label className="text-sm font-medium text-text-primary flex items-center gap-2">
               <Type className="w-4 h-4 text-accent" />
               Text Overlay (optional)
@@ -350,7 +350,7 @@ export default function WaveformGenerator() {
                   setTitle(e.target.value);
                   requestAnimationFrame(renderWaveform);
                 }}
-                className="px-3 py-2 rounded-lg bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+                className="px-3 py-2 bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-tertiary focus:outline-none focus:border-accent"
               />
               <input
                 type="text"
@@ -360,7 +360,7 @@ export default function WaveformGenerator() {
                   setArtist(e.target.value);
                   requestAnimationFrame(renderWaveform);
                 }}
-                className="px-3 py-2 rounded-lg bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+                className="px-3 py-2 bg-bg-elevated border border-border text-text-primary text-sm placeholder:text-text-tertiary focus:outline-none focus:border-accent"
               />
             </div>
           </div>
@@ -369,7 +369,7 @@ export default function WaveformGenerator() {
           <button
             type="button"
             onClick={handleDownload}
-            className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-accent text-white font-medium transition-colors hover:bg-accent/90"
+            className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white font-medium transition-colors hover:bg-accent/90"
           >
             <Download className="w-5 h-5" />
             Export as PNG

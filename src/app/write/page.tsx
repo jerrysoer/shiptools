@@ -56,7 +56,7 @@ export default function WritePage() {
             <Link
               key={tool.href}
               href={tool.href}
-              className="group flex items-start gap-3 p-4 border border-border rounded-lg hover:bg-bg-surface transition-colors"
+              className="group flex items-start gap-3 p-4 border border-border hover:bg-bg-surface transition-colors"
             >
               <span className="mt-0.5 flex-shrink-0" style={{ color: "var(--color-dept-ai)" }}>
                 <tool.icon className="w-4 h-4" />
@@ -84,7 +84,7 @@ export default function WritePage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search tools..."
-            className="w-full pl-10 pr-4 py-2.5 text-sm bg-bg-surface border border-border rounded-lg placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
+            className="w-full pl-10 pr-4 py-2.5 text-sm bg-bg-surface border border-border placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
           />
           {query && (
             <button

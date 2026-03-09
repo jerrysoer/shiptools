@@ -189,7 +189,7 @@ export default function EpochConverter() {
   const CopyBtn = ({ value, field }: { value: string; field: string }) => (
     <button
       onClick={() => copyValue(value, field)}
-      className="p-2 rounded-lg bg-bg-elevated border border-border hover:border-border-hover transition-colors shrink-0"
+      className="p-2 bg-bg-elevated border border-border hover:border-border-hover transition-colors shrink-0"
       title={`Copy ${field}`}
     >
       {copied === field ? (
@@ -209,7 +209,7 @@ export default function EpochConverter() {
       />
 
       {/* Live Clock */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5 mb-6">
+      <div className="bg-bg-surface border border-border p-5 mb-6">
         <div className="text-xs text-text-tertiary mb-1 font-medium uppercase tracking-wider">
           Current Time
         </div>
@@ -228,7 +228,7 @@ export default function EpochConverter() {
         <select
           value={timezone}
           onChange={(e) => setTimezone(e.target.value)}
-          className="flex-1 bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
+          className="flex-1 bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
         >
           {timezones.current.map((tz) => (
             <option key={tz} value={tz}>
@@ -238,7 +238,7 @@ export default function EpochConverter() {
         </select>
         <button
           onClick={fillNow}
-          className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors text-sm font-medium inline-flex items-center gap-1.5"
+          className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 transition-colors text-sm font-medium inline-flex items-center gap-1.5"
         >
           <Play className="w-3.5 h-3.5" />
           Now
@@ -248,7 +248,7 @@ export default function EpochConverter() {
       {/* Conversion Fields */}
       <div className="space-y-4">
         {/* Unix Epoch */}
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-xs text-text-tertiary mb-2 font-medium uppercase tracking-wider">
             Unix Epoch (seconds)
           </label>
@@ -259,14 +259,14 @@ export default function EpochConverter() {
               value={epochInput}
               onChange={(e) => handleEpochChange(e.target.value)}
               placeholder="e.g. 1700000000"
-              className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+              className="flex-1 bg-bg-elevated border border-border px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
             />
             <CopyBtn value={epochInput} field="epoch" />
           </div>
         </div>
 
         {/* Human-Readable */}
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-xs text-text-tertiary mb-2 font-medium uppercase tracking-wider">
             Human-Readable
           </label>
@@ -276,14 +276,14 @@ export default function EpochConverter() {
               value={humanInput}
               onChange={(e) => handleHumanChange(e.target.value)}
               placeholder="e.g. Tue, Nov 14, 2023, 10:13:20 AM"
-              className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+              className="flex-1 bg-bg-elevated border border-border px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
             />
             <CopyBtn value={humanInput} field="human" />
           </div>
         </div>
 
         {/* ISO 8601 */}
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <label className="block text-xs text-text-tertiary mb-2 font-medium uppercase tracking-wider">
             ISO 8601
           </label>
@@ -293,7 +293,7 @@ export default function EpochConverter() {
               value={isoInput}
               onChange={(e) => handleISOChange(e.target.value)}
               placeholder="e.g. 2023-11-14T10:13:20-05:00"
-              className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
+              className="flex-1 bg-bg-elevated border border-border px-3 py-2 font-mono text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent"
             />
             <CopyBtn value={isoInput} field="iso" />
           </div>
@@ -302,13 +302,13 @@ export default function EpochConverter() {
 
       {/* Error */}
       {error && (
-        <div className="mt-4 text-sm text-grade-f bg-grade-f/10 border border-grade-f/20 rounded-lg px-4 py-2.5">
+        <div className="mt-4 text-sm text-grade-f bg-grade-f/10 border border-grade-f/20 px-4 py-2.5">
           {error}
         </div>
       )}
 
       {/* Quick Reference */}
-      <div className="mt-8 bg-bg-surface border border-border rounded-xl p-5">
+      <div className="mt-8 bg-bg-surface border border-border p-5">
         <h2 className="font-heading font-semibold text-sm mb-3">
           Quick Reference
         </h2>

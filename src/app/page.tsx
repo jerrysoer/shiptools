@@ -40,10 +40,10 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
-                href="/ai/models"
+                href="/transparency"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-text-primary font-medium transition-colors hover:bg-bg-surface w-full sm:w-auto"
               >
-                Manage AI Models
+                See What We Track
               </a>
             </div>
           </div>
@@ -160,7 +160,7 @@ export default function HomePage() {
 
             <div className="grid sm:grid-cols-3 gap-6 sm:gap-12">
               <div>
-                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg mb-3">
+                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 mb-3">
                   <ShieldCheck className="w-8 h-8 text-accent" />
                 </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">No Uploads</h3>
@@ -171,7 +171,7 @@ export default function HomePage() {
               </div>
 
               <div>
-                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg mb-3">
+                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 mb-3">
                   <EyeOff className="w-8 h-8 text-accent" />
                 </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">No Tracking</h3>
@@ -182,7 +182,7 @@ export default function HomePage() {
               </div>
 
               <div>
-                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 rounded-lg mb-3">
+                <div className="w-12 h-12 flex items-center justify-center bg-accent/10 mb-3">
                   <Lock className="w-8 h-8 text-accent" />
                 </div>
                 <h3 className="font-heading font-semibold text-lg mb-2">No Accounts</h3>

@@ -149,10 +149,10 @@ export default function PasswordGenerator() {
       />
 
       {/* Mode Toggle */}
-      <div className="bg-bg-surface border border-border rounded-xl p-1 flex mb-6">
+      <div className="bg-bg-surface border border-border p-1 flex mb-6">
         <button
           onClick={() => setMode("random")}
-          className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
             mode === "random"
               ? "bg-accent text-accent-fg"
               : "text-text-secondary hover:text-text-primary"
@@ -162,7 +162,7 @@ export default function PasswordGenerator() {
         </button>
         <button
           onClick={() => setMode("passphrase")}
-          className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`flex-1 px-4 py-2 text-sm font-medium transition-colors ${
             mode === "passphrase"
               ? "bg-accent text-accent-fg"
               : "text-text-secondary hover:text-text-primary"
@@ -173,7 +173,7 @@ export default function PasswordGenerator() {
       </div>
 
       {/* Generated Password Display */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+      <div className="bg-bg-surface border border-border p-6 mb-6">
         <div
           className="font-mono text-lg break-all text-center min-h-[3rem] flex items-center justify-center select-all"
           aria-live="polite"
@@ -212,7 +212,7 @@ export default function PasswordGenerator() {
           <button
             onClick={handleCopy}
             disabled={!password}
-            className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors disabled:opacity-50"
+            className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 transition-colors disabled:opacity-50"
           >
             {copied ? (
               <Check className="w-4 h-4" />
@@ -223,7 +223,7 @@ export default function PasswordGenerator() {
           </button>
           <button
             onClick={generate}
-            className="flex items-center justify-center gap-2 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:bg-bg-surface transition-colors"
+            className="flex items-center justify-center gap-2 bg-bg-elevated border border-border px-4 py-2 hover:bg-bg-surface transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
             Regenerate
@@ -232,7 +232,7 @@ export default function PasswordGenerator() {
       </div>
 
       {/* Settings */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6">
+      <div className="bg-bg-surface border border-border p-6">
         <h2 className="font-heading font-semibold mb-4">Settings</h2>
 
         {mode === "random" ? (
@@ -320,7 +320,7 @@ export default function PasswordGenerator() {
                   <button
                     key={sep}
                     onClick={() => setSeparator(sep)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-mono border transition-colors ${
+                    className={`px-3 py-1.5 text-sm font-mono border transition-colors ${
                       separator === sep
                         ? "bg-accent text-accent-fg border-accent"
                         : "bg-bg-elevated border-border hover:border-border-hover"

@@ -176,7 +176,7 @@ export default function HashCalculator() {
       />
 
       {/* Mode Toggle */}
-      <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg mb-6 max-w-xs mx-auto">
+      <div className="flex gap-1 p-1 bg-bg-surface border border-border mb-6 max-w-xs mx-auto">
         <button
           onClick={() => handleModeSwitch("text")}
           className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -202,7 +202,7 @@ export default function HashCalculator() {
       </div>
 
       {/* Input Area */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5 mb-6">
+      <div className="bg-bg-surface border border-border p-5 mb-6">
         {mode === "text" ? (
           <textarea
             value={text}
@@ -229,7 +229,7 @@ export default function HashCalculator() {
       </div>
 
       {/* Hash Results */}
-      <div className="bg-bg-surface border border-border rounded-xl divide-y divide-border">
+      <div className="bg-bg-surface border border-border divide-y divide-border">
         {HASH_LABELS.map(({ key, label }) => (
           <div key={key} className="flex items-center gap-3 px-5 py-3">
             <span className="text-text-secondary text-xs font-medium w-16 shrink-0">
@@ -253,7 +253,7 @@ export default function HashCalculator() {
 
       {/* Verify Section */}
       {hasResults && (
-        <div className="mt-6 bg-bg-surface border border-border rounded-xl p-5">
+        <div className="mt-6 bg-bg-surface border border-border p-5">
           <label className="block text-text-secondary text-sm font-medium mb-2">
             Verify checksum
           </label>
@@ -263,7 +263,7 @@ export default function HashCalculator() {
               value={verifyHash}
               onChange={(e) => setVerifyHash(e.target.value)}
               placeholder="Paste expected hash to verify..."
-              className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm font-mono outline-none focus:border-accent placeholder:text-text-tertiary"
+              className="flex-1 bg-bg-elevated border border-border px-3 py-2 text-sm font-mono outline-none focus:border-accent placeholder:text-text-tertiary"
             />
             <VerifyBadge expected={verifyHash} hashes={hashes} />
           </div>

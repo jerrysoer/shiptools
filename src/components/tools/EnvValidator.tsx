@@ -271,7 +271,7 @@ export default function EnvValidator() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your .env file content here or load a file..."
           rows={10}
-          className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+          className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
           spellCheck={false}
         />
       </div>
@@ -279,15 +279,15 @@ export default function EnvValidator() {
       {/* Summary */}
       {hasInput && (
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="bg-bg-surface border border-border rounded-xl p-4 text-center">
+          <div className="bg-bg-surface border border-border p-4 text-center">
             <div className="text-2xl font-bold text-grade-a">{summary.valid}</div>
             <div className="text-xs text-text-tertiary uppercase tracking-wider mt-1">Valid</div>
           </div>
-          <div className="bg-bg-surface border border-border rounded-xl p-4 text-center">
+          <div className="bg-bg-surface border border-border p-4 text-center">
             <div className="text-2xl font-bold text-yellow-500">{summary.warnings}</div>
             <div className="text-xs text-text-tertiary uppercase tracking-wider mt-1">Warnings</div>
           </div>
-          <div className="bg-bg-surface border border-border rounded-xl p-4 text-center">
+          <div className="bg-bg-surface border border-border p-4 text-center">
             <div className="text-2xl font-bold text-grade-f">{summary.errors}</div>
             <div className="text-xs text-text-tertiary uppercase tracking-wider mt-1">Errors</div>
           </div>
@@ -296,7 +296,7 @@ export default function EnvValidator() {
 
       {/* Results */}
       {hasInput && entries.length > 0 && (
-        <div className="bg-bg-surface border border-border rounded-xl divide-y divide-border">
+        <div className="bg-bg-surface border border-border divide-y divide-border">
           {entries.map((entry, idx) => {
             const overallSeverity: Severity = entry.issues.some((i) => i.severity === "error")
               ? "error"
@@ -359,7 +359,7 @@ export default function EnvValidator() {
       )}
 
       {!hasInput && (
-        <div className="bg-bg-surface border border-border rounded-xl px-4 py-8 text-center">
+        <div className="bg-bg-surface border border-border px-4 py-8 text-center">
           <p className="text-sm text-text-tertiary">
             Paste your .env content above or load a file to validate.
           </p>

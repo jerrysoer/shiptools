@@ -85,7 +85,7 @@ export default function UuidGenerator() {
       />
 
       {/* Controls */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+      <div className="bg-bg-surface border border-border p-6 mb-6">
         {/* Count Slider */}
         <div className="mb-5">
           <div className="flex justify-between mb-2">
@@ -122,7 +122,7 @@ export default function UuidGenerator() {
               <button
                 key={value}
                 onClick={() => setFormat(value)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                className={`px-3 py-1.5 text-sm font-medium border transition-colors ${
                   format === value
                     ? "bg-accent text-accent-fg border-accent"
                     : "bg-bg-elevated border-border hover:border-border-hover"
@@ -137,7 +137,7 @@ export default function UuidGenerator() {
         {/* Generate Button */}
         <button
           onClick={generate}
-          className="mt-5 w-full flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2.5 rounded-lg hover:bg-accent/90 transition-colors font-medium"
+          className="mt-5 w-full flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2.5 hover:bg-accent/90 transition-colors font-medium"
         >
           <RefreshCw className="w-4 h-4" />
           Generate
@@ -146,7 +146,7 @@ export default function UuidGenerator() {
 
       {/* UUID List */}
       {uuids.length > 0 && (
-        <div className="bg-bg-surface border border-border rounded-xl overflow-hidden mb-6">
+        <div className="bg-bg-surface border border-border overflow-hidden mb-6">
           <div className="max-h-[28rem] overflow-y-auto divide-y divide-border">
             {formattedUuids.map((uuid, i) => (
               <div
@@ -178,7 +178,7 @@ export default function UuidGenerator() {
           <div className="flex gap-2 p-4 border-t border-border">
             <button
               onClick={handleCopyAll}
-              className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors text-sm"
+              className="flex-1 flex items-center justify-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 transition-colors text-sm"
             >
               {copiedAll ? (
                 <Check className="w-4 h-4" />
@@ -189,7 +189,7 @@ export default function UuidGenerator() {
             </button>
             <button
               onClick={handleDownload}
-              className="flex items-center justify-center gap-2 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:bg-bg-surface transition-colors text-sm"
+              className="flex items-center justify-center gap-2 bg-bg-elevated border border-border px-4 py-2 hover:bg-bg-surface transition-colors text-sm"
             >
               <Download className="w-4 h-4" />
               Download TXT

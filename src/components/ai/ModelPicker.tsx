@@ -36,7 +36,7 @@ export default function ModelPicker({ open, onClose }: ModelPickerProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="bg-bg-primary border border-border rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-xl">
+      <div className="bg-bg-primary border border-border w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-border">
           <div>
@@ -68,7 +68,7 @@ export default function ModelPicker({ open, onClose }: ModelPickerProps) {
                 key={pack.slug}
                 onClick={() => handleSelect(pack.slug)}
                 disabled={isDownloading}
-                className={`w-full text-left p-4 rounded-xl border transition-colors ${
+                className={`w-full text-left p-4 border transition-colors ${
                   isActive
                     ? "border-accent bg-accent/5"
                     : pack.recommended

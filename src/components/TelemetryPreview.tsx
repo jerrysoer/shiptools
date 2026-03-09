@@ -41,7 +41,7 @@ export default function TelemetryPreview() {
   }, [entries]);
 
   return (
-    <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+    <div className="bg-bg-surface border border-border overflow-hidden">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
         <Terminal className="w-4 h-4 text-accent" />
         <h3 className="font-heading font-semibold text-sm">Live Event Log</h3>

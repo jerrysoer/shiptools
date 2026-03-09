@@ -83,17 +83,17 @@ export default function GradientGenerator() {
 
       {/* Live Preview */}
       <div
-        className="rounded-xl mb-6 border border-border"
+        className="mb-6 border border-border"
         style={{ background: cssValue, height: 200 }}
       />
 
       {/* Gradient Type Toggle */}
-      <div className="bg-bg-surface border border-border rounded-xl p-1 flex mb-6">
+      <div className="bg-bg-surface border border-border p-1 flex mb-6">
         {(["linear", "radial", "conic"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setType(t)}
-            className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors capitalize ${
+            className={`flex-1 px-4 py-2 text-sm font-medium transition-colors capitalize ${
               type === t
                 ? "bg-accent text-accent-fg"
                 : "text-text-secondary hover:text-text-primary"
@@ -106,7 +106,7 @@ export default function GradientGenerator() {
 
       {/* Angle Slider (linear & conic only) */}
       {(type === "linear" || type === "conic") && (
-        <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+        <div className="bg-bg-surface border border-border p-6 mb-6">
           <div className="flex justify-between mb-2">
             <label className="text-sm text-text-secondary">
               {type === "linear" ? "Angle" : "Start Angle"}
@@ -131,7 +131,7 @@ export default function GradientGenerator() {
       )}
 
       {/* Color Stops */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+      <div className="bg-bg-surface border border-border p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-heading font-semibold">Color Stops</h2>
           <button
@@ -152,7 +152,7 @@ export default function GradientGenerator() {
                 onChange={(e) =>
                   updateStop(stop.id, { color: e.target.value })
                 }
-                className="w-10 h-10 rounded-lg border border-border cursor-pointer shrink-0 bg-transparent"
+                className="w-10 h-10 border border-border cursor-pointer shrink-0 bg-transparent"
               />
               <input
                 type="text"
@@ -160,7 +160,7 @@ export default function GradientGenerator() {
                 onChange={(e) =>
                   updateStop(stop.id, { color: e.target.value })
                 }
-                className="w-24 px-3 py-2 rounded-lg border border-border bg-bg-elevated text-sm font-mono focus:outline-none focus:border-accent"
+                className="w-24 px-3 py-2 border border-border bg-bg-elevated text-sm font-mono focus:outline-none focus:border-accent"
               />
               <div className="flex-1 flex items-center gap-2">
                 <input
@@ -180,7 +180,7 @@ export default function GradientGenerator() {
               <button
                 onClick={() => removeStop(stop.id)}
                 disabled={stops.length <= 2}
-                className="p-1.5 rounded-lg hover:bg-bg-elevated transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
+                className="p-1.5 hover:bg-bg-elevated transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
                 title="Remove stop"
               >
                 <Trash2 className="w-4 h-4 text-text-tertiary" />
@@ -191,14 +191,14 @@ export default function GradientGenerator() {
       </div>
 
       {/* CSS Output */}
-      <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+      <div className="bg-bg-surface border border-border overflow-hidden">
         <div className="px-4 py-3 border-b border-border flex items-center justify-between">
           <span className="text-sm font-medium text-text-secondary">
             Generated CSS
           </span>
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-accent text-accent-fg hover:bg-accent/90 transition-colors"
+            className="flex items-center gap-1.5 text-sm px-3 py-1.5 bg-accent text-accent-fg hover:bg-accent/90 transition-colors"
           >
             {copied ? (
               <Check className="w-3.5 h-3.5" />

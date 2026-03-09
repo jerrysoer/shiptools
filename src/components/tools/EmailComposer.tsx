@@ -98,7 +98,7 @@ export default function EmailComposer() {
                 <button
                   key={opt}
                   onClick={() => setTone(opt)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                     tone === opt
                       ? "bg-accent text-accent-fg"
                       : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -120,7 +120,7 @@ export default function EmailComposer() {
               onChange={(e) => setContext(e.target.value)}
               placeholder="e.g., Requesting a meeting to discuss Q3 results with the marketing team..."
               rows={4}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
             />
           </div>
 
@@ -134,7 +134,7 @@ export default function EmailComposer() {
               onChange={(e) => setKeyPoints(e.target.value)}
               placeholder="- Mention the deadline is Friday&#10;- Ask about budget approval&#10;- Suggest a 30-minute call"
               rows={3}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
             />
           </div>
 
@@ -147,7 +147,7 @@ export default function EmailComposer() {
             <button
               onClick={handleCompose}
               disabled={!context.trim() || isStreaming || isModelLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isStreaming || isModelLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -169,7 +169,7 @@ export default function EmailComposer() {
           {output && !isStreaming && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
             >
               {copied ? (
                 <Check className="w-4 h-4 text-grade-a" />

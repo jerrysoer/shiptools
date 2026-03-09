@@ -23,7 +23,7 @@ export default function OllamaGate({
   }
 
   return (
-    <div className="p-6 bg-bg-elevated border border-border rounded-xl text-center space-y-4">
+    <div className="p-6 bg-bg-elevated border border-border text-center space-y-4">
       <Server className="w-8 h-8 text-text-tertiary mx-auto" />
       <div>
         <h3 className="font-heading font-semibold text-sm mb-1">
@@ -39,7 +39,7 @@ export default function OllamaGate({
           href="https://ollama.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-text-primary text-bg-primary text-sm font-medium rounded-lg hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-text-primary text-bg-primary text-sm font-medium hover:opacity-90 transition-opacity"
         >
           Install Ollama
           <ExternalLink className="w-3.5 h-3.5" />

@@ -166,7 +166,7 @@ export default function TranscriptionTool() {
 
       <div className="space-y-6">
         {/* Model card */}
-        <div className="bg-bg-elevated border border-border rounded-xl p-5">
+        <div className="bg-bg-elevated border border-border p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-sm font-medium text-text-primary">Whisper Model</h2>
@@ -195,7 +195,7 @@ export default function TranscriptionTool() {
                   <button
                     key={size}
                     onClick={() => setModelSize(size)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                       modelSize === size
                         ? "bg-accent text-accent-fg"
                         : "bg-bg-surface text-text-secondary hover:text-text-primary border border-border"
@@ -212,7 +212,7 @@ export default function TranscriptionTool() {
           {!isLoaded && !isModelLoading && (
             <button
               onClick={handleLoadModel}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium rounded-lg transition-opacity hover:opacity-90"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium transition-opacity hover:opacity-90"
             >
               <Upload className="w-4 h-4" />
               Load Model
@@ -237,7 +237,7 @@ export default function TranscriptionTool() {
 
           {/* Model error */}
           {modelError && (
-            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
               <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
               <span className="text-text-secondary">{modelError}</span>
             </div>
@@ -266,7 +266,7 @@ export default function TranscriptionTool() {
 
         {/* File info */}
         {audioFile && (
-          <div className="flex items-center gap-3 bg-bg-elevated border border-border rounded-xl px-4 py-3">
+          <div className="flex items-center gap-3 bg-bg-elevated border border-border px-4 py-3">
             <Mic className="w-4 h-4 text-text-tertiary shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-sm text-text-primary truncate font-medium">
@@ -291,7 +291,7 @@ export default function TranscriptionTool() {
           <button
             onClick={handleTranscribe}
             disabled={isTranscribing}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isTranscribing ? (
               <>
@@ -325,7 +325,7 @@ export default function TranscriptionTool() {
 
         {/* Transcription error */}
         {transcriptionError && (
-          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
             <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
             <span className="text-text-secondary">{transcriptionError}</span>
           </div>
@@ -335,7 +335,7 @@ export default function TranscriptionTool() {
         {result && (
           <div className="space-y-6">
             {/* Full text output */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Full Transcript
@@ -355,7 +355,7 @@ export default function TranscriptionTool() {
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={handleCopyText}
-                className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border text-sm font-medium transition-colors"
               >
                 {copied ? (
                   <Check className="w-4 h-4 text-grade-a" />
@@ -367,7 +367,7 @@ export default function TranscriptionTool() {
 
               <button
                 onClick={handleDownloadSRT}
-                className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border text-sm font-medium transition-colors"
               >
                 <Download className="w-4 h-4" />
                 Download SRT
@@ -375,7 +375,7 @@ export default function TranscriptionTool() {
 
               <button
                 onClick={handleDownloadVTT}
-                className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border text-sm font-medium transition-colors"
               >
                 <Download className="w-4 h-4" />
                 Download VTT
@@ -384,7 +384,7 @@ export default function TranscriptionTool() {
 
             {/* Timestamped segments */}
             {result.segments.length > 0 && (
-              <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+              <div className="bg-bg-elevated border border-border overflow-hidden">
                 <div className="px-4 py-2.5 border-b border-border">
                   <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                     Timestamped Segments ({result.segments.length})

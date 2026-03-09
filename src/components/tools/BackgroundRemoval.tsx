@@ -154,7 +154,7 @@ export default function BackgroundRemoval() {
 
       <div className="space-y-6">
         {/* Model status card */}
-        <div className="bg-bg-elevated border border-border rounded-xl p-5">
+        <div className="bg-bg-elevated border border-border p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-sm font-medium text-text-primary">AI Model</h2>
@@ -175,7 +175,7 @@ export default function BackgroundRemoval() {
           {modelStatus === "idle" && (
             <button
               onClick={handleLoadModel}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium rounded-lg transition-opacity hover:opacity-90"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium transition-opacity hover:opacity-90"
             >
               <Upload className="w-4 h-4" />
               Load Model
@@ -198,7 +198,7 @@ export default function BackgroundRemoval() {
           )}
 
           {modelStatus === "error" && modelError && (
-            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
               <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
               <span className="text-text-secondary">{modelError}</span>
             </div>
@@ -230,7 +230,7 @@ export default function BackgroundRemoval() {
           <button
             onClick={handleRemoveBackground}
             disabled={processStatus === "processing"}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {processStatus === "processing" ? (
               <>
@@ -248,7 +248,7 @@ export default function BackgroundRemoval() {
 
         {/* Error */}
         {processStatus === "error" && processError && (
-          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
             <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
             <span className="text-text-secondary">{processError}</span>
           </div>
@@ -258,7 +258,7 @@ export default function BackgroundRemoval() {
         {imagePreview && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Original */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Original
@@ -274,7 +274,7 @@ export default function BackgroundRemoval() {
             </div>
 
             {/* Result */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border flex items-center justify-between">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Result
@@ -282,7 +282,7 @@ export default function BackgroundRemoval() {
                 {resultBlob && (
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 hover:bg-accent/20 text-accent rounded-lg text-xs font-medium transition-colors"
+                    className="flex items-center gap-1.5 px-2.5 py-1 bg-accent/10 hover:bg-accent/20 text-accent text-xs font-medium transition-colors"
                   >
                     <Download className="w-3.5 h-3.5" />
                     Download PNG
