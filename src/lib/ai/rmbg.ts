@@ -1,9 +1,8 @@
-// Singleton model + processor for background removal using RMBG-1.4
-// Uses AutoModel + AutoProcessor API (RMBG-1.4 doesn't support pipeline())
-import type { PreTrainedModel, Processor, Tensor } from "@xenova/transformers";
+// Singleton pipeline for background removal using RMBG-1.4
+// Uses @huggingface/transformers v3 background-removal pipeline
+import type { BackgroundRemovalPipeline } from "@huggingface/transformers";
 
-let model: PreTrainedModel | null = null;
-let processor: Processor | null = null;
+let pipe: BackgroundRemovalPipeline | null = null;
 let loadingPromise: Promise<void> | null = null;
 
 export interface RMBGProgress {
@@ -15,7 +14,7 @@ export interface RMBGProgress {
 export async function loadRMBG(
   onProgress?: (progress: RMBGProgress) => void,
 ): Promise<void> {
-  if (model && processor) return;
+  if (pipe) return;
   if (loadingPromise) {
     await loadingPromise;
     return;
@@ -23,22 +22,22 @@ export async function loadRMBG(
 
   loadingPromise = (async () => {
     onProgress?.({ status: "downloading", progress: 0, text: "Downloading background removal model..." });
-    const { AutoModel, AutoProcessor } = await import("@xenova/transformers");
+    const { pipeline: createPipeline } = await import("@huggingface/transformers");
 
-    model = await AutoModel.from_pretrained("briaai/RMBG-1.4", {
-      quantized: false,
-      progress_callback: (data: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- pipeline() union type is too complex for TS
+    pipe = await (createPipeline as any)("background-removal", "briaai/RMBG-1.4", {
+      device: "wasm",
+      progress_callback: (data: { status: string; progress: number }) => {
         if (data.status === "progress") {
+          const pct = Math.round(data.progress);
           onProgress?.({
             status: "downloading",
-            progress: Math.round(data.progress as number),
-            text: `Downloading model: ${Math.round(data.progress as number)}%`,
+            progress: pct,
+            text: `Downloading model: ${pct}%`,
           });
         }
       },
-    });
-
-    processor = await AutoProcessor.from_pretrained("briaai/RMBG-1.4");
+    }) as BackgroundRemovalPipeline;
   })();
 
   try {
@@ -46,70 +45,28 @@ export async function loadRMBG(
     onProgress?.({ status: "ready", progress: 100, text: "Model ready" });
   } catch (err) {
     loadingPromise = null;
-    model = null;
-    processor = null;
+    pipe = null;
     throw err;
   }
   loadingPromise = null;
 }
 
 export async function removeBackground(imageBlob: Blob): Promise<Blob> {
-  if (!model || !processor) throw new Error("RMBG not loaded. Call loadRMBG() first.");
+  if (!pipe) throw new Error("RMBG not loaded. Call loadRMBG() first.");
 
-  const { RawImage } = await import("@xenova/transformers");
+  // Pipeline accepts Blob directly, returns RawImage[] with alpha channel applied
+  const results = await pipe(imageBlob);
+  const result = results[0];
 
-  // Load image and run through processor
-  const image = await RawImage.fromBlob(imageBlob);
-  const { pixel_values } = await (processor as unknown as (img: InstanceType<typeof RawImage>) => Promise<{ pixel_values: Tensor }>)(image);
-
-  // Run inference — _call is the typed entry point (runtime Proxy makes model() work too)
-  const { output } = await model._call({ input: pixel_values }) as { output: Tensor };
-
-  // Post-process: output shape [1, 1, H, W] → squeeze to [H, W], scale to 0-255
-  const maskTensor = output.squeeze().mul(255).to("uint8");
-  const mask = RawImage.fromTensor(maskTensor);
-  const resizedMask = await mask.resize(image.width, image.height);
-
-  // Create canvas, draw original image, apply mask as alpha channel
-  const canvas = document.createElement("canvas");
-  canvas.width = image.width;
-  canvas.height = image.height;
-  const ctx = canvas.getContext("2d")!;
-
-  const imageUrl = URL.createObjectURL(imageBlob);
-  try {
-    const img = new Image();
-    await new Promise<void>((resolve, reject) => {
-      img.onload = () => resolve();
-      img.onerror = reject;
-      img.src = imageUrl;
-    });
-    ctx.drawImage(img, 0, 0);
-  } finally {
-    URL.revokeObjectURL(imageUrl);
-  }
-
-  // Apply mask as alpha channel
-  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < resizedMask.data.length; i++) {
-    imageData.data[i * 4 + 3] = resizedMask.data[i];
-  }
-  ctx.putImageData(imageData, 0, 0);
-
-  return new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error("Canvas to blob failed"))),
-      "image/png",
-    );
-  });
+  // RawImage.toBlob() converts to PNG with transparency
+  return await result.toBlob("image/png");
 }
 
 export function isRMBGLoaded(): boolean {
-  return model !== null && processor !== null;
+  return pipe !== null;
 }
 
 export function unloadRMBG(): void {
-  model = null;
-  processor = null;
+  pipe = null;
   loadingPromise = null;
 }

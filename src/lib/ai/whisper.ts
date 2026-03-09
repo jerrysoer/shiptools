@@ -39,14 +39,16 @@ export async function loadWhisper(
   }
 
   loadingPromise = (async () => {
-    const { pipeline: createPipeline } = await import("@xenova/transformers");
+    const { pipeline: createPipeline } = await import("@huggingface/transformers");
     pipeline = await createPipeline("automatic-speech-recognition", model, {
-      progress_callback: (data: Record<string, unknown>) => {
+      device: "wasm",
+      progress_callback: (data) => {
         if (data.status === "progress") {
+          const pct = Math.round(data.progress);
           onProgress?.({
             status: "downloading",
-            progress: Math.round(data.progress as number),
-            text: `Downloading model: ${Math.round(data.progress as number)}%`,
+            progress: pct,
+            text: `Downloading model: ${pct}%`,
           });
         }
       },
