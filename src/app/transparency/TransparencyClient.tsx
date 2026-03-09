@@ -22,7 +22,7 @@ function StatCard({
   value: string;
 }) {
   return (
-    <div className="bg-bg-surface border border-border rounded-xl p-4">
+    <div className="bg-bg-surface border border-border p-4">
       <div className="flex items-center gap-2 mb-2">
         <Icon className="w-4 h-4 text-accent" />
         <span className="text-text-tertiary text-xs">{label}</span>
@@ -84,7 +84,7 @@ export default function TransparencyClient() {
         )}
 
         {error && !loading && (
-          <div className="bg-bg-surface border border-border rounded-xl p-6 text-center text-text-tertiary text-sm">
+          <div className="bg-bg-surface border border-border p-6 text-center text-text-tertiary text-sm">
             Public stats are not available right now. Analytics may not be
             configured on this instance.
           </div>
@@ -132,7 +132,7 @@ export default function TransparencyClient() {
 
             {/* Top tools bar chart */}
             {stats.top_tools.length > 0 && (
-              <div className="bg-bg-surface border border-border rounded-xl p-5">
+              <div className="bg-bg-surface border border-border p-5">
                 <h3 className="font-heading font-semibold text-sm mb-3">
                   Top Tools
                 </h3>

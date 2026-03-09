@@ -274,7 +274,7 @@ export default function TrackingPixelDetector() {
       />
 
       {/* Input */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5 space-y-4">
+      <div className="bg-bg-surface border border-border p-5 space-y-4">
         <label className="block text-sm font-medium text-text-secondary">
           Email HTML source
         </label>
@@ -285,14 +285,14 @@ export default function TrackingPixelDetector() {
             if (findings) setFindings(null);
           }}
           placeholder="Paste the raw HTML source of an email here..."
-          className="w-full h-48 bg-bg-elevated border border-border rounded-lg p-3 font-mono text-sm text-text-primary placeholder:text-text-tertiary resize-y focus:outline-none focus:ring-2 focus:ring-accent/40"
+          className="w-full h-48 bg-bg-elevated border border-border p-3 font-mono text-sm text-text-primary placeholder:text-text-tertiary resize-y focus:outline-none focus:ring-2 focus:ring-accent/40"
           spellCheck={false}
         />
         <div className="flex items-center gap-3">
           <button
             onClick={handleScan}
             disabled={!html.trim()}
-            className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium text-sm transition-colors"
+            className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-medium text-sm transition-colors"
           >
             <Search className="w-4 h-4" />
             Scan
@@ -300,7 +300,7 @@ export default function TrackingPixelDetector() {
           {html && (
             <button
               onClick={handleClear}
-              className="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:border-border-hover text-sm transition-colors flex items-center gap-2"
+              className="px-4 py-2 border border-border text-text-secondary hover:text-text-primary hover:border-border-hover text-sm transition-colors flex items-center gap-2"
             >
               <Trash2 className="w-4 h-4" />
               Clear
@@ -309,7 +309,7 @@ export default function TrackingPixelDetector() {
           {!html && (
             <button
               onClick={handleLoadSample}
-              className="px-4 py-2 rounded-lg border border-border text-text-secondary hover:text-text-primary hover:border-border-hover text-sm transition-colors"
+              className="px-4 py-2 border border-border text-text-secondary hover:text-text-primary hover:border-border-hover text-sm transition-colors"
             >
               Load sample
             </button>
@@ -321,7 +321,7 @@ export default function TrackingPixelDetector() {
       {findings !== null && (
         <div className="space-y-4">
           {/* Summary stats */}
-          <div className="bg-bg-surface border border-border rounded-xl p-5">
+          <div className="bg-bg-surface border border-border p-5">
             <div className="flex items-center gap-3 mb-4">
               {totalFindings > 0 ? (
                 <AlertTriangle className="w-5 h-5 text-grade-f" />
@@ -345,7 +345,7 @@ export default function TrackingPixelDetector() {
                     return (
                       <div
                         key={cat}
-                        className="bg-bg-elevated rounded-lg p-3 text-center"
+                        className="bg-bg-elevated p-3 text-center"
                       >
                         <Icon className="w-4 h-4 text-text-tertiary mx-auto mb-1" />
                         <p className="text-xl font-mono font-bold text-text-primary">
@@ -373,7 +373,7 @@ export default function TrackingPixelDetector() {
               return (
                 <div
                   key={cat}
-                  className="bg-bg-surface border border-border rounded-xl overflow-hidden"
+                  className="bg-bg-surface border border-border overflow-hidden"
                 >
                   <div className="flex items-center gap-2 px-5 py-3 border-b border-border">
                     <Icon className="w-4 h-4 text-accent" />

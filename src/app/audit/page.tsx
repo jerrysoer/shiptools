@@ -108,12 +108,12 @@ export default function AuditPage() {
               }}
               placeholder="e.g. example.com"
               disabled={isScanning}
-              className="flex-1 bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50"
+              className="flex-1 bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={!urlInput.trim() || isScanning}
-              className="px-6 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-xl font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-6 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {isScanning ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -148,7 +148,7 @@ export default function AuditPage() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-start gap-2 p-4 bg-grade-f/5 border border-grade-f/20 rounded-xl text-sm">
+          <div className="flex items-start gap-2 p-4 bg-grade-f/5 border border-grade-f/20 text-sm">
             <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
             <div>
               <span className="text-text-secondary">{error}</span>

@@ -108,7 +108,7 @@ export default function AuditReport({ result }: AuditReportProps) {
     <div className="space-y-6">
       {/* Server-side file processing warning */}
       {serverSideWarning && (
-        <div className="bg-amber-500/5 border border-amber-500/30 rounded-xl p-6">
+        <div className="bg-amber-500/5 border border-amber-500/30 p-6">
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
             <div className="space-y-2">
@@ -149,7 +149,7 @@ export default function AuditReport({ result }: AuditReportProps) {
       )}
 
       {/* Score breakdown */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6">
+      <div className="bg-bg-surface border border-border p-6">
         <h2 className="font-heading font-semibold text-lg mb-4">Score Breakdown</h2>
         <div className="space-y-4">
           <ScoreBar
@@ -191,7 +191,7 @@ export default function AuditReport({ result }: AuditReportProps) {
       </div>
 
       {/* Cookie details */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6">
+      <div className="bg-bg-surface border border-border p-6">
         <h2 className="font-heading font-semibold text-lg mb-2">
           Cookies ({scan.cookies.total})
         </h2>
@@ -283,7 +283,7 @@ export default function AuditReport({ result }: AuditReportProps) {
         const hiddenDomainCount = allDomains.length - COLLAPSED_DOMAIN_COUNT;
 
         return (
-          <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <div className="bg-bg-surface border border-border p-6">
             <h2 className="font-heading font-semibold text-lg mb-4">
               Third-Party Domains
               <span className="text-text-tertiary font-normal text-sm ml-2">
@@ -358,7 +358,7 @@ export default function AuditReport({ result }: AuditReportProps) {
         const hiddenTrackerCount = flatTrackers.length - COLLAPSED_TRACKER_COUNT;
 
         return (
-          <div className="bg-bg-surface border border-border rounded-xl p-6">
+          <div className="bg-bg-surface border border-border p-6">
             <h2 className="font-heading font-semibold text-lg mb-4">
               Identified Trackers
               <span className="text-text-tertiary font-normal text-sm ml-2">
@@ -402,7 +402,7 @@ export default function AuditReport({ result }: AuditReportProps) {
 
       {/* Fingerprinting techniques */}
       {scan.fingerprinting && scan.fingerprinting.length > 0 && (
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <h2 className="font-heading font-semibold text-lg mb-4">
             <Fingerprint className="w-5 h-5 inline-block mr-2 text-grade-f" />
             Fingerprinting Detected
@@ -432,7 +432,7 @@ export default function AuditReport({ result }: AuditReportProps) {
 
       {/* Security headers (informational) */}
       {scan.securityHeaders && (
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <h2 className="font-heading font-semibold text-lg mb-4">
             <ShieldAlert className="w-5 h-5 inline-block mr-2 text-text-tertiary" />
             Security Headers
@@ -462,7 +462,7 @@ export default function AuditReport({ result }: AuditReportProps) {
 
       {/* AI Tracker Explainer */}
       {allTrackers.length > 0 && (
-        <div className="bg-bg-surface border border-border rounded-xl p-6">
+        <div className="bg-bg-surface border border-border p-6">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-heading font-semibold text-lg">AI Explainer</h2>
             <AIChip

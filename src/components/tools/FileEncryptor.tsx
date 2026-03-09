@@ -105,7 +105,7 @@ export default function FileEncryptor() {
       <div className="space-y-5">
 
       {/* Mode toggle */}
-      <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg w-fit">
+      <div className="flex gap-1 p-1 bg-bg-surface border border-border w-fit">
         <button
           onClick={() => {
             setMode("encrypt");
@@ -153,7 +153,7 @@ export default function FileEncryptor() {
 
       {/* Selected file info */}
       {file && (
-        <div className="bg-bg-surface border border-border rounded-xl p-4">
+        <div className="bg-bg-surface border border-border p-4">
           <div className="flex items-center justify-between">
             <div className="min-w-0">
               <p className="font-medium text-sm truncate">{file.name}</p>
@@ -191,7 +191,7 @@ export default function FileEncryptor() {
                 ? "Enter a strong password"
                 : "Enter the password used to encrypt"
             }
-            className="w-full bg-bg-surface border border-border rounded-lg px-4 py-2.5 pr-10 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
+            className="w-full bg-bg-surface border border-border px-4 py-2.5 pr-10 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
           />
           <button
             type="button"
@@ -211,7 +211,7 @@ export default function FileEncryptor() {
       <button
         onClick={handleProcess}
         disabled={!file || !password || processing}
-        className="bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium transition-colors"
+        className="bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 text-sm font-medium transition-colors"
       >
         {processing ? (
           <>
@@ -239,7 +239,7 @@ export default function FileEncryptor() {
       {error && <p className="text-grade-f text-sm">{error}</p>}
 
       {/* Info box */}
-      <div className="bg-bg-surface border border-border rounded-xl p-4 text-xs text-text-tertiary space-y-1">
+      <div className="bg-bg-surface border border-border p-4 text-xs text-text-tertiary space-y-1">
         <p>
           <strong className="text-text-secondary">Algorithm:</strong>{" "}
           AES-256-GCM with PBKDF2 key derivation (100K iterations, SHA-256)

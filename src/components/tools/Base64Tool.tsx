@@ -180,7 +180,7 @@ export default function Base64Tool() {
       {/* Controls row */}
       <div className="flex flex-wrap gap-3">
         {/* Input mode toggle */}
-        <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg">
+        <div className="flex gap-1 p-1 bg-bg-surface border border-border">
           <button
             onClick={() => {
               setInputMode("text");
@@ -221,7 +221,7 @@ export default function Base64Tool() {
 
         {/* Direction selector (text mode only) */}
         {inputMode === "text" && (
-          <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg">
+          <div className="flex gap-1 p-1 bg-bg-surface border border-border">
             {(["auto", "encode", "decode"] as Direction[]).map((dir) => (
               <button
                 key={dir}
@@ -254,14 +254,14 @@ export default function Base64Tool() {
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder="Paste text or Base64 string..."
             rows={6}
-            className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
+            className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
           />
         </div>
       ) : (
         <div>
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="bg-bg-elevated border border-border px-4 py-2 rounded-lg text-sm font-medium hover:border-border-hover transition-colors"
+            className="bg-bg-elevated border border-border px-4 py-2 text-sm font-medium hover:border-border-hover transition-colors"
           >
             <span className="flex items-center gap-2">
               <FileUp className="w-4 h-4" />
@@ -329,7 +329,7 @@ export default function Base64Tool() {
               readOnly
               value={output}
               rows={6}
-              className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono text-text-secondary focus:outline-none resize-y"
+              className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono text-text-secondary focus:outline-none resize-y"
             />
           )}
         </div>

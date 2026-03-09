@@ -198,7 +198,7 @@ export default function ExportPanel({
   }, [audioBlob, format, bitrate, trim, needsTrim, needsConversion]);
 
   return (
-    <div className={`bg-bg-surface border border-border rounded-xl p-4 ${className ?? ""}`}>
+    <div className={`bg-bg-surface border border-border p-4 ${className ?? ""}`}>
       <div className="flex items-center gap-2 mb-4">
         <FileAudio className="w-4 h-4 text-text-tertiary" />
         <h3 className="text-sm font-medium text-text-secondary">Export</h3>
@@ -211,7 +211,7 @@ export default function ExportPanel({
             key={opt.value}
             onClick={() => setFormat(opt.value)}
             disabled={isExporting}
-            className={`flex flex-col items-center py-3 px-2 rounded-xl border text-center transition-colors cursor-pointer ${
+            className={`flex flex-col items-center py-3 px-2 border text-center transition-colors cursor-pointer ${
               format === opt.value
                 ? "bg-accent/10 border-accent/30 text-accent"
                 : "bg-bg-elevated border-border text-text-secondary hover:border-border-hover"
@@ -242,7 +242,7 @@ export default function ExportPanel({
                 key={br}
                 onClick={() => setBitrate(br)}
                 disabled={isExporting}
-                className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+                className={`flex-1 py-1.5 text-xs font-medium transition-colors cursor-pointer ${
                   bitrate === br
                     ? "bg-accent/10 text-accent"
                     : "bg-bg-elevated text-text-tertiary hover:text-text-secondary"
@@ -264,7 +264,7 @@ export default function ExportPanel({
         <button
           onClick={handleExport}
           disabled={isExporting}
-          className="flex items-center gap-2 py-2.5 px-5 bg-accent text-accent-fg font-semibold text-sm rounded-xl hover:bg-accent-hover transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 py-2.5 px-5 bg-accent text-accent-fg font-semibold text-sm hover:bg-accent-hover transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isExporting ? (
             <>

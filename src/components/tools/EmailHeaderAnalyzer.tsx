@@ -204,7 +204,7 @@ function AuthBadge({ label, result }: { label: string; result: AuthResult }) {
   const Icon = config.icon;
 
   return (
-    <div className={`flex items-center gap-2 px-3 py-2 rounded-lg ${config.bg}`}>
+    <div className={`flex items-center gap-2 px-3 py-2 ${config.bg}`}>
       <Icon className={`w-4 h-4 ${config.text}`} />
       <div>
         <span className={`text-xs font-semibold ${config.text}`}>
@@ -262,7 +262,7 @@ export default function EmailHeaderAnalyzer() {
       />
 
       {/* Input */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5 mb-6">
+      <div className="bg-bg-surface border border-border p-5 mb-6">
         <textarea
           value={raw}
           onChange={(e) => setRaw(e.target.value)}
@@ -272,7 +272,7 @@ export default function EmailHeaderAnalyzer() {
         <button
           onClick={handleAnalyze}
           disabled={!raw.trim()}
-          className="mt-3 px-5 py-2 bg-accent text-accent-fg text-sm font-medium rounded-lg hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-3 px-5 py-2 bg-accent text-accent-fg text-sm font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Analyze Headers
         </button>
@@ -281,7 +281,7 @@ export default function EmailHeaderAnalyzer() {
       {parsed && (
         <div className="space-y-4">
           {/* Authentication */}
-          <div className="bg-bg-surface border border-border rounded-xl p-5">
+          <div className="bg-bg-surface border border-border p-5">
             <h2 className="font-heading font-semibold mb-3">Authentication</h2>
             <div className="grid grid-cols-3 gap-2">
               <AuthBadge label="SPF" result={parsed.spf} />
@@ -291,7 +291,7 @@ export default function EmailHeaderAnalyzer() {
           </div>
 
           {/* Key Fields */}
-          <div className="bg-bg-surface border border-border rounded-xl divide-y divide-border">
+          <div className="bg-bg-surface border border-border divide-y divide-border">
             {[
               { label: "From", value: parsed.from },
               { label: "To", value: parsed.to },
@@ -316,7 +316,7 @@ export default function EmailHeaderAnalyzer() {
 
           {/* Hop Timeline */}
           {parsed.hops.length > 0 && (
-            <div className="bg-bg-surface border border-border rounded-xl p-5">
+            <div className="bg-bg-surface border border-border p-5">
               <h2 className="font-heading font-semibold mb-4">
                 Server Hops ({parsed.hops.length})
               </h2>
@@ -383,7 +383,7 @@ export default function EmailHeaderAnalyzer() {
           )}
 
           {/* All Headers */}
-          <div className="bg-bg-surface border border-border rounded-xl">
+          <div className="bg-bg-surface border border-border">
             <button
               onClick={() => setShowAllFields(!showAllFields)}
               className="w-full flex items-center justify-between px-5 py-3 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"

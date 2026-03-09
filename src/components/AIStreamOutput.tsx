@@ -64,7 +64,7 @@ export default function AIStreamOutput({
   return (
     <div
       ref={containerRef}
-      className={`bg-bg-elevated border border-border rounded-xl p-4 text-sm text-text-primary leading-relaxed overflow-y-auto max-h-96 ${className}`}
+      className={`bg-bg-elevated border border-border p-4 text-sm text-text-primary leading-relaxed overflow-y-auto max-h-96 ${className}`}
     >
       <ReactMarkdown components={mdComponents}>
         {sanitizeStreamText(content)}

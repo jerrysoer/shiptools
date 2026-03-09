@@ -148,7 +148,7 @@ export default function HtmlEntityEncoder() {
               onChange={(e) => handleLeftChange(e.target.value)}
               placeholder="Type or paste text to encode..."
               rows={10}
-              className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
+              className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
             />
           </div>
 
@@ -163,7 +163,7 @@ export default function HtmlEntityEncoder() {
               onChange={(e) => handleRightChange(e.target.value)}
               placeholder="Type or paste HTML entities to decode..."
               rows={10}
-              className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
+              className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
             />
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function HtmlEntityEncoder() {
         )}
 
         {/* Quick reference */}
-        <div className="bg-bg-surface border border-border rounded-xl p-5">
+        <div className="bg-bg-surface border border-border p-5">
           <h2 className="font-heading font-semibold text-sm mb-3">Common Entities</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
             {[

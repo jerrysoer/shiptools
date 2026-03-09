@@ -379,7 +379,7 @@ export default function ExifStripper() {
 
       {/* Summary banner when GPS found */}
       {totalWithGps > 0 && (
-        <div className="flex items-center gap-2 bg-grade-f/10 border border-grade-f/25 rounded-xl px-4 py-3">
+        <div className="flex items-center gap-2 bg-grade-f/10 border border-grade-f/25 px-4 py-3">
           <MapPin className="w-4 h-4 text-grade-f shrink-0" />
           <p className="text-sm text-grade-f">
             <span className="font-medium">{totalWithGps}</span>{" "}
@@ -394,7 +394,7 @@ export default function ExifStripper() {
         <button
           onClick={stripAll}
           disabled={strippingAll}
-          className="w-full py-2.5 bg-accent hover:bg-accent/90 disabled:opacity-60 text-accent-fg rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+          className="w-full py-2.5 bg-accent hover:bg-accent/90 disabled:opacity-60 text-accent-fg text-sm font-medium transition-colors flex items-center justify-center gap-2"
         >
           {strippingAll ? (
             <>
@@ -413,7 +413,7 @@ export default function ExifStripper() {
       {/* Batch done banner */}
       {doneCount > 1 &&
         entries.every((e) => e.status === "done" || e.status === "error") && (
-          <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 rounded-xl px-4 py-3">
+          <div className="flex items-center justify-between bg-grade-a/10 border border-grade-a/25 px-4 py-3">
             <div className="flex items-center gap-2">
               <CircleCheck className="w-4 h-4 text-grade-a" />
               <span className="text-sm text-grade-a font-medium">
@@ -422,7 +422,7 @@ export default function ExifStripper() {
             </div>
             <button
               onClick={downloadAllZip}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a rounded-lg text-xs font-medium transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-grade-a/15 hover:bg-grade-a/25 text-grade-a text-xs font-medium transition-colors"
             >
               <DownloadCloud className="w-3.5 h-3.5" />
               Download All (.zip)
@@ -436,7 +436,7 @@ export default function ExifStripper() {
           {entries.map((entry) => (
             <div
               key={entry.id}
-              className={`rounded-xl border overflow-hidden transition-colors ${
+              className={`border overflow-hidden transition-colors ${
                 entry.status === "done"
                   ? "border-grade-a/25 bg-grade-a/5"
                   : entry.status === "error"
@@ -503,7 +503,7 @@ export default function ExifStripper() {
                   {entry.status === "ready" && (
                     <button
                       onClick={() => stripSingle(entry.id)}
-                      className="px-3 py-1 bg-accent text-accent-fg rounded-lg text-xs font-medium hover:bg-accent/90 transition-colors"
+                      className="px-3 py-1 bg-accent text-accent-fg text-xs font-medium hover:bg-accent/90 transition-colors"
                     >
                       Strip
                     </button>

@@ -148,7 +148,7 @@ export default function RegexPlayground() {
                 onChange={(e) => setPattern(e.target.value)}
                 placeholder="Enter regex pattern..."
                 spellCheck={false}
-                className={`w-full bg-bg-surface border rounded-xl pl-7 pr-4 py-2.5 text-sm font-mono placeholder:text-text-tertiary focus:outline-none transition-colors ${
+                className={`w-full bg-bg-surface border pl-7 pr-4 py-2.5 text-sm font-mono placeholder:text-text-tertiary focus:outline-none transition-colors ${
                   error ? "border-grade-f focus:border-grade-f" : "border-border focus:border-accent"
                 }`}
               />
@@ -166,7 +166,7 @@ export default function RegexPlayground() {
                 key={flag}
                 onClick={() => toggleFlag(flag)}
                 title={label}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono font-medium transition-colors border ${
+                className={`px-2.5 py-1 text-xs font-mono font-medium transition-colors border ${
                   flags[flag]
                     ? "bg-accent text-accent-fg border-accent"
                     : "bg-bg-surface text-text-secondary border-border hover:border-border-hover"
@@ -190,7 +190,7 @@ export default function RegexPlayground() {
             placeholder="Enter text to test against..."
             spellCheck={false}
             rows={5}
-            className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
+            className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
           />
         </div>
 
@@ -206,7 +206,7 @@ export default function RegexPlayground() {
                 </span>
               )}
             </div>
-            <div className="bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono min-h-[8rem] max-h-[20rem] overflow-auto whitespace-pre-wrap break-all">
+            <div className="bg-bg-surface border border-border px-4 py-3 text-sm font-mono min-h-[8rem] max-h-[20rem] overflow-auto whitespace-pre-wrap break-all">
               {testStr ? highlighted : <span className="text-text-tertiary">Matches will be highlighted here</span>}
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function RegexPlayground() {
           {/* Match list */}
           <div>
             <label className="block text-sm font-medium mb-1.5">Match Details</label>
-            <div className="bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono min-h-[8rem] max-h-[20rem] overflow-auto">
+            <div className="bg-bg-surface border border-border px-4 py-3 text-sm font-mono min-h-[8rem] max-h-[20rem] overflow-auto">
               {matches.length === 0 && (
                 <span className="text-text-tertiary">
                   {!pattern && !testStr ? "Enter a pattern and test string" : error ? "" : "No matches found"}
@@ -223,7 +223,7 @@ export default function RegexPlayground() {
               {matches.length > 0 && (
                 <div className="space-y-2">
                   {matches.map((m, i) => (
-                    <div key={i} className="border border-border rounded-lg px-3 py-2 bg-bg-elevated">
+                    <div key={i} className="border border-border px-3 py-2 bg-bg-elevated">
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="text-accent font-medium">{m.value}</span>
                         <span className="text-text-tertiary text-xs shrink-0">index {m.index}</span>
@@ -246,7 +246,7 @@ export default function RegexPlayground() {
         </div>
 
         {/* AI Section */}
-        <div className="bg-bg-surface border border-border rounded-xl p-5 space-y-4">
+        <div className="bg-bg-surface border border-border p-5 space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-heading font-semibold">AI Assistant</h3>
             <AIChip
@@ -267,7 +267,7 @@ export default function RegexPlayground() {
                 value={generateInput}
                 onChange={(e) => setGenerateInput(e.target.value)}
                 placeholder='e.g., "email addresses" or "US phone numbers"'
-                className="flex-1 bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
+                className="flex-1 bg-bg-elevated border border-border px-3 py-2 text-sm placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
               />
               <AIChip
                 label="Generate"

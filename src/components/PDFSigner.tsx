@@ -600,7 +600,7 @@ export default function PDFSigner() {
           onDragLeave={() => setIsDraggingFile(false)}
           onDrop={handleFileDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all ${
+          className={`border-2 border-dashed p-12 text-center cursor-pointer transition-all ${
             isDraggingFile
               ? "border-accent bg-accent/5"
               : "border-border hover:border-border-hover hover:bg-bg-surface/50"
@@ -634,14 +634,14 @@ export default function PDFSigner() {
   return (
     <div className="space-y-4 fade-in">
       {/* Toolbar */}
-      <div className="bg-bg-surface border border-border rounded-xl p-2 flex flex-wrap items-center gap-2">
+      <div className="bg-bg-surface border border-border p-2 flex flex-wrap items-center gap-2">
         {/* Tool buttons */}
         <button
           onClick={() => {
             setActiveTool("select");
             setEditingId(null);
           }}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
             activeTool === "select"
               ? "bg-accent text-accent-fg"
               : "bg-bg-elevated text-text-secondary hover:text-text-primary"
@@ -659,7 +659,7 @@ export default function PDFSigner() {
               setActiveTool("signature");
             }
           }}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
             activeTool === "signature"
               ? "bg-accent text-accent-fg"
               : "bg-bg-elevated text-text-secondary hover:text-text-primary"
@@ -671,7 +671,7 @@ export default function PDFSigner() {
 
         <button
           onClick={() => setActiveTool("text")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
             activeTool === "text"
               ? "bg-accent text-accent-fg"
               : "bg-bg-elevated text-text-secondary hover:text-text-primary"
@@ -683,7 +683,7 @@ export default function PDFSigner() {
 
         <button
           onClick={() => setActiveTool("date")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
             activeTool === "date"
               ? "bg-accent text-accent-fg"
               : "bg-bg-elevated text-text-secondary hover:text-text-primary"
@@ -701,7 +701,7 @@ export default function PDFSigner() {
           <button
             onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
             disabled={currentPage === 0}
-            className="p-1.5 rounded-lg bg-bg-elevated text-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 bg-bg-elevated text-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
@@ -713,7 +713,7 @@ export default function PDFSigner() {
               setCurrentPage((p) => Math.min(numPages - 1, p + 1))
             }
             disabled={currentPage >= numPages - 1}
-            className="p-1.5 rounded-lg bg-bg-elevated text-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-1.5 bg-bg-elevated text-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
@@ -747,7 +747,7 @@ export default function PDFSigner() {
             setActiveTool("select");
             setError(null);
           }}
-          className="p-1.5 rounded-lg bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors"
+          className="p-1.5 bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors"
           title="Load a different PDF"
         >
           <Trash2 className="w-3.5 h-3.5" />
@@ -757,7 +757,7 @@ export default function PDFSigner() {
         <button
           onClick={handleDownload}
           disabled={!hasAnnotations || loading}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors ${
             hasAnnotations && !loading
               ? "bg-grade-a text-white hover:bg-grade-a/90"
               : "bg-bg-elevated text-text-tertiary cursor-not-allowed"
@@ -786,7 +786,7 @@ export default function PDFSigner() {
 
       {/* PDF Canvas + Annotations Overlay */}
       <div
-        className="border border-border rounded-xl overflow-hidden relative bg-bg-elevated"
+        className="border border-border overflow-hidden relative bg-bg-elevated"
         style={{
           cursor:
             activeTool === "select"
@@ -914,7 +914,7 @@ export default function PDFSigner() {
 
       {/* Signature Creation Panel */}
       {showSigPanel && (
-        <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-4 fade-in">
+        <div className="bg-bg-surface border border-border p-4 space-y-4 fade-in">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium text-text-primary">
               Create Signature
@@ -928,7 +928,7 @@ export default function PDFSigner() {
           </div>
 
           {/* Tab bar */}
-          <div className="flex gap-1 bg-bg-elevated rounded-lg p-1">
+          <div className="flex gap-1 bg-bg-elevated p-1">
             {(["draw", "type", "upload"] as SigTab[]).map((tab) => (
               <button
                 key={tab}
@@ -951,7 +951,7 @@ export default function PDFSigner() {
                 ref={sigCanvasRef}
                 width={500}
                 height={150}
-                className="w-full rounded-lg border border-border bg-white cursor-crosshair touch-none"
+                className="w-full border border-border bg-white cursor-crosshair touch-none"
                 style={{ height: "120px" }}
                 onMouseDown={onSigPointerDown}
                 onMouseMove={onSigPointerMove}
@@ -964,13 +964,13 @@ export default function PDFSigner() {
               <div className="flex gap-2">
                 <button
                   onClick={clearSigCanvas}
-                  className="px-3 py-1.5 rounded-lg bg-bg-elevated text-text-secondary hover:text-text-primary text-xs transition-colors"
+                  className="px-3 py-1.5 bg-bg-elevated text-text-secondary hover:text-text-primary text-xs transition-colors"
                 >
                   Clear
                 </button>
                 <button
                   onClick={useDrawnSignature}
-                  className="px-3 py-1.5 rounded-lg bg-accent hover:bg-accent-hover text-accent-fg text-xs font-medium transition-colors"
+                  className="px-3 py-1.5 bg-accent hover:bg-accent-hover text-accent-fg text-xs font-medium transition-colors"
                 >
                   Use Signature
                 </button>
@@ -986,11 +986,11 @@ export default function PDFSigner() {
                 value={typedName}
                 onChange={(e) => setTypedName(e.target.value)}
                 placeholder="Type your name"
-                className="w-full bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent transition-colors"
+                className="w-full bg-bg-elevated border border-border px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary outline-none focus:border-accent transition-colors"
               />
               {/* Preview */}
               {typedName && (
-                <div className="bg-white rounded-lg px-4 py-3 border border-border">
+                <div className="bg-white px-4 py-3 border border-border">
                   <span
                     className="text-black text-2xl"
                     style={{
@@ -1005,7 +1005,7 @@ export default function PDFSigner() {
               <button
                 onClick={useTypedSignature}
                 disabled={!typedName.trim()}
-                className="px-3 py-1.5 rounded-lg bg-accent hover:bg-accent-hover text-accent-fg text-xs font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="px-3 py-1.5 bg-accent hover:bg-accent-hover text-accent-fg text-xs font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Use Signature
               </button>
@@ -1017,7 +1017,7 @@ export default function PDFSigner() {
             <div className="space-y-3">
               <button
                 onClick={() => sigUploadRef.current?.click()}
-                className="w-full border-2 border-dashed border-border hover:border-border-hover rounded-lg p-6 text-center cursor-pointer transition-colors"
+                className="w-full border-2 border-dashed border-border hover:border-border-hover p-6 text-center cursor-pointer transition-colors"
               >
                 <Upload className="w-6 h-6 mx-auto mb-2 text-text-tertiary" />
                 <p className="text-text-secondary text-xs">

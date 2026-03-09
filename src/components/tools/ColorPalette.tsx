@@ -196,7 +196,7 @@ export default function ColorPalette() {
       {/* Color count selector */}
       <div className="flex items-center justify-center gap-3 mb-6">
         <label className="text-sm text-text-secondary">Colors:</label>
-        <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg">
+        <div className="flex gap-1 p-1 bg-bg-surface border border-border">
           {[5, 6, 7, 8].map((n) => (
             <button
               key={n}
@@ -215,7 +215,7 @@ export default function ColorPalette() {
 
       {/* Upload area */}
       <label
-        className="flex flex-col items-center justify-center bg-bg-surface border-2 border-dashed border-border rounded-xl p-8 cursor-pointer hover:border-accent/50 transition-colors mb-6"
+        className="flex flex-col items-center justify-center bg-bg-surface border-2 border-dashed border-border p-8 cursor-pointer hover:border-accent/50 transition-colors mb-6"
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
@@ -242,12 +242,12 @@ export default function ColorPalette() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Source image */}
           {imageSrc && (
-            <div className="bg-bg-surface border border-border rounded-xl p-4">
+            <div className="bg-bg-surface border border-border p-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imageSrc}
                 alt="Source"
-                className="w-full rounded-lg object-contain max-h-[300px]"
+                className="w-full object-contain max-h-[300px]"
               />
             </div>
           )}
@@ -257,10 +257,10 @@ export default function ColorPalette() {
             {colors.map((c, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-3"
+                className="flex items-center gap-3 bg-bg-surface border border-border p-3"
               >
                 <div
-                  className="w-12 h-12 rounded-lg shrink-0 border border-border"
+                  className="w-12 h-12 shrink-0 border border-border"
                   style={{ backgroundColor: c.hex }}
                 />
                 <div className="flex-1 min-w-0">
@@ -286,7 +286,7 @@ export default function ColorPalette() {
             ))}
 
             {/* Full palette bar */}
-            <div className="flex rounded-xl overflow-hidden h-12 border border-border mt-3">
+            <div className="flex overflow-hidden h-12 border border-border mt-3">
               {colors.map((c, idx) => (
                 <div
                   key={idx}

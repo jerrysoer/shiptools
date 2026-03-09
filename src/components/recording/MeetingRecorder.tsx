@@ -385,7 +385,7 @@ export default function MeetingRecorder() {
 
       {/* Error */}
       {error && (
-        <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+        <div className="mb-4 border border-red-500/30 bg-red-500/10 px-4 py-3">
           <p className="text-sm text-red-500">{error}</p>
         </div>
       )}
@@ -394,7 +394,7 @@ export default function MeetingRecorder() {
       {meetingState === "idle" && (
         <div className="space-y-6">
           {/* Audio source toggles */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-3">
+          <div className="bg-bg-surface border border-border p-4 space-y-3">
             <h3 className="text-sm font-medium text-text-primary">
               Audio Sources
             </h3>
@@ -460,7 +460,7 @@ export default function MeetingRecorder() {
               disabled={
                 !captureSystemAudioEnabled && !captureMicEnabled
               }
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-medium text-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-red-500 hover:bg-red-600 text-white font-medium text-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <Users className="w-6 h-6" />
               Start Meeting
@@ -471,7 +471,7 @@ export default function MeetingRecorder() {
           </div>
 
           {/* Pipeline preview */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <h3 className="text-sm font-medium text-text-primary mb-3">
               What happens after recording:
             </h3>
@@ -493,7 +493,7 @@ export default function MeetingRecorder() {
         <div className="space-y-6">
           {/* Waveform */}
           {analyser && (
-            <div className="bg-bg-surface border border-border rounded-xl p-4">
+            <div className="bg-bg-surface border border-border p-4">
               <WaveformVisualizer
                 analyser={analyser}
                 style="mirrored"
@@ -528,7 +528,7 @@ export default function MeetingRecorder() {
             ]}
           />
 
-          <div className="bg-bg-surface border border-border rounded-xl p-6 text-center">
+          <div className="bg-bg-surface border border-border p-6 text-center">
             <Loader2 className="w-8 h-8 mx-auto mb-3 text-accent animate-spin" />
             <h3 className="font-heading font-semibold mb-1">
               Transcribing audio...
@@ -558,7 +558,7 @@ export default function MeetingRecorder() {
             ]}
           />
 
-          <div className="bg-bg-surface border border-border rounded-xl p-6 text-center">
+          <div className="bg-bg-surface border border-border p-6 text-center">
             <Sparkles className="w-8 h-8 mx-auto mb-3 text-accent animate-pulse" />
             <h3 className="font-heading font-semibold mb-1">
               Generating summary...
@@ -589,7 +589,7 @@ export default function MeetingRecorder() {
 
           {/* Transcript */}
           {transcription && (
-            <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-surface border border-border overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 border-b border-border">
                 <h3 className="font-heading font-semibold text-sm flex items-center gap-2">
                   <FileText className="w-4 h-4 text-accent" />
@@ -635,7 +635,7 @@ export default function MeetingRecorder() {
 
           {/* Summary */}
           {summary && (
-            <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-surface border border-border overflow-hidden">
               <button
                 type="button"
                 onClick={() => setSummaryExpanded(!summaryExpanded)}
@@ -708,7 +708,7 @@ export default function MeetingRecorder() {
           )}
 
           {/* Export section */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-3">
+          <div className="bg-bg-surface border border-border p-4 space-y-3">
             <h3 className="font-heading font-semibold text-sm flex items-center gap-2">
               <Download className="w-4 h-4 text-accent" />
               Export
@@ -720,7 +720,7 @@ export default function MeetingRecorder() {
                 type="button"
                 onClick={handleExportZIP}
                 disabled={isExporting}
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-accent text-white font-medium text-sm transition-colors hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent text-white font-medium text-sm transition-colors hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isExporting ? (
                   <>
@@ -742,7 +742,7 @@ export default function MeetingRecorder() {
                 type="button"
                 onClick={handleDownloadAudio}
                 disabled={!finalRecordingRef.current}
-                className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-lg border border-border hover:border-border-hover text-text-primary text-xs font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex flex-col items-center gap-1 px-3 py-2.5 border border-border hover:border-border-hover text-text-primary text-xs font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <Mic className="w-4 h-4 text-accent" />
                 Audio
@@ -751,7 +751,7 @@ export default function MeetingRecorder() {
                 type="button"
                 onClick={handleDownloadTranscript}
                 disabled={!transcription}
-                className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-lg border border-border hover:border-border-hover text-text-primary text-xs font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex flex-col items-center gap-1 px-3 py-2.5 border border-border hover:border-border-hover text-text-primary text-xs font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <FileText className="w-4 h-4 text-accent" />
                 Transcript
@@ -760,7 +760,7 @@ export default function MeetingRecorder() {
                 type="button"
                 onClick={handleDownloadSummary}
                 disabled={!summary}
-                className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-lg border border-border hover:border-border-hover text-text-primary text-xs font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex flex-col items-center gap-1 px-3 py-2.5 border border-border hover:border-border-hover text-text-primary text-xs font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <Sparkles className="w-4 h-4 text-accent" />
                 Summary
@@ -825,7 +825,7 @@ interface PipelineStep {
 
 function PipelineProgress({ steps }: { steps: PipelineStep[] }) {
   return (
-    <div className="flex items-center gap-2 p-3 bg-bg-surface border border-border rounded-xl">
+    <div className="flex items-center gap-2 p-3 bg-bg-surface border border-border">
       {steps.map((step, i) => (
         <div key={step.label} className="flex items-center gap-2">
           {i > 0 && (

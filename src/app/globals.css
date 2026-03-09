@@ -37,9 +37,19 @@
   --color-dept-ai: #D4A017;
 
   /* Font families */
-  --font-sans: "Source Sans 3", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Playfair Display", ui-serif, Georgia, serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: var(--font-source-sans), var(--font-ibm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-mono: var(--font-ibm-mono), ui-monospace, monospace;
+}
+
+/* Ensure pointer cursor on all interactive elements */
+button,
+[role="button"],
+a[href],
+summary,
+select,
+label[for] {
+  cursor: pointer;
 }
 
 /* Runtime light/dark overrides */

@@ -45,7 +45,7 @@ export default function MediaPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search tools..."
-            className="w-full pl-10 pr-4 py-2.5 text-sm bg-bg-surface border border-border rounded-lg placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
+            className="w-full pl-10 pr-4 py-2.5 text-sm bg-bg-surface border border-border placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
           />
           {query && (
             <button

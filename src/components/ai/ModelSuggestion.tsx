@@ -25,7 +25,7 @@ export default function ModelSuggestion({
   }
 
   return (
-    <div className="flex items-center gap-2 px-3 py-2 bg-accent/5 border border-accent/20 rounded-lg text-xs text-text-secondary">
+    <div className="flex items-center gap-2 px-3 py-2 bg-accent/5 border border-accent/20 text-xs text-text-secondary">
       <ArrowUpCircle className="w-3.5 h-3.5 text-accent flex-shrink-0" />
       <span>
         For best results, switch to{" "}

@@ -150,7 +150,7 @@ export default function UnitConverter() {
           <button
             key={cat.value}
             onClick={() => handleCategoryChange(cat.value)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-3 py-1.5 text-sm font-medium transition-colors ${
               category === cat.value
                 ? "bg-accent text-accent-fg"
                 : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -162,7 +162,7 @@ export default function UnitConverter() {
       </div>
 
       {/* Converter */}
-      <div className="bg-bg-surface border border-border rounded-xl p-5">
+      <div className="bg-bg-surface border border-border p-5">
         <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-4 items-end">
           {/* From */}
           <div>
@@ -172,7 +172,7 @@ export default function UnitConverter() {
             <select
               value={fromIdx}
               onChange={(e) => setFromIdx(Number(e.target.value))}
-              className="w-full bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent mb-2"
+              className="w-full bg-bg-elevated border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent mb-2"
             >
               {units.map((unit, i) => (
                 <option key={unit.symbol} value={i}>
@@ -186,7 +186,7 @@ export default function UnitConverter() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Enter value"
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-lg text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-lg text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
           </div>
 
@@ -194,7 +194,7 @@ export default function UnitConverter() {
           <div className="flex items-center justify-center sm:pb-2">
             <button
               onClick={handleSwap}
-              className="p-2 rounded-lg bg-bg-elevated border border-border hover:border-border-hover transition-colors"
+              className="p-2 bg-bg-elevated border border-border hover:border-border-hover transition-colors"
               title="Swap units"
             >
               <ArrowLeftRight className="w-4 h-4 text-text-tertiary" />
@@ -209,7 +209,7 @@ export default function UnitConverter() {
             <select
               value={toIdx}
               onChange={(e) => setToIdx(Number(e.target.value))}
-              className="w-full bg-bg-elevated border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent mb-2"
+              className="w-full bg-bg-elevated border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent mb-2"
             >
               {units.map((unit, i) => (
                 <option key={unit.symbol} value={i}>
@@ -217,7 +217,7 @@ export default function UnitConverter() {
                 </option>
               ))}
             </select>
-            <div className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-lg text-accent font-mono min-h-[52px] flex items-center">
+            <div className="w-full bg-bg-elevated border border-border px-4 py-3 text-lg text-accent font-mono min-h-[52px] flex items-center">
               {result || "\u00A0"}
             </div>
           </div>

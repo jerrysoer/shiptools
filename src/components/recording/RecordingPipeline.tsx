@@ -196,7 +196,7 @@ export default function RecordingPipeline({
   // ---- Idle state: show enable button ----
   if (step === "idle" && !transcription) {
     return (
-      <div className={`bg-bg-surface border border-border rounded-xl p-4 ${className ?? ""}`}>
+      <div className={`bg-bg-surface border border-border p-4 ${className ?? ""}`}>
         <div className="flex items-center gap-2 mb-3">
           <Cpu className="w-4 h-4 text-text-tertiary" />
           <h3 className="text-sm font-medium text-text-secondary">
@@ -209,7 +209,7 @@ export default function RecordingPipeline({
         </p>
         <button
           onClick={handleTranscribe}
-          className="flex items-center gap-2 py-2.5 px-5 bg-accent/10 text-accent text-sm font-medium rounded-xl hover:bg-accent/20 transition-colors cursor-pointer"
+          className="flex items-center gap-2 py-2.5 px-5 bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors cursor-pointer"
         >
           <FileText className="w-4 h-4" />
           Transcribe Recording
@@ -219,7 +219,7 @@ export default function RecordingPipeline({
   }
 
   return (
-    <div className={`bg-bg-surface border border-border rounded-xl p-4 ${className ?? ""}`}>
+    <div className={`bg-bg-surface border border-border p-4 ${className ?? ""}`}>
       {/* Step indicator */}
       <div className="flex items-center gap-1 mb-5">
         {steps.map((s, i) => {
@@ -228,7 +228,7 @@ export default function RecordingPipeline({
           return (
             <div key={s.key} className="flex items-center gap-1">
               <div
-                className={`flex items-center gap-1.5 py-1 px-2.5 rounded-lg text-xs font-medium transition-colors ${
+                className={`flex items-center gap-1.5 py-1 px-2.5 text-xs font-medium transition-colors ${
                   state === "complete"
                     ? "bg-green-500/10 text-green-500"
                     : state === "active"
@@ -299,7 +299,7 @@ export default function RecordingPipeline({
               )}
             </button>
           </div>
-          <div className="max-h-48 overflow-y-auto bg-bg-elevated rounded-lg p-3 space-y-1.5">
+          <div className="max-h-48 overflow-y-auto bg-bg-elevated p-3 space-y-1.5">
             {transcription.segments.length > 0 ? (
               transcription.segments.map(
                 (seg: TranscriptionSegment, i: number) => (
@@ -325,7 +325,7 @@ export default function RecordingPipeline({
         <div className="flex items-center gap-3">
           <button
             onClick={handleSummarize}
-            className="flex items-center gap-2 py-2.5 px-5 bg-accent/10 text-accent text-sm font-medium rounded-xl hover:bg-accent/20 transition-colors cursor-pointer"
+            className="flex items-center gap-2 py-2.5 px-5 bg-accent/10 text-accent text-sm font-medium hover:bg-accent/20 transition-colors cursor-pointer"
           >
             <Sparkles className="w-4 h-4" />
             Summarize
@@ -387,7 +387,7 @@ export default function RecordingPipeline({
               )}
             </button>
           </div>
-          <div className="bg-bg-elevated rounded-lg p-3 max-h-64 overflow-y-auto">
+          <div className="bg-bg-elevated p-3 max-h-64 overflow-y-auto">
             <div className="text-sm text-text-primary whitespace-pre-wrap leading-relaxed">
               {summary}
               {isSummarizing && (
@@ -400,7 +400,7 @@ export default function RecordingPipeline({
 
       {/* Error */}
       {error && (
-        <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+        <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20">
           <p className="text-xs text-red-400">{error}</p>
         </div>
       )}

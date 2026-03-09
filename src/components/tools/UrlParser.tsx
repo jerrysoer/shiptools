@@ -119,14 +119,14 @@ export default function UrlParser() {
           value={input}
           onChange={(e) => parseUrl(e.target.value)}
           placeholder="https://example.com:8080/path?key=value&foo=bar#section"
-          className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
+          className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
         />
       </div>
 
       {/* Encode/Decode toggle */}
       {parsed && (
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg">
+          <div className="flex gap-1 p-1 bg-bg-surface border border-border">
             <button
               onClick={() => setEncoded(false)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
@@ -163,7 +163,7 @@ export default function UrlParser() {
 
       {/* Error */}
       {error && (
-        <div className="mb-6 text-sm text-grade-f bg-grade-f/10 border border-grade-f/20 rounded-lg px-4 py-2.5">
+        <div className="mb-6 text-sm text-grade-f bg-grade-f/10 border border-grade-f/20 px-4 py-2.5">
           {error}
         </div>
       )}
@@ -172,7 +172,7 @@ export default function UrlParser() {
       {parsed && (
         <div className="space-y-4">
           {/* URL parts */}
-          <div className="bg-bg-surface border border-border rounded-xl divide-y divide-border">
+          <div className="bg-bg-surface border border-border divide-y divide-border">
             {fields.map((field) => (
               <div
                 key={field.key}
@@ -195,7 +195,7 @@ export default function UrlParser() {
 
           {/* Query Parameters */}
           {parsed.params.length > 0 && (
-            <div className="bg-bg-surface border border-border rounded-xl p-5">
+            <div className="bg-bg-surface border border-border p-5">
               <h2 className="font-heading font-semibold text-sm mb-3">
                 Query Parameters ({parsed.params.length})
               </h2>
@@ -203,7 +203,7 @@ export default function UrlParser() {
                 {parsed.params.map(([key, value], i) => (
                   <div
                     key={`${key}-${i}`}
-                    className="flex items-center gap-3 bg-bg-elevated rounded-lg px-3 py-2"
+                    className="flex items-center gap-3 bg-bg-elevated px-3 py-2"
                   >
                     <span className="font-mono text-xs text-accent font-semibold shrink-0">
                       {key}

@@ -123,7 +123,7 @@ export default function ModelStorePage() {
 
       {/* WebGPU warning */}
       {!isSupported && (
-        <div className="flex items-start gap-3 p-4 mb-8 bg-grade-f/5 border border-grade-f/20 rounded-xl">
+        <div className="flex items-start gap-3 p-4 mb-8 bg-grade-f/5 border border-grade-f/20">
           <AlertCircle className="w-5 h-5 text-grade-f shrink-0 mt-0.5" />
           <div className="text-sm">
             <p className="font-medium text-grade-f mb-1">
@@ -148,7 +148,7 @@ export default function ModelStorePage() {
 
       {/* Storage meter */}
       {isSupported && (
-        <div className="p-5 border border-border rounded-xl mb-8">
+        <div className="p-5 border border-border mb-8">
           <div className="flex items-center gap-2 mb-3">
             <HardDrive className="w-4 h-4 text-text-tertiary" />
             <span className="text-sm font-medium">Browser Storage</span>
@@ -189,7 +189,7 @@ export default function ModelStorePage() {
                 return (
                   <div
                     key={m.name}
-                    className={`p-4 border rounded-xl ${
+                    className={`p-4 border ${
                       isActive
                         ? "border-accent bg-accent/5"
                         : "border-border"
@@ -237,7 +237,7 @@ export default function ModelStorePage() {
               })}
             </div>
           ) : (
-            <div className="p-5 border border-dashed border-border rounded-xl text-center">
+            <div className="p-5 border border-dashed border-border text-center">
               <Server className="w-6 h-6 text-text-tertiary mx-auto mb-2" />
               <p className="text-sm text-text-secondary mb-2">
                 Ollama not detected
@@ -283,7 +283,7 @@ export default function ModelStorePage() {
             return (
               <div
                 key={pack.slug}
-                className={`p-5 border rounded-xl transition-colors ${
+                className={`p-5 border transition-colors ${
                   isActive
                     ? "border-accent bg-accent/5"
                     : "border-border hover:border-accent/30"
@@ -338,7 +338,7 @@ export default function ModelStorePage() {
                       <button
                         onClick={() => handleDelete(pack.slug)}
                         disabled={isDeleting || isDownloading}
-                        className="p-2 text-text-tertiary hover:text-grade-f border border-border rounded-lg transition-colors disabled:opacity-50"
+                        className="p-2 text-text-tertiary hover:text-grade-f border border-border transition-colors disabled:opacity-50"
                         title="Delete cached model"
                       >
                         {isDeleting ? (
@@ -352,7 +352,7 @@ export default function ModelStorePage() {
                       <button
                         onClick={() => handleSelect(pack.slug)}
                         disabled={isDownloading}
-                        className="flex items-center gap-2 px-4 py-2 bg-text-primary text-bg-primary text-sm font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                        className="flex items-center gap-2 px-4 py-2 bg-text-primary text-bg-primary text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
                       >
                         {isLoading ? (
                           <Loader2 className="w-4 h-4 animate-spin" />

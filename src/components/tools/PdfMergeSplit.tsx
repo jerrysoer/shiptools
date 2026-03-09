@@ -415,7 +415,7 @@ export default function PdfMergeSplit() {
       <div className="flex gap-2">
         <button
           onClick={() => setMode("merge")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
             mode === "merge"
               ? "bg-accent text-accent-fg"
               : "bg-bg-elevated border border-border text-text-secondary hover:text-text-primary"
@@ -426,7 +426,7 @@ export default function PdfMergeSplit() {
         </button>
         <button
           onClick={() => setMode("split")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
             mode === "split"
               ? "bg-accent text-accent-fg"
               : "bg-bg-elevated border border-border text-text-secondary hover:text-text-primary"
@@ -464,7 +464,7 @@ export default function PdfMergeSplit() {
                     onDragEnter={() => handleDragEnter(index)}
                     onDragEnd={handleDragEnd}
                     onDragOver={(e) => e.preventDefault()}
-                    className="flex items-center gap-3 bg-bg-surface border border-border rounded-lg px-3 py-2.5 cursor-grab active:cursor-grabbing hover:border-border-hover transition-colors"
+                    className="flex items-center gap-3 bg-bg-surface border border-border px-3 py-2.5 cursor-grab active:cursor-grabbing hover:border-border-hover transition-colors"
                   >
                     <GripVertical className="w-4 h-4 text-text-tertiary shrink-0" />
                     <FileText className="w-4 h-4 text-accent shrink-0" />
@@ -496,7 +496,7 @@ export default function PdfMergeSplit() {
                 <button
                   onClick={handleMerge}
                   disabled={mergeFiles.length < 2 || merging}
-                  className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                  className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
                 >
                   {merging ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -531,7 +531,7 @@ export default function PdfMergeSplit() {
           ) : (
             <div className="space-y-4">
               {/* File info bar */}
-              <div className="flex items-center justify-between bg-bg-surface border border-border rounded-lg px-4 py-3">
+              <div className="flex items-center justify-between bg-bg-surface border border-border px-4 py-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <FileText className="w-5 h-5 text-accent shrink-0" />
                   <div className="min-w-0">
@@ -599,7 +599,7 @@ export default function PdfMergeSplit() {
                   value={rangeInput}
                   onChange={(e) => setRangeInput(e.target.value)}
                   placeholder={`e.g. 1-3, 5, 7-${splitFile.pageCount}`}
-                  className="w-full bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition-colors"
+                  className="w-full bg-bg-surface border border-border px-3 py-2 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent transition-colors"
                 />
                 {rangeError && (
                   <p className="text-grade-f text-xs mt-1">{rangeError}</p>
@@ -616,7 +616,7 @@ export default function PdfMergeSplit() {
                   {parsedRanges.map((range) => (
                     <div
                       key={range.id}
-                      className="flex items-center justify-between bg-bg-surface border border-border rounded-lg px-3 py-2"
+                      className="flex items-center justify-between bg-bg-surface border border-border px-3 py-2"
                     >
                       <div className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-accent" />
@@ -647,7 +647,7 @@ export default function PdfMergeSplit() {
                   <button
                     onClick={handleSplit}
                     disabled={splitting}
-                    className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+                    className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
                   >
                     {splitting ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

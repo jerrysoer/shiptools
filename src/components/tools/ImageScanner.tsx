@@ -248,7 +248,7 @@ export default function ImageScanner() {
             <button
               key={opt.value}
               onClick={() => setMode(opt.value)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 text-sm font-medium transition-colors ${
                 mode === opt.value
                   ? "bg-accent text-accent-fg"
                   : "bg-bg-elevated text-text-secondary hover:text-text-primary border border-border"
@@ -262,7 +262,7 @@ export default function ImageScanner() {
 
       <div className="space-y-6">
         {/* OCR Engine status */}
-        <div className="bg-bg-elevated border border-border rounded-xl p-5">
+        <div className="bg-bg-elevated border border-border p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-sm font-medium text-text-primary">OCR Engine</h2>
@@ -283,7 +283,7 @@ export default function ImageScanner() {
           {modelStatus === "idle" && (
             <button
               onClick={loadModel}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium rounded-lg transition-opacity hover:opacity-90"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium transition-opacity hover:opacity-90"
             >
               <Upload className="w-4 h-4" />
               Load OCR Engine
@@ -306,7 +306,7 @@ export default function ImageScanner() {
           )}
 
           {modelStatus === "error" && modelError && (
-            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
               <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
               <span className="text-text-secondary">{modelError}</span>
             </div>
@@ -314,7 +314,7 @@ export default function ImageScanner() {
         </div>
 
         {/* Clipboard paste hint */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-bg-elevated border border-border rounded-xl">
+        <div className="flex items-center gap-2 px-4 py-3 bg-bg-elevated border border-border">
           <Clipboard className="w-4 h-4 text-text-tertiary shrink-0" />
           <p className="text-xs text-text-secondary">
             <span className="font-medium text-text-primary">Tip:</span> Press{" "}
@@ -368,7 +368,7 @@ export default function ImageScanner() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
             <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
             <span className="text-text-secondary">{error}</span>
           </div>
@@ -378,7 +378,7 @@ export default function ImageScanner() {
         {imagePreview && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Image preview */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Image
@@ -394,7 +394,7 @@ export default function ImageScanner() {
             </div>
 
             {/* Text output */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border flex items-center justify-between">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Recognized Text
@@ -439,7 +439,7 @@ export default function ImageScanner() {
         {!isReceiptMode && resultText && !isRecognizing && (
           <button
             onClick={handleCopy}
-            className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border text-sm font-medium transition-colors"
           >
             {copied ? (
               <Check className="w-4 h-4 text-grade-a" />
@@ -462,7 +462,7 @@ export default function ImageScanner() {
                 <button
                   onClick={handleParseReceipt}
                   disabled={!resultText.trim() || isParsing || isAIModelLoading}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isParsing || isAIModelLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -479,7 +479,7 @@ export default function ImageScanner() {
 
               {/* Parsed output */}
               {displayOutput && (
-                <div className="bg-bg-elevated border border-border rounded-xl p-4 text-sm text-text-primary leading-relaxed overflow-y-auto max-h-96">
+                <div className="bg-bg-elevated border border-border p-4 text-sm text-text-primary leading-relaxed overflow-y-auto max-h-96">
                   <pre className="whitespace-pre-wrap font-mono text-xs">
                     {displayOutput}
                   </pre>
@@ -493,7 +493,7 @@ export default function ImageScanner() {
               {displayOutput && !isParsing && (
                 <button
                   onClick={handleCopy}
-                  className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
                 >
                   {copied ? (
                     <Check className="w-4 h-4 text-grade-a" />

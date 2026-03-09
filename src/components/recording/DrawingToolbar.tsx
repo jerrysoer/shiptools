@@ -75,14 +75,14 @@ export default function DrawingToolbar({
   onClear,
 }: DrawingToolbarProps) {
   return (
-    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 bg-bg-surface/95 backdrop-blur-sm border border-border rounded-xl px-3 py-2 shadow-lg">
+    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 bg-bg-surface/95 backdrop-blur-sm border border-border px-3 py-2 shadow-lg">
       {/* Tool buttons */}
       {TOOLS.map(({ id, icon: Icon, label }) => (
         <button
           key={id}
           type="button"
           onClick={() => onToolChange(id)}
-          className={`flex items-center justify-center w-8 h-8 rounded-lg transition-colors ${
+          className={`flex items-center justify-center w-8 h-8 transition-colors ${
             activeTool === id
               ? "bg-accent text-white"
               : "text-text-secondary hover:bg-bg-elevated hover:text-text-primary"
@@ -141,7 +141,7 @@ export default function DrawingToolbar({
         type="button"
         onClick={onUndo}
         disabled={!canUndo}
-        className="flex items-center justify-center w-8 h-8 rounded-lg text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="flex items-center justify-center w-8 h-8 text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         title="Undo (Ctrl+Z)"
       >
         <Undo className="w-4 h-4" />
@@ -150,7 +150,7 @@ export default function DrawingToolbar({
         type="button"
         onClick={onRedo}
         disabled={!canRedo}
-        className="flex items-center justify-center w-8 h-8 rounded-lg text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        className="flex items-center justify-center w-8 h-8 text-text-secondary hover:bg-bg-elevated hover:text-text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         title="Redo (Ctrl+Shift+Z)"
       >
         <Redo className="w-4 h-4" />
@@ -158,7 +158,7 @@ export default function DrawingToolbar({
       <button
         type="button"
         onClick={onClear}
-        className="flex items-center justify-center w-8 h-8 rounded-lg text-red-500 hover:bg-red-500/10 transition-colors"
+        className="flex items-center justify-center w-8 h-8 text-red-500 hover:bg-red-500/10 transition-colors"
         title="Clear all"
       >
         <Trash2 className="w-4 h-4" />

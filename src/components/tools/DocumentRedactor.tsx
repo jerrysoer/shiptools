@@ -298,9 +298,9 @@ export default function DocumentRedactor() {
       />
 
       {/* Upload */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+      <div className="bg-bg-surface border border-border p-6 mb-6">
         <label className="flex flex-col items-center gap-3 cursor-pointer">
-          <div className="p-3 rounded-xl bg-accent/10">
+          <div className="p-3 bg-accent/10">
             <Upload className="w-6 h-6 text-accent" />
           </div>
           <span className="text-text-secondary text-sm">
@@ -319,7 +319,7 @@ export default function DocumentRedactor() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 text-grade-f text-sm mb-6 p-3 bg-grade-f/10 rounded-lg">
+        <div className="flex items-center gap-2 text-grade-f text-sm mb-6 p-3 bg-grade-f/10">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -335,7 +335,7 @@ export default function DocumentRedactor() {
       {!scanning && matches.length > 0 && (
         <>
           {/* Redaction warning banner */}
-          <div className="flex items-start gap-3 p-4 mb-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
+          <div className="flex items-start gap-3 p-4 mb-4 bg-yellow-500/10 border border-yellow-500/30">
             <AlertTriangle className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
             <div className="text-sm">
               <p className="font-medium text-yellow-500">Visual redaction only</p>
@@ -348,7 +348,7 @@ export default function DocumentRedactor() {
           </div>
 
           {/* Summary */}
-          <div className="bg-bg-surface border border-border rounded-xl p-5 mb-4">
+          <div className="bg-bg-surface border border-border p-5 mb-4">
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-heading font-semibold">
                 Found {matches.length} sensitive {matches.length === 1 ? "item" : "items"}
@@ -392,7 +392,7 @@ export default function DocumentRedactor() {
           </div>
 
           {/* Match list */}
-          <div className="bg-bg-surface border border-border rounded-xl divide-y divide-border mb-6 max-h-80 overflow-y-auto">
+          <div className="bg-bg-surface border border-border divide-y divide-border mb-6 max-h-80 overflow-y-auto">
             {matches.map((match, i) => (
               <label
                 key={`${match.type}-${match.value}-${match.page}-${i}`}
@@ -435,7 +435,7 @@ export default function DocumentRedactor() {
           <button
             onClick={handleRedact}
             disabled={checkedCount === 0 || redacting}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent text-accent-fg font-medium rounded-xl hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {redacting ? (
               "Redacting..."
@@ -451,7 +451,7 @@ export default function DocumentRedactor() {
 
       {/* No matches */}
       {!scanning && fileName && matches.length === 0 && !error && (
-        <div className="text-center py-8 bg-bg-surface border border-border rounded-xl">
+        <div className="text-center py-8 bg-bg-surface border border-border">
           <Check className="w-8 h-8 text-grade-a mx-auto mb-2" />
           <p className="font-medium">No sensitive data detected</p>
           <p className="text-text-secondary text-sm mt-1">

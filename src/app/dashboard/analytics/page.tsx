@@ -69,7 +69,7 @@ export default function AdminAnalyticsPage() {
           <button
             key={d}
             onClick={() => setDays(d)}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-4 py-1.5 text-sm font-medium transition-colors ${
               days === d
                 ? "bg-accent text-white"
                 : "bg-bg-surface border border-border text-text-secondary hover:text-text-primary"

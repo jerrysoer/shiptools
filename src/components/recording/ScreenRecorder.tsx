@@ -646,7 +646,7 @@ export default function ScreenRecorder() {
 
       {/* Error message */}
       {error && (
-        <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+        <div className="mb-4 border border-red-500/30 bg-red-500/10 px-4 py-3">
           <p className="text-sm text-red-500">{error}</p>
         </div>
       )}
@@ -658,7 +658,7 @@ export default function ScreenRecorder() {
             <button
               type="button"
               onClick={() => setMode("standard")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
                 mode === "standard"
                   ? "bg-accent text-white"
                   : "bg-bg-surface border border-border text-text-secondary hover:text-text-primary"
@@ -670,7 +670,7 @@ export default function ScreenRecorder() {
             <button
               type="button"
               onClick={() => setMode("annotate")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
                 mode === "annotate"
                   ? "bg-accent text-white"
                   : "bg-bg-surface border border-border text-text-secondary hover:text-text-primary"
@@ -682,7 +682,7 @@ export default function ScreenRecorder() {
           </div>
 
           {/* Settings panel */}
-          <div className="bg-bg-surface border border-border rounded-xl mb-6">
+          <div className="bg-bg-surface border border-border mb-6">
             <button
               type="button"
               onClick={() => setShowSettings(!showSettings)}
@@ -824,14 +824,14 @@ export default function ScreenRecorder() {
           {/* Screen preview */}
           <div
             ref={previewContainerRef}
-            className="relative bg-black rounded-xl overflow-hidden"
+            className="relative bg-black overflow-hidden"
           >
             <video
               ref={screenVideoRef}
               autoPlay
               muted
               playsInline
-              className="w-full aspect-video object-contain rounded-xl"
+              className="w-full aspect-video object-contain"
             />
 
             {/* Webcam PiP overlay */}
@@ -859,7 +859,7 @@ export default function ScreenRecorder() {
               <button
                 type="button"
                 onClick={() => setAnnotateActive(!annotateActive)}
-                className={`absolute bottom-4 right-4 z-30 flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium shadow-lg transition-colors ${
+                className={`absolute bottom-4 right-4 z-30 flex items-center gap-2 px-3 py-2 text-sm font-medium shadow-lg transition-colors ${
                   annotateActive
                     ? "bg-accent text-white"
                     : "bg-bg-surface/90 text-text-primary hover:bg-bg-surface"
@@ -873,7 +873,7 @@ export default function ScreenRecorder() {
 
           {/* Audio waveform */}
           {analyser && (
-            <div className="bg-bg-surface border border-border rounded-xl p-3">
+            <div className="bg-bg-surface border border-border p-3">
               <WaveformVisualizer
                 analyser={analyser}
                 style="wave"
@@ -891,7 +891,7 @@ export default function ScreenRecorder() {
           {recordingUrl && (
             <div
               ref={playbackContainerRef}
-              className="relative bg-bg-surface border border-border rounded-xl overflow-hidden group/playback"
+              className="relative bg-bg-surface border border-border overflow-hidden group/playback"
             >
               <video
                 ref={playbackScreenRef}
@@ -923,7 +923,7 @@ export default function ScreenRecorder() {
                       void container.requestFullscreen();
                     }
                   }}
-                  className="absolute top-3 right-3 z-20 p-2 rounded-lg bg-black/50 text-white opacity-0 group-hover/playback:opacity-100 transition-opacity hover:bg-black/70"
+                  className="absolute top-3 right-3 z-20 p-2 bg-black/50 text-white opacity-0 group-hover/playback:opacity-100 transition-opacity hover:bg-black/70"
                   title="Fullscreen with webcam overlay"
                 >
                   <Maximize2 className="w-4 h-4" />
@@ -995,7 +995,7 @@ export default function ScreenRecorder() {
           </div>
 
           {/* Export buttons */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <h3 className="font-heading font-semibold text-sm mb-3 flex items-center gap-2">
               <Download className="w-4 h-4 text-accent" />
               Export
@@ -1007,7 +1007,7 @@ export default function ScreenRecorder() {
                   type="button"
                   onClick={() => handleExport(format.id)}
                   disabled={isExporting}
-                  className="flex flex-col items-center gap-1 px-4 py-3 rounded-lg border border-border hover:border-border-hover bg-bg-elevated transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex flex-col items-center gap-1 px-4 py-3 border border-border hover:border-border-hover bg-bg-elevated transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="text-sm font-medium text-text-primary">
                     {format.label}
@@ -1045,7 +1045,7 @@ export default function ScreenRecorder() {
           </div>
 
           {/* AI pipeline */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <h3 className="font-heading font-semibold text-sm mb-3 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-accent" />
               AI Tools
@@ -1056,7 +1056,7 @@ export default function ScreenRecorder() {
                 type="button"
                 onClick={handleTranscribe}
                 disabled={isTranscribing}
-                className="flex items-center gap-2 w-full px-4 py-3 rounded-lg bg-accent text-white font-medium text-sm transition-colors hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 w-full px-4 py-3 bg-accent text-white font-medium text-sm transition-colors hover:bg-accent/90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isTranscribing ? (
                   <>

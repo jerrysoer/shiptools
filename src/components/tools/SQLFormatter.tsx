@@ -116,7 +116,7 @@ export default function SQLFormatter() {
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value as SQLLanguage)}
-            className="w-full bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
+            className="w-full bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
           >
             {LANGUAGE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -130,7 +130,7 @@ export default function SQLFormatter() {
           <select
             value={indentSize}
             onChange={(e) => setIndentSize(Number(e.target.value) as IndentSize)}
-            className="w-full bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
+            className="w-full bg-bg-surface border border-border px-3 py-2 text-sm text-text-primary focus:outline-none focus:border-accent"
           >
             <option value={2}>2 spaces</option>
             <option value={4}>4 spaces</option>
@@ -167,7 +167,7 @@ export default function SQLFormatter() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Paste your SQL query here..."
           rows={8}
-          className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+          className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary font-mono placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
           spellCheck={false}
         />
       </div>
@@ -177,7 +177,7 @@ export default function SQLFormatter() {
         <button
           onClick={handleFormat}
           disabled={!input.trim()}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Database className="w-4 h-4" />
           Format
@@ -185,7 +185,7 @@ export default function SQLFormatter() {
         <button
           onClick={handleMinify}
           disabled={!input.trim()}
-          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Minify
         </button>
@@ -193,7 +193,7 @@ export default function SQLFormatter() {
 
       {/* Error */}
       {error && (
-        <div className="bg-grade-f/10 border border-grade-f/20 rounded-xl px-4 py-3 mb-4">
+        <div className="bg-grade-f/10 border border-grade-f/20 px-4 py-3 mb-4">
           <p className="text-sm text-grade-f">{error}</p>
         </div>
       )}
@@ -226,7 +226,7 @@ export default function SQLFormatter() {
             value={output}
             readOnly
             rows={12}
-            className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary font-mono resize-y"
+            className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary font-mono resize-y"
             spellCheck={false}
           />
         </div>

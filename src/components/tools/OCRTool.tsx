@@ -167,7 +167,7 @@ export default function OCRTool() {
 
       <div className="space-y-6">
         {/* Model status */}
-        <div className="bg-bg-elevated border border-border rounded-xl p-5">
+        <div className="bg-bg-elevated border border-border p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-sm font-medium text-text-primary">OCR Engine</h2>
@@ -188,7 +188,7 @@ export default function OCRTool() {
           {modelStatus === "idle" && (
             <button
               onClick={loadModel}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium rounded-lg transition-opacity hover:opacity-90"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-text-primary text-bg-primary text-sm font-medium transition-opacity hover:opacity-90"
             >
               <Upload className="w-4 h-4" />
               Load OCR Engine
@@ -211,7 +211,7 @@ export default function OCRTool() {
           )}
 
           {modelStatus === "error" && modelError && (
-            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+            <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
               <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
               <span className="text-text-secondary">{modelError}</span>
             </div>
@@ -219,7 +219,7 @@ export default function OCRTool() {
         </div>
 
         {/* Clipboard paste hint */}
-        <div className="flex items-center gap-2 px-4 py-3 bg-bg-elevated border border-border rounded-xl">
+        <div className="flex items-center gap-2 px-4 py-3 bg-bg-elevated border border-border">
           <Clipboard className="w-4 h-4 text-text-tertiary shrink-0" />
           <p className="text-xs text-text-secondary">
             <span className="font-medium text-text-primary">Tip:</span> Press{" "}
@@ -272,7 +272,7 @@ export default function OCRTool() {
 
         {/* Error */}
         {error && (
-          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 rounded-lg text-sm">
+          <div className="flex items-start gap-2 p-3 bg-grade-f/5 border border-grade-f/20 text-sm">
             <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
             <span className="text-text-secondary">{error}</span>
           </div>
@@ -282,7 +282,7 @@ export default function OCRTool() {
         {imagePreview && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Image preview */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Image
@@ -298,7 +298,7 @@ export default function OCRTool() {
             </div>
 
             {/* Text output */}
-            <div className="bg-bg-elevated border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-elevated border border-border overflow-hidden">
               <div className="px-4 py-2.5 border-b border-border flex items-center justify-between">
                 <span className="text-xs font-medium text-text-secondary uppercase tracking-wider">
                   Recognized Text
@@ -343,7 +343,7 @@ export default function OCRTool() {
         {resultText && !isRecognizing && (
           <button
             onClick={handleCopy}
-            className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-surface text-text-primary border border-border text-sm font-medium transition-colors"
           >
             {copied ? (
               <Check className="w-4 h-4 text-grade-a" />

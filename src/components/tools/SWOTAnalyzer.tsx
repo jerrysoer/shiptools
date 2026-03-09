@@ -80,7 +80,7 @@ export default function SWOTAnalyzer() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe your business, product, or project in detail..."
               rows={6}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y"
             />
           </div>
 
@@ -95,7 +95,7 @@ export default function SWOTAnalyzer() {
               value={industry}
               onChange={(e) => setIndustry(e.target.value)}
               placeholder="e.g., SaaS, Healthcare, E-commerce, Education"
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
+              className="w-full bg-bg-elevated border border-border px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50"
             />
           </div>
 
@@ -108,7 +108,7 @@ export default function SWOTAnalyzer() {
             <button
               onClick={handleAnalyze}
               disabled={!description.trim() || isStreaming || isModelLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isStreaming || isModelLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -130,7 +130,7 @@ export default function SWOTAnalyzer() {
           {output && !isStreaming && (
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-bg-elevated hover:bg-bg-hover text-text-primary border border-border text-sm font-medium transition-colors"
             >
               {copied ? (
                 <Check className="w-4 h-4 text-grade-a" />

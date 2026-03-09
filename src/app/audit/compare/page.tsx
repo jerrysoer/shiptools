@@ -92,7 +92,7 @@ export default function ComparePage() {
               onChange={(e) => { setUrlA(e.target.value); setError(null); }}
               placeholder="e.g. canva.com"
               disabled={isScanning}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50"
             />
           </div>
           <div>
@@ -105,7 +105,7 @@ export default function ComparePage() {
               onChange={(e) => { setUrlB(e.target.value); setError(null); }}
               placeholder="e.g. figma.com"
               disabled={isScanning}
-              className="w-full bg-bg-elevated border border-border rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50"
+              className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-accent/50 disabled:opacity-50"
             />
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function ComparePage() {
         <button
           type="submit"
           disabled={!urlA.trim() || !urlB.trim() || isScanning}
-          className="w-full px-6 py-3 bg-accent hover:bg-accent/90 text-accent-fg rounded-xl font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full px-6 py-3 bg-accent hover:bg-accent/90 text-accent-fg font-medium text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isScanning ? (
             <>
@@ -129,7 +129,7 @@ export default function ComparePage() {
         </button>
 
         {error && (
-          <div className="flex items-start gap-2 p-4 bg-grade-f/5 border border-grade-f/20 rounded-xl text-sm">
+          <div className="flex items-start gap-2 p-4 bg-grade-f/5 border border-grade-f/20 text-sm">
             <AlertCircle className="w-4 h-4 text-grade-f shrink-0 mt-0.5" />
             <span className="text-text-secondary">{error}</span>
           </div>

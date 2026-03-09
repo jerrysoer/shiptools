@@ -125,7 +125,7 @@ export default function BaseConverter() {
   const CopyBtn = ({ value, field }: { value: string; field: string }) => (
     <button
       onClick={() => copyValue(value, field)}
-      className="p-2 rounded-lg bg-bg-elevated border border-border hover:border-border-hover transition-colors shrink-0"
+      className="p-2 bg-bg-elevated border border-border hover:border-border-hover transition-colors shrink-0"
       title={`Copy ${field}`}
     >
       {copiedField === field ? (
@@ -153,7 +153,7 @@ export default function BaseConverter() {
         </label>
         <div className="flex gap-3">
           {/* Base selector */}
-          <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg shrink-0">
+          <div className="flex gap-1 p-1 bg-bg-surface border border-border shrink-0">
             {BASES.map((b) => (
               <button
                 key={b.base}
@@ -176,14 +176,14 @@ export default function BaseConverter() {
             value={input}
             onChange={(e) => handleInputChange(e.target.value)}
             placeholder={currentBaseInfo.placeholder}
-            className="flex-1 bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
+            className="flex-1 bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors"
           />
         </div>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="mb-6 text-sm text-grade-f bg-grade-f/10 border border-grade-f/20 rounded-lg px-4 py-2.5">
+        <div className="mb-6 text-sm text-grade-f bg-grade-f/10 border border-grade-f/20 px-4 py-2.5">
           {error}
         </div>
       )}
@@ -198,7 +198,7 @@ export default function BaseConverter() {
             return (
               <div
                 key={b.base}
-                className={`bg-bg-surface border rounded-xl p-4 ${
+                className={`bg-bg-surface border p-4 ${
                   isInput ? "border-accent/30" : "border-border"
                 }`}
               >
@@ -225,7 +225,7 @@ export default function BaseConverter() {
 
       {/* Quick values */}
       {!results && (
-        <div className="bg-bg-surface border border-border rounded-xl p-5">
+        <div className="bg-bg-surface border border-border p-5">
           <h2 className="font-heading font-semibold text-sm mb-3">Try These Values</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {[
@@ -242,7 +242,7 @@ export default function BaseConverter() {
                   setInputBase(10);
                   handleInputChange(label, 10);
                 }}
-                className="flex flex-col items-start px-3 py-2 rounded-lg bg-bg-elevated border border-border hover:border-border-hover transition-colors"
+                className="flex flex-col items-start px-3 py-2 bg-bg-elevated border border-border hover:border-border-hover transition-colors"
               >
                 <span className="font-mono text-sm text-text-primary">{label}</span>
                 <span className="text-xs text-text-tertiary">{desc}</span>

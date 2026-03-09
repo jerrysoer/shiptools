@@ -191,7 +191,7 @@ export default function ClipboardCleaner() {
       <div className="space-y-4">
 
       {/* Paste Area */}
-      <div className="bg-bg-surface border border-border rounded-xl p-4">
+      <div className="bg-bg-surface border border-border p-4">
         <label className="block text-sm font-medium text-text-secondary mb-2">
           Paste rich text here
         </label>
@@ -200,7 +200,7 @@ export default function ClipboardCleaner() {
           onPaste={handlePaste}
           contentEditable
           suppressContentEditableWarning
-          className="min-h-[120px] bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-accent cursor-text"
+          className="min-h-[120px] bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-accent cursor-text"
           role="textbox"
           aria-label="Paste area for rich text"
         >
@@ -219,7 +219,7 @@ export default function ClipboardCleaner() {
       {result && (
         <>
           {/* Cleaning Report */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <h3 className="font-heading font-semibold mb-3">
               Cleaning Report
             </h3>
@@ -251,11 +251,11 @@ export default function ClipboardCleaner() {
           </div>
 
           {/* Clean Output */}
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <h3 className="text-sm font-medium text-text-secondary mb-2">
               Clean Text
             </h3>
-            <div className="bg-bg-elevated border border-border rounded-lg p-4 text-sm whitespace-pre-wrap max-h-64 overflow-y-auto">
+            <div className="bg-bg-elevated border border-border p-4 text-sm whitespace-pre-wrap max-h-64 overflow-y-auto">
               {result.plainText || (
                 <span className="text-text-tertiary italic">
                   (empty after cleaning)
@@ -268,7 +268,7 @@ export default function ClipboardCleaner() {
           <div className="flex gap-3">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors"
+              className="flex items-center gap-2 bg-accent text-accent-fg px-4 py-2 hover:bg-accent/90 transition-colors"
             >
               {copied ? (
                 <>
@@ -284,7 +284,7 @@ export default function ClipboardCleaner() {
             </button>
             <button
               onClick={handleClear}
-              className="flex items-center gap-2 bg-bg-elevated border border-border px-4 py-2 rounded-lg hover:bg-bg-hover transition-colors text-text-secondary"
+              className="flex items-center gap-2 bg-bg-elevated border border-border px-4 py-2 hover:bg-bg-hover transition-colors text-text-secondary"
             >
               <Trash2 className="w-4 h-4" />
               Clear

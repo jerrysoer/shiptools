@@ -298,8 +298,8 @@ export default function GifRecorder() {
   if (!supported) {
     return (
       <div className="min-h-dvh flex items-center justify-center p-4">
-        <div className="max-w-md bg-bg-surface border border-border rounded-2xl p-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-accent/10 mb-4">
+        <div className="max-w-md bg-bg-surface border border-border p-8 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 mb-4">
             <AlertTriangle className="w-6 h-6 text-accent" />
           </div>
           <h2 className="font-heading font-bold text-xl mb-2">
@@ -319,7 +319,7 @@ export default function GifRecorder() {
       <div className="max-w-2xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-accent/10 mb-4">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 mb-4">
             <Image className="w-6 h-6 text-accent" />
           </div>
           <h1 className="font-heading font-bold text-3xl mb-2">
@@ -343,7 +343,7 @@ export default function GifRecorder() {
             </button>
 
             {showSettings && (
-              <div className="bg-bg-surface border border-border rounded-xl p-4 space-y-5">
+              <div className="bg-bg-surface border border-border p-4 space-y-5">
                 {/* FPS */}
                 <div>
                   <label className="block text-xs font-medium text-text-tertiary mb-2">
@@ -354,7 +354,7 @@ export default function GifRecorder() {
                       <button
                         key={f}
                         onClick={() => setFps(f)}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
+                        className={`flex-1 py-2 text-sm font-medium transition-colors cursor-pointer ${
                           fps === f
                             ? "bg-accent/10 text-accent"
                             : "bg-bg-elevated text-text-tertiary hover:text-text-secondary"
@@ -379,7 +379,7 @@ export default function GifRecorder() {
                       <button
                         key={r.value}
                         onClick={() => setResolution(r.value)}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
+                        className={`flex-1 py-2 text-sm font-medium transition-colors cursor-pointer ${
                           resolution === r.value
                             ? "bg-accent/10 text-accent"
                             : "bg-bg-elevated text-text-tertiary hover:text-text-secondary"
@@ -401,7 +401,7 @@ export default function GifRecorder() {
                       <button
                         key={d}
                         onClick={() => setDurationLimit(d)}
-                        className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
+                        className={`flex-1 py-2 text-sm font-medium transition-colors cursor-pointer ${
                           durationLimit === d
                             ? "bg-accent/10 text-accent"
                             : "bg-bg-elevated text-text-tertiary hover:text-text-secondary"
@@ -422,7 +422,7 @@ export default function GifRecorder() {
 
         {/* Live Preview */}
         {isRecording && (
-          <div className="mb-6 bg-bg-surface border border-border rounded-xl overflow-hidden">
+          <div className="mb-6 bg-bg-surface border border-border overflow-hidden">
             <video
               ref={videoRef}
               muted
@@ -447,7 +447,7 @@ export default function GifRecorder() {
             {isIdle && (
               <button
                 onClick={handleStart}
-                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold rounded-xl hover:bg-accent-hover transition-colors cursor-pointer"
+                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
               >
                 <Monitor className="w-4 h-4" />
                 Record Screen
@@ -457,7 +457,7 @@ export default function GifRecorder() {
             {isRecording && (
               <button
                 onClick={handleStop}
-                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold rounded-xl hover:bg-accent-hover transition-colors cursor-pointer"
+                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
               >
                 <Square className="w-4 h-4 fill-current" />
                 Stop Recording
@@ -468,7 +468,7 @@ export default function GifRecorder() {
 
         {/* Conversion Progress */}
         {isConverting && (
-          <div className="mb-6 bg-bg-surface border border-border rounded-xl p-6">
+          <div className="mb-6 bg-bg-surface border border-border p-6">
             <div className="flex items-center gap-3 mb-4">
               <Loader2 className="w-5 h-5 text-accent animate-spin flex-shrink-0" />
               <div>
@@ -503,7 +503,7 @@ export default function GifRecorder() {
               </div>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-2 py-2 px-4 bg-bg-surface border border-border text-text-secondary text-sm rounded-xl hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer"
+                className="flex items-center gap-2 py-2 px-4 bg-bg-surface border border-border text-text-secondary text-sm hover:bg-bg-elevated hover:text-text-primary transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 New Recording
@@ -511,7 +511,7 @@ export default function GifRecorder() {
             </div>
 
             {/* Preview */}
-            <div className="bg-bg-surface border border-border rounded-xl overflow-hidden">
+            <div className="bg-bg-surface border border-border overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={gifUrl}
@@ -524,7 +524,7 @@ export default function GifRecorder() {
             <div className="flex justify-center">
               <button
                 onClick={handleDownload}
-                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold rounded-xl hover:bg-accent-hover transition-colors cursor-pointer"
+                className="flex items-center gap-2 py-3 px-8 bg-accent text-accent-fg font-semibold hover:bg-accent-hover transition-colors cursor-pointer"
               >
                 <Download className="w-4 h-4" />
                 Download GIF ({formatBytes(gifSize)})
@@ -535,7 +535,7 @@ export default function GifRecorder() {
 
         {/* Error */}
         {error && (
-          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+          <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20">
             <p className="text-sm text-red-400">{error}</p>
           </div>
         )}

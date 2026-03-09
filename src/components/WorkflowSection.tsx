@@ -46,14 +46,14 @@ export default function WorkflowSection() {
           <div className="hidden sm:flex items-center gap-2">
             <button
               onClick={() => scroll("left")}
-              className="p-2 border border-border rounded-lg hover:bg-bg-surface transition-colors"
+              className="p-2 border border-border hover:bg-bg-surface transition-colors"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-2 border border-border rounded-lg hover:bg-bg-surface transition-colors"
+              className="p-2 border border-border hover:bg-bg-surface transition-colors"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />

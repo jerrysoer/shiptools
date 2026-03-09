@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { ShieldCheck, Eye, ExternalLink } from "lucide-react";
+import { ShieldCheck, ExternalLink } from "lucide-react";
 import TransparencyClient from "./TransparencyClient";
 
 export const metadata: Metadata = {
@@ -130,23 +130,24 @@ export default function TransparencyPage() {
   return (
     <>
       <Header />
-      <main className="flex-1 px-6 py-12">
-        <div className="max-w-4xl mx-auto">
-          {/* Hero */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 mb-5">
-              <Eye className="w-7 h-7 text-accent" />
-            </div>
-            <h1 className="font-heading font-bold text-4xl mb-3">
-              Transparency
-            </h1>
-            <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-              We believe you should know exactly what any tool does with your
-              data. Here is everything Uploadless tracks — and everything it
-              intentionally does not.
-            </p>
-          </div>
+      {/* Hero — editorial, left-aligned */}
+      <section className="bg-bg-primary px-6 pt-12 pb-10 sm:pt-20 sm:pb-16">
+        <div className="max-w-6xl mx-auto">
+          <p className="font-mono text-xs tracking-widest uppercase text-text-tertiary mb-4">
+            Transparency
+          </p>
+          <h1 className="font-heading font-bold text-4xl md:text-5xl lg:text-6xl leading-[1.1] text-text-primary mb-6 max-w-4xl">
+            We believe you should know exactly what any tool does with your data.
+          </h1>
+          <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
+            Here is everything Uploadless tracks — and everything it
+            intentionally does not.
+          </p>
+        </div>
+      </section>
 
+      <main className="flex-1 px-6 py-12">
+        <div className="max-w-6xl mx-auto">
           <div className="space-y-12">
             {/* Section 1: What We Track */}
             <section>
@@ -180,7 +181,7 @@ export default function TransparencyPage() {
                     {EVENTS.map((e) => (
                       <tr key={e.event}>
                         <td className="py-2.5 pr-4">
-                          <code className="text-xs bg-bg-surface px-1.5 py-0.5 rounded font-mono">
+                          <code className="text-xs bg-bg-surface px-1.5 py-0.5 font-mono">
                             {e.event}
                           </code>
                         </td>
@@ -199,7 +200,7 @@ export default function TransparencyPage() {
                 </table>
               </div>
 
-              <div className="mt-6 bg-bg-surface border border-border rounded-xl p-5">
+              <div className="mt-6 bg-bg-surface border border-border p-5">
                 <h3 className="font-heading font-semibold text-sm mb-3 flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-grade-a" />
                   Intentionally NOT Tracked
@@ -273,7 +274,7 @@ export default function TransparencyPage() {
                   href="https://github.com/jerrysoer/uploadless/blob/main/src/lib/analytics.ts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
+                  className="flex items-center gap-3 bg-bg-surface border border-border p-4 hover:border-border-hover transition-colors"
                 >
                   <code className="text-xs font-mono text-accent">
                     analytics.ts
@@ -284,7 +285,7 @@ export default function TransparencyPage() {
                   href="https://github.com/jerrysoer/uploadless/blob/main/src/lib/consent.ts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
+                  className="flex items-center gap-3 bg-bg-surface border border-border p-4 hover:border-border-hover transition-colors"
                 >
                   <code className="text-xs font-mono text-accent">
                     consent.ts
@@ -295,7 +296,7 @@ export default function TransparencyPage() {
                   href="https://github.com/jerrysoer/uploadless/blob/main/src/app/api/analytics/event/route.ts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
+                  className="flex items-center gap-3 bg-bg-surface border border-border p-4 hover:border-border-hover transition-colors"
                 >
                   <code className="text-xs font-mono text-accent">
                     api/analytics/event
@@ -306,7 +307,7 @@ export default function TransparencyPage() {
                   href="https://github.com/jerrysoer/uploadless/blob/main/src/app/api/analytics/aggregate/route.ts"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 bg-bg-surface border border-border rounded-xl p-4 hover:border-border-hover transition-colors"
+                  className="flex items-center gap-3 bg-bg-surface border border-border p-4 hover:border-border-hover transition-colors"
                 >
                   <code className="text-xs font-mono text-accent">
                     api/analytics/aggregate
@@ -320,7 +321,7 @@ export default function TransparencyPage() {
                   href="https://github.com/jerrysoer/uploadless/issues/new"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-accent-fg font-medium rounded-xl hover:bg-accent/90 transition-colors text-sm"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-accent-fg font-medium hover:bg-accent-hover transition-colors text-sm"
                 >
                   Found something? Open an issue
                   <ExternalLink className="w-3.5 h-3.5" />

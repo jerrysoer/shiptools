@@ -89,7 +89,7 @@ export default function WordCounter() {
       />
 
       {/* Input */}
-      <div className="bg-bg-surface border border-border rounded-xl p-4 mb-6">
+      <div className="bg-bg-surface border border-border p-4 mb-6">
         <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-text-secondary">
             Type or paste your text
@@ -109,7 +109,7 @@ export default function WordCounter() {
           onChange={(e) => setText(e.target.value)}
           placeholder="Start typing or paste text here..."
           rows={8}
-          className="w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent resize-y"
+          className="w-full bg-bg-elevated border border-border px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:border-accent resize-y"
         />
       </div>
 
@@ -118,7 +118,7 @@ export default function WordCounter() {
         {STAT_LABELS.map(({ key, label }) => (
           <div
             key={key}
-            className="bg-bg-surface border border-border rounded-xl p-4 text-center"
+            className="bg-bg-surface border border-border p-4 text-center"
           >
             <div className="text-2xl font-bold font-heading text-text-primary">
               {stats[key]}

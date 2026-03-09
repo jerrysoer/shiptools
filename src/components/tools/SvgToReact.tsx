@@ -95,10 +95,10 @@ export default function SvgToReact() {
               value={componentName}
               onChange={(e) => setComponentName(e.target.value.replace(/[^a-zA-Z0-9_$]/g, ""))}
               placeholder="SvgIcon"
-              className="bg-bg-surface border border-border rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:border-accent transition-colors w-44"
+              className="bg-bg-surface border border-border px-3 py-2 text-sm font-mono focus:outline-none focus:border-accent transition-colors w-44"
             />
           </div>
-          <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg">
+          <div className="flex gap-1 p-1 bg-bg-surface border border-border">
             <button
               onClick={() => setUseTs((v) => !v)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
@@ -129,18 +129,18 @@ export default function SvgToReact() {
             onChange={(e) => setSvgInput(e.target.value)}
             placeholder='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">...</svg>'
             rows={8}
-            className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
+            className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
           />
         </div>
 
         {/* Preview */}
         {svgInput.trim() && (
-          <div className="bg-bg-surface border border-border rounded-xl p-4">
+          <div className="bg-bg-surface border border-border p-4">
             <h3 className="font-heading font-semibold text-sm mb-2">Preview</h3>
             <iframe
               sandbox=""
               srcDoc={`<!DOCTYPE html><html><head><style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100%;background:transparent}svg{max-width:100%;max-height:128px}</style></head><body>${svgInput}</body></html>`}
-              className="w-full h-40 bg-bg-elevated border border-border rounded-lg"
+              className="w-full h-40 bg-bg-elevated border border-border"
               title="SVG Preview"
             />
           </div>
@@ -177,7 +177,7 @@ export default function SvgToReact() {
               readOnly
               value={output}
               rows={12}
-              className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono text-text-secondary focus:outline-none resize-y"
+              className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono text-text-secondary focus:outline-none resize-y"
             />
           </div>
         )}

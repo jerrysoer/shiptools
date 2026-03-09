@@ -53,7 +53,7 @@ export default function AuditPageClient({ audit: initialAudit, slug }: AuditPage
           </p>
           <a
             href="/audit"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-accent-fg rounded-lg text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-accent-fg text-sm font-medium transition-colors"
           >
             Run a new scan
           </a>

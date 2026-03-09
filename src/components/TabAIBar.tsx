@@ -25,7 +25,7 @@ export default function TabAIBar({ groups }: TabAIBarProps) {
   // Not supported — WebGPU unavailable
   if (!isSupported) {
     return (
-      <div className="flex items-center gap-3 px-4 py-2.5 mb-8 border border-border rounded-lg">
+      <div className="flex items-center gap-3 px-4 py-2.5 mb-8 border border-border">
         <AlertCircle className="w-3.5 h-3.5 text-text-tertiary flex-shrink-0" />
         <span className="text-sm text-text-tertiary">
           AI tools require WebGPU · Connect Ollama for local AI
@@ -37,7 +37,7 @@ export default function TabAIBar({ groups }: TabAIBarProps) {
   // No model loaded
   if (!isReady) {
     return (
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5 mb-8 border border-border rounded-lg">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5 mb-8 border border-border">
         <Sparkles className="w-3.5 h-3.5 text-text-tertiary flex-shrink-0" />
         <span className="text-sm text-text-secondary">
           {coverage.totalAI} AI tools on this tab
@@ -79,7 +79,7 @@ export default function TabAIBar({ groups }: TabAIBarProps) {
   const notes = [ollamaNote, specializedNote].filter(Boolean).join(", ");
 
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5 mb-8 border border-border rounded-lg">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2.5 mb-8 border border-border">
       <span className="w-2 h-2 rounded-full bg-grade-a flex-shrink-0" />
       <span className="text-sm text-text-secondary">
         {modelLabel} — {coverage.supported} of {coverage.totalAI} AI tools

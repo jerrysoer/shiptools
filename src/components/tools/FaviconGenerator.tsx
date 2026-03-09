@@ -195,7 +195,7 @@ export default function FaviconGenerator() {
       />
 
       {/* Mode Toggle */}
-      <div className="flex gap-1 p-1 bg-bg-surface border border-border rounded-lg mb-6 max-w-xs mx-auto">
+      <div className="flex gap-1 p-1 bg-bg-surface border border-border mb-6 max-w-xs mx-auto">
         <button
           onClick={() => setMode("emoji")}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -219,7 +219,7 @@ export default function FaviconGenerator() {
       </div>
 
       {/* Input */}
-      <div className="bg-bg-surface border border-border rounded-xl p-6 mb-6">
+      <div className="bg-bg-surface border border-border p-6 mb-6">
         {mode === "emoji" ? (
           <div className="flex gap-3">
             <input
@@ -227,19 +227,19 @@ export default function FaviconGenerator() {
               value={emoji}
               onChange={(e) => setEmoji(e.target.value)}
               placeholder="Type an emoji or character..."
-              className="flex-1 bg-bg-elevated border border-border rounded-lg px-4 py-2.5 text-2xl text-center outline-none focus:border-accent"
+              className="flex-1 bg-bg-elevated border border-border px-4 py-2.5 text-2xl text-center outline-none focus:border-accent"
               maxLength={4}
             />
             <button
               onClick={handleEmojiGenerate}
               disabled={!emoji.trim() || generating}
-              className="px-6 py-2.5 rounded-xl bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors disabled:opacity-40"
+              className="px-6 py-2.5 bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors disabled:opacity-40"
             >
               Generate
             </button>
           </div>
         ) : (
-          <label className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-xl p-8 cursor-pointer hover:border-accent/50 transition-colors">
+          <label className="flex flex-col items-center justify-center border-2 border-dashed border-border p-8 cursor-pointer hover:border-accent/50 transition-colors">
             <Image className="w-8 h-8 text-text-tertiary mb-2" />
             <span className="text-sm text-text-secondary">
               Click to upload an image
@@ -261,14 +261,14 @@ export default function FaviconGenerator() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <button
               onClick={downloadAll}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors"
+              className="flex items-center gap-2 px-5 py-2.5 bg-accent text-accent-fg font-medium hover:bg-accent/90 transition-colors"
             >
               <Download className="w-4 h-4" />
               Download All (ZIP)
             </button>
             <button
               onClick={downloadIco}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border text-text-secondary font-medium hover:bg-bg-elevated transition-colors"
+              className="flex items-center gap-2 px-5 py-2.5 border border-border text-text-secondary font-medium hover:bg-bg-elevated transition-colors"
             >
               <Download className="w-4 h-4" />
               Download .ico
@@ -280,9 +280,9 @@ export default function FaviconGenerator() {
             {results.map((r, idx) => (
               <div
                 key={r.size}
-                className="bg-bg-surface border border-border rounded-xl p-4 flex flex-col items-center gap-3"
+                className="bg-bg-surface border border-border p-4 flex flex-col items-center gap-3"
               >
-                <div className="w-16 h-16 flex items-center justify-center bg-bg-elevated rounded-lg">
+                <div className="w-16 h-16 flex items-center justify-center bg-bg-elevated">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={r.dataUrl}

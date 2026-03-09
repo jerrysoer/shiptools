@@ -137,7 +137,7 @@ export default function CaseConverter() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste or type your text here..."
             rows={5}
-            className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
+            className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono placeholder:text-text-tertiary focus:outline-none focus:border-accent transition-colors resize-y"
           />
         </div>
 
@@ -148,7 +148,7 @@ export default function CaseConverter() {
               key={type}
               onClick={() => handleConvert(type)}
               disabled={!input.trim()}
-              className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors border ${
+              className={`px-3 py-2 text-xs font-medium transition-colors border ${
                 activeCase === type
                   ? "bg-accent text-accent-fg border-accent"
                   : "bg-bg-surface border-border text-text-secondary hover:text-text-primary hover:border-border-hover"
@@ -192,7 +192,7 @@ export default function CaseConverter() {
               readOnly
               value={output}
               rows={5}
-              className="w-full bg-bg-surface border border-border rounded-xl px-4 py-3 text-sm font-mono text-text-secondary focus:outline-none resize-y"
+              className="w-full bg-bg-surface border border-border px-4 py-3 text-sm font-mono text-text-secondary focus:outline-none resize-y"
             />
           </div>
         )}

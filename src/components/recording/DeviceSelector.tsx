@@ -29,7 +29,7 @@ export default function DeviceSelector({
       <select
         value={selectedDeviceId}
         onChange={(e) => onSelect(e.target.value)}
-        className="flex-1 min-w-0 rounded-lg border border-border bg-bg-surface px-3 py-2 text-sm text-text-primary outline-none focus:border-accent transition-colors truncate"
+        className="flex-1 min-w-0 border border-border bg-bg-surface px-3 py-2 text-sm text-text-primary outline-none focus:border-accent transition-colors truncate"
       >
         {devices.length === 0 && (
           <option value="" disabled>
@@ -46,7 +46,7 @@ export default function DeviceSelector({
         <button
           type="button"
           onClick={onRefresh}
-          className="p-2 rounded-lg text-text-tertiary hover:text-text-secondary hover:bg-bg-elevated transition-colors"
+          className="p-2 text-text-tertiary hover:text-text-secondary hover:bg-bg-elevated transition-colors"
           title="Refresh device list"
         >
           <RefreshCw className="w-4 h-4" />

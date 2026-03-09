@@ -36,7 +36,7 @@ export default function FeatureLock({
     fallbackLabel ?? `This feature requires the ${requiredModel} model pack`;
 
   return (
-    <div className="flex items-center gap-3 p-4 bg-bg-elevated border border-border rounded-xl text-sm text-text-secondary">
+    <div className="flex items-center gap-3 p-4 bg-bg-elevated border border-border text-sm text-text-secondary">
       <Lock className="w-4 h-4 text-text-tertiary flex-shrink-0" />
       <div>
         <p>{label}</p>

@@ -41,7 +41,7 @@ export default function FileTextInput({ onTextExtracted }: FileTextInputProps) {
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={isExtracting}
-        className="flex items-center gap-2 px-3 py-1.5 bg-bg-elevated hover:bg-bg-hover text-text-secondary border border-border rounded-lg text-xs font-medium transition-colors disabled:opacity-50"
+        className="flex items-center gap-2 px-3 py-1.5 bg-bg-elevated hover:bg-bg-hover text-text-secondary border border-border text-xs font-medium transition-colors disabled:opacity-50"
       >
         {isExtracting ? (
           <Loader2 className="w-3.5 h-3.5 animate-spin" />
