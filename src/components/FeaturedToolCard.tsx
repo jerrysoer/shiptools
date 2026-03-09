@@ -22,7 +22,7 @@ export default function FeaturedToolCard({
     return (
       <Link
         href={href}
-        className="group block bg-bg-surface p-5 sm:p-8 md:p-10 rounded-lg shadow-sm transition-colors hover:bg-bg-elevated"
+        className="group block bg-bg-surface p-5 sm:p-8 md:p-10 rounded-lg border border-border shadow-sm transition-colors hover:bg-bg-elevated"
         style={{ borderTop: `4px solid ${deptColor}` }}
       >
         {deptName && (
@@ -50,7 +50,7 @@ export default function FeaturedToolCard({
   return (
     <Link
       href={href}
-      className="group block bg-bg-surface p-4 sm:p-6 rounded-lg shadow-sm transition-colors hover:bg-bg-elevated"
+      className="group block bg-bg-surface p-4 sm:p-6 rounded-lg border border-border shadow-sm transition-colors hover:bg-bg-elevated"
       style={{ borderTop: `3px solid ${deptColor}` }}
     >
       {deptName && (

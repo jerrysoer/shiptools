@@ -21,7 +21,7 @@ export default function DepartmentCard({
   return (
     <Link
       href={href}
-      className="group block bg-bg-surface p-4 sm:p-6 rounded-lg shadow-sm transition-colors hover:bg-bg-elevated"
+      className="group block bg-bg-surface p-4 sm:p-6 rounded-lg border border-border shadow-sm transition-colors hover:bg-bg-elevated"
       style={{ borderLeft: `3px solid ${deptColor}` }}
     >
       <span
