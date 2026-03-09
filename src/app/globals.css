@@ -37,8 +37,8 @@
   --color-dept-ai: #D4A017;
 
   /* Font families */
-  --font-sans: var(--font-source-sans), var(--font-ibm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-garamond), ui-serif, Georgia, serif;
   --font-mono: var(--font-ibm-mono), ui-monospace, monospace;
 }
 
@@ -109,6 +109,7 @@ label[for] {
 
 /* Base styles */
 html {
+  font-size: 112.5%; /* 18px base — improves readability of small sizes */
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-sans);

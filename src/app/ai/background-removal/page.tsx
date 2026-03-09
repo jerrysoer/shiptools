@@ -1,7 +1,7 @@
 "use client";
 
-import BackgroundRemoval from "@/components/tools/BackgroundRemoval";
+import ImageCleanup from "@/components/tools/ImageCleanup";
 
 export default function BackgroundRemovalPage() {
-  return <BackgroundRemoval />;
+  return <ImageCleanup />;
 }

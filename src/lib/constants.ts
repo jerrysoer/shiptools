@@ -59,6 +59,10 @@ export const MAX_DOCUMENT_SIZE = 25 * 1024 * 1024; // 25 MB
 export const MAX_AUDIO_SIZE = 100 * 1024 * 1024; // 100 MB
 export const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500 MB
 
+/** LaMa inpainting model (ONNX, ~93 MB) */
+export const LAMA_MODEL_URL =
+  "https://huggingface.co/opencv/inpainting_lama/resolve/main/inpainting_lama_2025jan.onnx";
+
 /** Max file sizes for tools (bytes) */
 export const MAX_ZIP_SIZE = 200 * 1024 * 1024; // 200 MB
 export const MAX_ENCRYPT_SIZE = 100 * 1024 * 1024; // 100 MB
