@@ -122,6 +122,7 @@ export type AnalyticsEventName =
   | "ai_model_loaded"
   | "ai_tool_used"
   | "ai_model_deleted"
+  | "ai_feature_unavailable"
   | "recording_started"
   | "recording_completed"
   | "recording_exported"

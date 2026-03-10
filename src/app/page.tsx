@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import EditorialRule from "@/components/EditorialRule";
 import FeaturedToolCard from "@/components/FeaturedToolCard";
 import DepartmentCard from "@/components/DepartmentCard";
+import { WebGpuBadge } from "@/components/WebGpuBadge";
 
 export const metadata: Metadata = {
   title: 'Uploadless — Privacy-First Browser Tools',
@@ -76,14 +77,19 @@ export default function HomePage() {
                 deptName="Protect"
                 size="large"
               />
-              <FeaturedToolCard
-                href="/ai/summarize"
-                title="AI Text Summarizer"
-                description="Paste long text, get a concise summary — powered by a model running entirely in your browser."
-                deptColor="var(--color-dept-ai)"
-                deptName="Write"
-                size="small"
-              />
+              <div className="relative">
+                <FeaturedToolCard
+                  href="/ai/summarize"
+                  title="AI Text Summarizer"
+                  description="Paste long text, get a concise summary — powered by a model running entirely in your browser."
+                  deptColor="var(--color-dept-ai)"
+                  deptName="Write"
+                  size="small"
+                />
+                <div className="absolute top-4 right-4">
+                  <WebGpuBadge />
+                </div>
+              </div>
               <FeaturedToolCard
                 href="/record/screen"
                 title="Screen Recorder"

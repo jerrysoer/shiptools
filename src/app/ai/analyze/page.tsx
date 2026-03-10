@@ -2,11 +2,14 @@
 
 import { Suspense } from "react";
 import Analyzer from "@/components/tools/Analyzer";
+import { AiFeatureGate } from "@/components/AiFeatureGate";
 
 export default function AnalyzePage() {
   return (
-    <Suspense>
-      <Analyzer />
-    </Suspense>
+    <AiFeatureGate tool="analyze">
+      <Suspense>
+        <Analyzer />
+      </Suspense>
+    </AiFeatureGate>
   );
 }

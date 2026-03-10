@@ -13,6 +13,7 @@ const VALID_EVENTS = new Set([
   "ai_model_loaded",
   "ai_tool_used",
   "ai_model_deleted",
+  "ai_feature_unavailable",
 ]);
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
