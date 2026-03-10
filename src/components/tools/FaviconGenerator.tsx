@@ -30,6 +30,7 @@ function renderToCanvas(
       // Emoji / text rendering
       ctx.fillStyle = "#f0f0f0";
       ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = "#000000";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.font = `${Math.floor(size * 0.7)}px sans-serif`;

@@ -4,8 +4,7 @@ import {
   FileSearch,
   FileJson,
   ScanText,
-  // Code tab — AI Code
-  SearchCode,
+  // Code tab — AI tools (merged into Code Utilities)
   FileCode,
   GitCommit,
   Bug,
@@ -117,24 +116,18 @@ export const WRITE_GROUPS: ToolHubGroup[] = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
-// TAB 2: CODE — 16 tools
+// TAB 2: CODE — 15 tools
 // "I'm building, debugging, or deploying software."
 // Route stays at /tools to avoid breaking existing /tools/* child routes.
 // ═══════════════════════════════════════════════════════════════════════
 
 export const CODE_GROUPS: ToolHubGroup[] = [
   {
-    label: "AI Code",
+    label: "Code Utilities",
     tools: [
-      { href: "/ai/code-review", icon: SearchCode, title: "Code Reviewer", description: "Review code for bugs, security, performance, and style. Supports comprehensive Ollama review.", ai: { tier: "Code", capability: "code_review" } },
       { href: "/ai/code-explain", icon: FileCode, title: "Code Explainer", description: "Get line-by-line explanations of code snippets.", ai: { tier: "Code", capability: "code_explain" } },
       { href: "/ai/git-writer", icon: GitCommit, title: "Git Writer", description: "Generate commit messages or PR descriptions from diffs.", ai: { tier: "Code", capability: "commit_message" } },
       { href: "/ai/error-decode", icon: Bug, title: "Error Decoder", description: "Decode error messages and stack traces into fixes.", ai: { tier: "Code", capability: "error_decode" } },
-    ],
-  },
-  {
-    label: "Code Utilities",
-    tools: [
       { href: "/tools/code", icon: Code, title: "Code Tools", description: "Markdown editor, SVG \u2192 React, and code utilities." },
       { href: "/tools/regex", icon: Regex, title: "Regex Playground", description: "Test regular expressions with real-time matching and highlights." },
       { href: "/tools/sql-format", icon: Database, title: "SQL Formatter", description: "Format, beautify, and minify SQL with dialect support." },

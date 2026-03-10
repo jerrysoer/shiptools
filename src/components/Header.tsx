@@ -35,9 +35,9 @@ export default function Header() {
 
   const navLinks = [
     { href: "/write", label: "Write", active: isWrite || isWriteAI },
-    { href: "/tools", label: "Code", active: isTools || isCodeAI },
     { href: "/media", label: "Media", active: isMedia },
     { href: "/protect", label: "Protect", active: isProtect },
+    { href: "/tools", label: "Code", active: isTools || isCodeAI },
   ];
 
   // Close drawer on route change

@@ -16,7 +16,8 @@ const nextConfig: NextConfig = {
       },
       // ── Merged tools ──────────────────────────────────────────────
       { source: "/ai/tech-writing", destination: "/ai/writer", permanent: true },
-      { source: "/ai/full-review", destination: "/ai/code-review", permanent: true },
+      { source: "/ai/full-review", destination: "/tools", permanent: true },
+      { source: "/ai/code-review", destination: "/tools", permanent: true },
       { source: "/ai/commit-msg", destination: "/ai/git-writer", permanent: true },
       { source: "/ai/pr-desc", destination: "/ai/git-writer", permanent: true },
       { source: "/tools/json", destination: "/tools/data-formatter", permanent: true },

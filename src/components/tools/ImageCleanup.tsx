@@ -17,15 +17,40 @@ import { MAX_IMAGE_SIZE } from "@/lib/constants";
 
 const ACCEPT = "image/png,image/jpeg,image/webp";
 
+// Feature flag — flip to true when watermark removal is ready to ship
+const ENABLE_WATERMARK = false;
+
+/** Detect mobile browsers via userAgentData (modern) or UA string (fallback). */
+function detectMobile(): boolean {
+  if (typeof navigator === "undefined") return false;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const uad = (navigator as any).userAgentData;
+  if (uad?.mobile != null) return uad.mobile;
+  return /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
+
+/** Detect Safari (both desktop and mobile). */
+function detectSafari(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  return /Safari/i.test(ua) && !/Chrome|Chromium|CriOS/i.test(ua);
+}
+
 type ModelStatus = "idle" | "loading" | "ready" | "error";
 type ProcessStatus = "idle" | "processing" | "done" | "error";
 type Mode = "background" | "watermark";
 
 export default function ImageCleanup() {
   const [mode, setMode] = useState<Mode>("background");
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
     trackEvent("tool_opened", { tool: "image_cleanup" });
+    setIsMobile(detectMobile());
+    setIsSafari(detectSafari());
   }, []);
 
   // ── Model state (shared UI, separate backends) ──────────────────
@@ -243,39 +268,62 @@ export default function ImageCleanup() {
       <ToolPageHeader
         icon={mode === "background" ? ImageOff : Eraser}
         title="Image Cleanup"
-        description="Remove backgrounds or watermarks from images using local AI models. Runs entirely in your browser — no uploads."
+        description="Remove backgrounds from images using a local AI model. Runs entirely in your browser — no uploads."
       />
 
       <div className="space-y-6">
         {/* Mode tabs */}
-        <div className="flex border-b border-border">
-          <button
-            onClick={() => handleModeSwitch("background")}
-            className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
-              mode === "background"
-                ? "border-accent text-text-primary"
-                : "border-transparent text-text-tertiary hover:text-text-secondary"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <ImageOff className="w-4 h-4" />
-              Remove Background
-            </span>
-          </button>
-          <button
-            onClick={() => handleModeSwitch("watermark")}
-            className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
-              mode === "watermark"
-                ? "border-accent text-text-primary"
-                : "border-transparent text-text-tertiary hover:text-text-secondary"
-            }`}
-          >
-            <span className="flex items-center gap-2">
-              <Eraser className="w-4 h-4" />
-              Remove Watermark
-            </span>
-          </button>
-        </div>
+        {ENABLE_WATERMARK && (
+          <div className="flex border-b border-border">
+            <button
+              onClick={() => handleModeSwitch("background")}
+              className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                mode === "background"
+                  ? "border-accent text-text-primary"
+                  : "border-transparent text-text-tertiary hover:text-text-secondary"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <ImageOff className="w-4 h-4" />
+                Remove Background
+              </span>
+            </button>
+            <button
+              onClick={() => handleModeSwitch("watermark")}
+              className={`px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                mode === "watermark"
+                  ? "border-accent text-text-primary"
+                  : "border-transparent text-text-tertiary hover:text-text-secondary"
+              }`}
+            >
+              <span className="flex items-center gap-2">
+                <Eraser className="w-4 h-4" />
+                Remove Watermark
+              </span>
+            </button>
+          </div>
+        )}
+
+        {/* Mobile / Safari warning */}
+        {(isMobile || isSafari) && (
+          <div className="flex items-start gap-2.5 p-4 bg-amber-500/5 border border-amber-500/20 text-sm">
+            <AlertCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+            <div className="text-text-secondary space-y-1">
+              {isMobile && (
+                <p>
+                  Background removal works best on desktop. On mobile browsers,
+                  the ~180 MB model may cause slow performance or crashes.
+                </p>
+              )}
+              {isSafari && (
+                <p>
+                  Safari&rsquo;s WebAssembly memory limits may constrain large
+                  images — for best results, use images under 2048px.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Model status card */}
         <div className="bg-bg-elevated border border-border p-5">
